@@ -1,0 +1,19 @@
+{
+    "name": "rhea/tech-club-tracker-service",
+    "require": {
+        "dotainion/security-tools": "^1.0",
+        "dotainion/query-permission": "^1.0",
+        "ralouphie/getallheaders": "^3.0"
+    },
+    "autoload": {
+        "classmap": [
+            "src/"
+        ]
+    },
+    "authors": [
+        {
+            "name": "dotainion",
+            "email": "58013018+dotainion@users.noreply.github.com"
+        }
+    ]
+}
