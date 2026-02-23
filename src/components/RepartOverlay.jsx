@@ -9,12 +9,13 @@ import { useLocation, useParams } from "react-router-dom";
 import { DelayUi } from "./DelayUi";
 import { ParseError } from "../utils/ParseError";
 import { CgClose } from "react-icons/cg";
+import { dateTime } from "../utils/DateTime";
 
 const defaultData = () =>({
     id: null,
     attributes: {
         published: false,
-        date: new Date().toISOString().split('T')[0].substring(0, 7),
+        date: dateTime.now().format('ym').toString(),
         term: '',
         sessions: '',
         facilitatorId: null,
@@ -46,7 +47,7 @@ const defaultData = () =>({
                 attributes: {
                     groupId: '',
                     topic: '',
-                    date: new Date().toISOString().split('T')[0].substring(0, 7),
+                    date: dateTime.now().format('ym').toString(),
                     lessonDetail: '',
                     engagement: '',
                     resources: '',
@@ -144,7 +145,7 @@ export const ReportOverlay = ({ show, report: reportForEditing, editMode, onClos
         date.setMonth(date.getMonth() - month);
         const data = {
             facilitatorId: user.id,
-            date: date.toISOString().split('T')[0].substring(0, 7)
+            date: dateTime.set(date).format('ym').toString()
         }
         api.report.list(data).then((response)=>{
             setForm(response.data.data[0]);

@@ -5,7 +5,7 @@ export const NotSignIn = () =>{
     const navigate = useNavigate();
 
     return(
-        <div className="w-100 vh-100 d-flex align-items-center justify-content-center px-3">
+        <div className="w-100 vh-100 d-flex align-items-center justify-content-center px-3 py-5">
             <div className="text-center card border-0 shadow-sm">
                 <div className="card-body p-3 p-sm-5">
                     <h4>You are not authenticated.</h4>

@@ -2,8 +2,7 @@ import { useEffect, useState } from "react";
 import { routes } from "../routes/Routes";
 import { useNavigate, useParams } from "react-router-dom";
 import { useRouteDetective } from "../hooks/RouteDetectiveProvider";
-import { PageHeader } from "../components/PageHeader";
-import { PageHeaderButton } from "../components/PageHeaderButton";
+import { PageHeader, PageHeaderItem } from "../components/PageHeader";
 import { api } from "../request/Api";
 import { SpinnerConditional } from "../components/SpinnerConditional";
 import { ParseError } from "../utils/ParseError";
@@ -12,6 +11,17 @@ import { ErrorDisplay } from "../components/ErrorDisplay";
 import { SchoolDisplay } from "../components/SchoolDisplay";
 import { SchoolDisplayGroups } from "../components/SchoolDisplayGroups";
 import { Page } from "../layout/Page";
+
+const defaultSchool = () =>({
+    id: null,
+    attributes: {
+        name: '',
+        principal: '',
+        status: 'Active',
+        email: '',
+        contact: '',
+    }
+});
 
 export const School = () =>{
     const { routeDetectiveOnCreate, routeDetectiveOnExist, containsDefaultRouteId } = useRouteDetective();
@@ -22,16 +32,7 @@ export const School = () =>{
     const [saving, setSaving] = useState(false);
     const [error, setError] = useState(null);
 
-    const [school, setSchool] = useState({
-        id: null,
-        attributes: {
-            name: '',
-            principal: '',
-            status: 'Active',
-            email: '',
-            contact: '',
-        }
-    });
+    const [school, setSchool] = useState(defaultSchool());
 
     const navigate = useNavigate();
     const params = useParams();
@@ -57,6 +58,7 @@ export const School = () =>{
     routeDetectiveOnCreate(() =>{
         setCreatingMode(true);
         setEditMode(true);
+        setSchool(defaultSchool());
     });
 
     routeDetectiveOnExist(()=>{
@@ -80,7 +82,7 @@ export const School = () =>{
     if(loading) return null;
 
     return (
-        <Page className="bg-light">
+        <Page>
             {/* Header */}
             <PageHeader
                 title={
@@ -100,40 +102,48 @@ export const School = () =>{
             >
                 {editMode || creatingMode ? (
                     <>
-                        <PageHeaderButton onClick={saveSchool}>
-                            Save
-                        </PageHeaderButton>
+                        <PageHeaderItem
+                            onClick={saveSchool}
+                            loading={saving}
+                            icon="save"
+                            title="Save School"
+                        />
                         {!creatingMode && (
-                            <PageHeaderButton onClick={(e)=>setEditMode(false)}>
-                                Cancel
-                            </PageHeaderButton>
+                            <PageHeaderItem
+                                onClick={()=>setEditMode(false)}
+                                icon="cancel"
+                                title="Cancel"
+                            />
                         )}
                     </>
                 ) : (
                     <>
-                        <PageHeaderButton onClick={(e)=>navigate(routes.auth().concat().school())}>
-                            + New School
-                        </PageHeaderButton>
-                        <PageHeaderButton onClick={(e)=>navigate(routes.auth().concat().students(school.id))}>
-                            Students
-                        </PageHeaderButton>
-                        <PageHeaderButton onClick={(e)=>setEditMode(true)}>
-                            Edit School
-                        </PageHeaderButton>
+                        <PageHeaderItem
+                            onClick={()=>navigate(routes.auth().concat().school())}
+                            icon="add"
+                            title="New School"
+                        />
+                        <PageHeaderItem
+                            onClick={()=>navigate(routes.auth().concat().students(school.id))}
+                            icon="student"
+                            title="Students"
+                        />
+                        <PageHeaderItem
+                            onClick={()=>setEditMode(true)}
+                            icon="edit"
+                            title="Edit School"
+                        />
                     </>
                 )}
-                <PageHeaderButton onClick={(e)=>navigate(routes.auth().concat().home())}>
-                    🏡 Home
-                </PageHeaderButton>
             </PageHeader>
 
             <SpinnerConditional loading={loading}>
                 <div className="row justify-content-center">
                     <div className="col-12 col-lg-8">
-                        <div className="card bg-white shadow-sm border-0 rounded-4">
+                        <div className="card border">
                             <div className="card-body px-4 py-5">
                                 <ErrorDisplay message={error} />
-                                <SchoolDisplay school={school} editMode={editMode}>
+                                <SchoolDisplay school={school} editMode={editMode} onChange={setSchool}>
                                     {!creatingMode && !editMode && (
                                         <SchoolDisplayGroups school={school}>
                                             <button

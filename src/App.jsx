@@ -74,6 +74,7 @@ export const App = () =>{
                         <Route path={routes.admin().assignToSchool()} element={<AdminAssignToSchool/>}/>
                         <Route path={routes.admin().assignToGroup()} element={<AdminAssignToGroup/>}/>
                         <Route path={routes.admin().passwordRecovery()} element={<PasswordRecovery/>}/>
+                        <Route path={routes.admin().report()} element={<Report/>}/>
                         <Route path="*" element={<Error404/>}/>
                     </Route>
                     <Route path={routes.signin} element={<SignIn/>}/>

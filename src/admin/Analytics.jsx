@@ -1,24 +1,24 @@
 import { useNavigate } from "react-router-dom";
 import { DatePicker } from "../wedgits/DatePicker";
 import { PageHeader } from "../components/PageHeader";
-import { PageHeaderButton } from "../components/PageHeaderButton";
-import { routes } from "../routes/Routes";
 import { useEffect, useRef, useState } from "react";
 import { api } from "../request/Api";
 import { Spinner } from "../components/Spinner";
 import { NoResultDisplay } from "../components/NoResultDisplay";
 import { StackFilter } from "../wedgits/StackFilter";
 import { Page } from "../layout/Page";
+import { routes } from "../routes/Routes";
+import { HiOutlineDocumentReport } from "react-icons/hi";
+import { dateTime } from "../utils/DateTime";
 
 export const Analytics = () => {
-
-    const today = new Date().toISOString().split("T")[0].substring(0, 7);
+    const today = dateTime.now().format('ym').toString();
 
     const [reports, setReports] = useState([]);
     const [processedReports, setProcessedReports] = useState([]);
     const [overallStats, setOverallStats] = useState(null);
     const [dateValue, setDateValue] = useState(today);
-    const [published, setPublished] = useState(null);
+    const [published, setPublished] = useState(true);
     const [limit, setLimit] = useState(100);
     const [loading, setLoading] = useState(true);
 
@@ -42,7 +42,6 @@ export const Analytics = () => {
 
     // PROCESS ANALYTICS
     useEffect(()=>{
-
         if(!reports.length){
             setProcessedReports([]);
             setOverallStats(null);
@@ -130,7 +129,7 @@ export const Analytics = () => {
             });
 
             const reportRate = (reportTotalPresent + reportTotalAbsent) > 0
-                ? ((reportTotalPresent/(reportTotalPresent+reportTotalAbsent))*100).toFixed(2)
+                ? ((reportTotalPresent/(reportTotalPresent+reportTotalAbsent)) * 100).toFixed(2)
                 : 0;
 
             overall.totalPresent += reportTotalPresent;
@@ -161,13 +160,10 @@ export const Analytics = () => {
 
     }, [reports]);
 
-
     return (
         <Page>
             <PageHeader title="Reports & Analytics" subTitle="Complete attendance intelligence and performance tracking.">
-                <PageHeaderButton onClick={()=>navigate(routes.admin().concat().admin())}>
-                    🏡 Home
-                </PageHeaderButton>
+                
             </PageHeader>
 
             <div className="d-flex justify-content-center mb-3">
@@ -229,25 +225,26 @@ export const Analytics = () => {
                             {/* REPORT LIST */}
                             {processedReports.map((report)=>(
                                 <div key={report.id} className="card p-4 mb-4 border">
-                                    <h6 className="text-muted small">{report.attributes.facilitator.attributes.fullName}</h6>
                                     <div className="d-flex justify-content-between">
-                                        <h5 className="fw-bold mb-1">
-                                            {report.attributes.school.attributes.name}
-                                        </h5>
-                                        <div>
-                                            <span className={`badge bg-${report.attributes.published ? 'primary' : 'secondary'}`}>
-                                                {report.attributes.published ? 'Published' : 'Draft'}
-                                            </span>
-                                        </div>
+                                        <h6 className="text-muted mb-0 small">{report.attributes.facilitator.attributes.fullName}</h6>
+                                        <button
+                                            onClick={()=>navigate(routes.admin().concat().report(report.id))}
+                                            className="d-flex align-items-center gap-1 btn btn-sm btn-outline-primary text-decoration-none"
+                                        >
+                                            <HiOutlineDocumentReport />
+                                            <span>View</span>
+                                        </button>
                                     </div>
-
-                                    <div className="text-muted mb-3">
-                                        {report.attributes.date.split(" ")[0]}
+                                    <h5 className="fw-bold mb-1">{report.attributes.school.attributes.name}</h5>
+                                    <div className="d-flex align-items-center justify-content-between mb-3">
+                                        <div className="text-muted">{report.attributes.date.split(' ')[0]}</div>
+                                        <span className={`badge bg-${report.attributes.published ? 'primary' : 'secondary'}`}>
+                                            <small>{report.attributes.published ? 'Published' : 'Draft'}</small>
+                                        </span>
                                     </div>
 
                                     {/* PER REPORT COLORED CARDS */}
                                     <div className="row g-3 mb-4">
-
                                         <StatCardSmall
                                             title="Attendance"
                                             value={`${report.analytics.attendanceRate}%`}

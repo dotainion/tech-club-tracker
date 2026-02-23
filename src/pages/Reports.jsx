@@ -2,8 +2,7 @@ import { useLocation, useNavigate, useParams } from "react-router-dom";
 import { routes } from "../routes/Routes";
 import { ReportOverlay } from "../components/RepartOverlay";
 import { useEffect, useRef, useState } from "react";
-import { PageHeader } from "../components/PageHeader";
-import { PageHeaderButton } from "../components/PageHeaderButton";
+import { PageHeader, PageHeaderItem } from "../components/PageHeader";
 import { api } from "../request/Api";
 import { SpinnerConditional } from "../components/SpinnerConditional";
 import { NoResultDisplay } from "../components/NoResultDisplay";
@@ -14,6 +13,7 @@ import { CgClose } from "react-icons/cg";
 import { AddButton } from "../wedgits/AddButton";
 import { StackFilter } from "../wedgits/StackFilter";
 import { Page } from "../layout/Page";
+import { dateTime } from "../utils/DateTime";
 
 export const Reports = () => {
     const { user } = useAuth();
@@ -23,7 +23,7 @@ export const Reports = () => {
     const [loading, setLoading] = useState(true);
     const [filter, setFilter] = useState({
         limit: 100,
-        date: new Date().toISOString().split('T')[0].substring(0, 7),
+        date: dateTime.now().format('ym').toString(),
         published: null
     });
     
@@ -54,12 +54,11 @@ export const Reports = () => {
     return (
         <Page>
             <PageHeader title="Report" subTitle="View and generate reports">
-                <PageHeaderButton onClick={(e)=>setShowReportOverlay(true)}>
-                    + New report
-                </PageHeaderButton>
-                <PageHeaderButton onClick={(e)=>navigate(routes.auth().concat().home())}>
-                    🏡 Home
-                </PageHeaderButton>
+                <PageHeaderItem
+                    onClick={(e)=>setShowReportOverlay(true)}
+                    icon="add"
+                    title="New Report"
+                />
             </PageHeader>
 
             <div className="d-flex justify-content-center mb-4">
@@ -119,11 +118,13 @@ export const Reports = () => {
                     }
                 </div>
             </SpinnerConditional>
-            <ReportOverlay
-                show={showReportOverlay}
-                onClose={()=>setShowReportOverlay(false)}
-                onSuccess={(report)=>navigate(routes.auth().concat().report(report.id))}
-            />
+            <div className="position-relative" style={{zIndex: 1051}}>
+                <ReportOverlay
+                    show={showReportOverlay}
+                    onClose={()=>setShowReportOverlay(false)}
+                    onSuccess={(report)=>navigate(routes.auth().concat().report(report.id))}
+                />
+            </div>
         </Page>
     );
 };

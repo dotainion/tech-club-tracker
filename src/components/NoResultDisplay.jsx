@@ -9,14 +9,14 @@ export const NoResultDisplay = ({icon, title, description, mt, children}) =>{
         <div className={`d-flex justify-content-center mt-${mt ? mt : '5'}`}>
             <div className="p-2 text-center border-bottom border-3" style={{maxWidth: '400px'}}>
                 <div className="d-inline-block p-3 bg-dark text-white rounded-circle">
-                    {icon === 'report' && <HiOutlineDocumentReport className="display-5" />}
-                    {icon === 'student' && <PiStudent className="display-5" />}
-                    {icon === 'school' && <FaSchool className="display-5" />}
-                    {icon === 'group' && <GrGroup className="display-5" />}
-                    {icon === 'user' && <BiUser className="display-5" />}
+                    {icon === 'report' && <HiOutlineDocumentReport className="fs-1" />}
+                    {icon === 'student' && <PiStudent className="fs-1" />}
+                    {icon === 'school' && <FaSchool className="fs-1" />}
+                    {icon === 'group' && <GrGroup className="fs-1" />}
+                    {icon === 'user' && <BiUser className="fs-1" />}
                 </div>
-                <h4 className="mt-3">{title}</h4>
-                <p className="text-muted">{description}</p>
+                <h5 className="mt-3">{title}</h5>
+                <p className="text-muted small">{description}</p>
                 {children}
             </div>
         </div>

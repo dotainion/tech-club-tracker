@@ -2,12 +2,11 @@
 namespace src\module\login\logic;
 
 use src\module\login\repository\CredentialRepository;
-use tools\infrastructure\Collector;
 use tools\infrastructure\DateHelper;
+use tools\infrastructure\ICredential;
 use tools\infrastructure\Id;
 use tools\infrastructure\Token;
 use tools\module\login\factory\CredentialFactory;
-use tools\module\login\objects\Credential;
 
 class TokenizeCredential{
     protected CredentialRepository $repo;
@@ -18,7 +17,7 @@ class TokenizeCredential{
         $this->factory = new CredentialFactory();
     }
     
-    public function byUserId(Id $userId):Credential{
+    public function byUserId(Id $userId):ICredential{
         $collector = $this->repo->listCredentials([
             'id' => $userId
         ]);

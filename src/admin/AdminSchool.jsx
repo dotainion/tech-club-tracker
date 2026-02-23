@@ -2,8 +2,7 @@ import { useEffect, useState } from "react";
 import { routes } from "../routes/Routes";
 import { useNavigate, useParams } from "react-router-dom";
 import { useRouteDetective } from "../hooks/RouteDetectiveProvider";
-import { PageHeader } from "../components/PageHeader";
-import { PageHeaderButton } from "../components/PageHeaderButton";
+import { PageHeader, PageHeaderItem } from "../components/PageHeader";
 import { api } from "../request/Api";
 import { SpinnerConditional } from "../components/SpinnerConditional";
 import { ErrorDisplay } from "../components/ErrorDisplay";
@@ -11,6 +10,18 @@ import { SchoolDisplay } from "../components/SchoolDisplay";
 import { SubmitButton } from "../wedgits/SubmitButton";
 import { SchoolDisplayGroups } from "../components/SchoolDisplayGroups";
 import { Page } from "../layout/Page";
+import { ParseError } from "../utils/ParseError";
+
+const defaultSchool = () =>({
+    id: null,
+    attributes: {
+        name: '',
+        principal: '',
+        status: 'Active',
+        email: '',
+        contact: '',
+    }
+});
 
 export const AdminSchool = () =>{
     const { routeDetectiveOnCreate, routeDetectiveOnExist, containsDefaultRouteId } = useRouteDetective();
@@ -21,16 +32,7 @@ export const AdminSchool = () =>{
     const [saving, setSaving] = useState(false);
     const [error, setError] = useState(null);
 
-    const [school, setSchool] = useState({
-        id: null,
-        attributes: {
-            name: '',
-            principal: '',
-            status: 'Active',
-            email: '',
-            contact: '',
-        }
-    });
+    const [school, setSchool] = useState(defaultSchool());
 
     const navigate = useNavigate();
     const params = useParams();
@@ -41,7 +43,7 @@ export const AdminSchool = () =>{
         const data = {
             schoolId: school.id,
             ...school.attributes,
-            hide: null
+            hide: false
         }
         api.school.set(data).then((response)=>{
             const resSchool = response.data.data[0];
@@ -56,6 +58,7 @@ export const AdminSchool = () =>{
     routeDetectiveOnCreate(() =>{
         setCreatingMode(true);
         setEditMode(true);
+        setSchool(defaultSchool());
     });
 
     routeDetectiveOnExist(()=>{
@@ -78,45 +81,53 @@ export const AdminSchool = () =>{
     if(loading) return null;
 
     return (
-        <Page className="bg-light">
+        <Page>
             {/* Header */}
             <PageHeader title={editMode ? `Edit School: ${school.attributes.name}` : school.attributes.name} subTitle="">
                 {editMode || creatingMode ? (
                     <>
-                        <PageHeaderButton onClick={saveSchool}>
-                            Save
-                        </PageHeaderButton>
+                        <PageHeaderItem
+                            onClick={saveSchool}
+                            loading={saving}
+                            icon="save"
+                            title="Save School"
+                        />
                         {!creatingMode && (
-                            <PageHeaderButton onClick={(e)=>setEditMode(false)}>
-                                Cancel
-                            </PageHeaderButton>
+                            <PageHeaderItem
+                                onClick={(e)=>setEditMode(false)}
+                                icon="cancel"
+                                title="Cancel"
+                            />
                         )}
                     </>
                 ) : (
                     <>
-                        <PageHeaderButton onClick={(e)=>navigate(routes.admin().concat().school())}>
-                            + New School
-                        </PageHeaderButton>
-                        <PageHeaderButton onClick={(e)=>navigate(routes.admin().concat().students(school.id))}>
-                            Students
-                        </PageHeaderButton>
-                        <PageHeaderButton onClick={(e)=>setEditMode(true)}>
-                            Edit School
-                        </PageHeaderButton>
+                        <PageHeaderItem
+                            onClick={()=>navigate(routes.admin().concat().school())}
+                            icon="add"
+                            title="New School"
+                        />
+                        <PageHeaderItem
+                            onClick={()=>navigate(routes.admin().concat().students(school.id))}
+                            icon="student"
+                            title="Students"
+                        />
+                        <PageHeaderItem
+                            onClick={(e)=>setEditMode(true)}
+                            icon="edit"
+                            title="Edit School"
+                        />
                     </>
                 )}
-                <PageHeaderButton onClick={(e)=>navigate(routes.admin().concat().admin())}>
-                    🏡 Home
-                </PageHeaderButton>
             </PageHeader>
 
             <SpinnerConditional loading={loading}>
                 <div className="row justify-content-center">
                     <div className="col-12 col-lg-8">
-                        <div className="card bg-white shadow-sm border-0 rounded-4">
+                        <div className="card border">
                             <div className="card-body px-4 py-5">
                                 <ErrorDisplay message={error} />
-                                <SchoolDisplay school={school} editMode={editMode}>
+                                <SchoolDisplay school={school} editMode={editMode} onChange={setSchool}>
                                     {!creatingMode && !editMode && (
                                         <SchoolDisplayGroups school={school}>
                                             <button

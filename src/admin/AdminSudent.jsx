@@ -4,8 +4,7 @@ import { StudentDisplay } from "../components/StudentDisplay";
 import { routes } from "../routes/Routes";
 import { api } from "../request/Api";
 import { useAuth } from "../providers/AuthProvider";
-import { PageHeader } from "../components/PageHeader";
-import { PageHeaderButton } from "../components/PageHeaderButton";
+import { PageHeader, PageHeaderItem } from "../components/PageHeader";
 import { useRouteDetective } from "../hooks/RouteDetectiveProvider";
 import { SubmitButton } from "../wedgits/SubmitButton";
 import { Page } from "../layout/Page";
@@ -85,40 +84,48 @@ export const AdminStudent = () => {
     }, []);
 
     return (
-        <Page className="bg-light">
+        <Page>
             <PageHeader title={editMode ? 'Edit Student' : 'Create Student'} subTitle="">
                 {editMode || creatingMode ? (
                     <>
-                        <PageHeaderButton onClick={()=>onSubmitRef.current()}>
-                            Save
-                        </PageHeaderButton>
+                        <PageHeaderItem
+                            onClick={()=>onSubmitRef.current()}
+                            icon="save"
+                            title="Save Student"
+                        />
                         {!creatingMode && (
-                            <PageHeaderButton onClick={(e)=>setEditMode(false)}>
-                                Cancel
-                            </PageHeaderButton>
+                            <PageHeaderItem
+                                onClick={()=>setEditMode(false)}
+                                icon="cancel"
+                                title="Cancel"
+                            />
                         )}
-                        <SubmitButton onClick={handleDelete} loading={deleting} outline px="none" bg="danger">
-                            Delete
-                        </SubmitButton>
+                        <PageHeaderItem
+                            onClick={handleDelete}
+                            loading={deleting}
+                            icon="delete"
+                            title="Delete Student"
+                        />
                     </>
                 ) : (
                     <>
-                        <PageHeaderButton onClick={(e)=>navigate(routes.admin().concat().students(params.schoolId))}>
-                            Students
-                        </PageHeaderButton>
-                        <PageHeaderButton onClick={(e)=>setEditMode(true)}>
-                            Edit Student
-                        </PageHeaderButton>
+                        <PageHeaderItem
+                            onClick={(e)=>navigate(routes.admin().concat().students(params.schoolId))}
+                            icon="student"
+                            title="Students"
+                        />
+                        <PageHeaderItem
+                            onClick={()=>setEditMode(true)}
+                            icon="edit"
+                            title="Edit Student"
+                        />
                     </>
                 )}
-                <PageHeaderButton onClick={(e)=>navigate(routes.admin().concat().admin())}>
-                    🏡 Home
-                </PageHeaderButton>
             </PageHeader>
 
             <div className="row justify-content-center">
                 <div className="col-12 col-lg-8">
-                    <div className="card border-0 shadow-sm rounded-4 bg-white">
+                    <div className="card border">
                         <div className="card-body p-4">
                             <div className="row g-3">
                                 <StudentDisplay

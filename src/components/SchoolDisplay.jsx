@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 
-export const SchoolDisplay = ({ school: currentSchool, editMode, children }) =>{
+export const SchoolDisplay = ({ school: currentSchool, onChange, editMode, children }) =>{
     const [school, setSchool] = useState({
         id: null,
         attributes: {
@@ -14,12 +14,14 @@ export const SchoolDisplay = ({ school: currentSchool, editMode, children }) =>{
 
     const handleChange = (e) => {
         const { name, value } = e.target;
-        setSchool((prev) => ({
-            ...prev, attributes: {
-                ...prev.attributes,
+        const copy = {
+            ...school, attributes: {
+                ...school.attributes,
                 [name]: value
             }
-        }));
+        }
+        setSchool(copy);
+        onChange?.(copy);
     };
     
     useEffect(() => {
@@ -71,7 +73,7 @@ export const SchoolDisplay = ({ school: currentSchool, editMode, children }) =>{
                         type="text"
                         name="email"
                         className="form-control"
-                        value={school.attributes.email}
+                        value={school.attributes.email || ''}
                         onChange={handleChange}
                     />
                 ) : (

@@ -1,6 +1,5 @@
 import { useNavigate, useParams } from "react-router-dom"
 import { PageHeader } from "../components/PageHeader"
-import { PageHeaderButton } from "../components/PageHeaderButton"
 import { useAuth } from "../providers/AuthProvider"
 import { useEffect, useState } from "react"
 import { routes } from "../routes/Routes"
@@ -35,9 +34,7 @@ export const AttendanceSchoolSelection = () =>{
     return(
         <Page>
             <PageHeader title="Attendance School Selection" subTitle="Select a school to mark attendance">
-                <PageHeaderButton onClick={(e)=>navigate(routes.auth().concat().home())}>
-                    🏡 Home
-                </PageHeaderButton>
+                
             </PageHeader>
 
             {loading ? <Spinner show inline /> : (
@@ -66,7 +63,7 @@ export const AttendanceSchoolSelection = () =>{
                             {isAdmin ? (
                                 <button
                                     onClick={()=>navigate(routes.auth().concat().school())}
-                                    className="btn btn-sm btn-outline-primary px-4 rounded-pill mt-3 mb-4"
+                                    className="btn btn-sm btn-outline-dark px-4 rounded-pill mt-3 mb-4"
                                 >+ Add your first school 🏫</button>
                             ):(
                                 <p>Contact your administrator for asistance</p>

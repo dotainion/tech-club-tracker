@@ -1,6 +1,5 @@
-import { useEffect, useState } from "react";
-import { PageHeader } from "../components/PageHeader";
-import { PageHeaderButton } from "../components/PageHeaderButton";
+import { useEffect, useRef, useState } from "react";
+import { PageHeader, PageHeaderItem } from "../components/PageHeader";
 import { routes } from "../routes/Routes";
 import { useNavigate, useParams } from "react-router-dom";
 import { api } from "../request/Api";
@@ -10,9 +9,11 @@ import { Spinner } from "../components/Spinner";
 import { useRouteDetective } from "../hooks/RouteDetectiveProvider";
 import { AttendanceButton } from "../components/AttendanceButton";
 import { Page } from "../layout/Page";
+import { DatePicker } from "../wedgits/DatePicker";
+import { dateTime } from "../utils/DateTime";
 
 export const Attendance = () =>{
-    const today = new Date().toISOString().split('T')[0];
+    const today = dateTime.now().format('ym').toString();
 
     const { user } = useAuth();
     const { containsDefaultRouteId } = useRouteDetective();
@@ -25,6 +26,8 @@ export const Attendance = () =>{
 
     const navigate = useNavigate();
     const params = useParams();
+
+    const pickerRef = useRef();
 
     const toggleAttendance = (attendance) => {
         setStudents((previousStudents)=>
@@ -73,23 +76,32 @@ export const Attendance = () =>{
     return (
         <Page>
             <PageHeader title="Student Attendance" subTitle="Mark attendance for selected date">
-                <PageHeaderButton onClick={(e)=>navigate(routes.auth().concat().attendanceSchoolSelection(user.id))}>
-                    + New
-                </PageHeaderButton>
-                <PageHeaderButton onChange={(e)=>setDateValue(e.target.value)} dateValue={dateValue} type="date" />
-                <PageHeaderButton onClick={(e)=>navigate(routes.auth().concat().home())}>
-                    🏡 Home
-                </PageHeaderButton>
+                <PageHeaderItem
+                    onClick={()=>navigate(routes.auth().concat().attendanceSchoolSelection(user.id))}
+                    icon="student"
+                    title="New Attendance"
+                />
+                <PageHeaderItem
+                    onClick={(e)=>pickerRef.current.openPicker()}
+                    icon="calendar"
+                    title="Date Picker"
+                />
             </PageHeader>
 
             {loading ? <Spinner show inline /> : (
                 <>
                     {group ? (
                         <>
-                            {school && (
-                                <h4 className="mb-0">{school.attributes.name}</h4>
-                            )}
-                            <span className="fw-semibold ms-2">{group.attributes.name}</span>
+                            {school && <h4 className="mb-0">{school.attributes.name}</h4>}
+                            <div className="d-flex justify-content-between">
+                                <span className="fw-semibold ms-2">{group.attributes.name}</span>
+                                <DatePicker
+                                    ref={pickerRef}
+                                    onChange={(e)=>setDateValue(e.target.value)}
+                                    dateValue={dateValue}
+                                    month
+                                />
+                            </div>
 
                             <div className="row justify-content-center mt-3">
                                 <div className="col-12 col-lg-10">

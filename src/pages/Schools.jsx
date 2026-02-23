@@ -3,17 +3,15 @@ import { useNavigate } from "react-router-dom";
 import { routes } from "../routes/Routes";
 import { useAuth } from "../providers/AuthProvider";
 import { api } from "../request/Api";
-import { PageHeader } from "../components/PageHeader";
-import { PageHeaderButton } from "../components/PageHeaderButton";
+import { PageHeader, PageHeaderItem } from "../components/PageHeader";
 import { NoResultDisplay } from "../components/NoResultDisplay";
 import { Spinner } from "../components/Spinner";
 import { FaEllipsisVertical } from "react-icons/fa6";
 import { AddButton } from "../wedgits/AddButton";
-import $ from "jquery";
 import { Page } from "../layout/Page";
 
 export const Schools = () =>{
-    const { isAdmin, user } = useAuth();
+    const { user } = useAuth();
 
     const [schools, setSchools] = useState([]);
     const [loading, setLoading] = useState(true);
@@ -32,14 +30,11 @@ export const Schools = () =>{
         <Page>
             {/* Header */}
             <PageHeader title="Schools" subTitle="Manage and view all registered schools">
-                {isAdmin && (
-                    <PageHeaderButton onClick={(e)=>navigate(routes.auth().concat().school())}>
-                        + New School
-                    </PageHeaderButton>
-                )}
-                <PageHeaderButton onClick={(e)=>navigate(routes.auth().concat().home())}>
-                    🏡 Home
-                </PageHeaderButton>
+                <PageHeaderItem
+                    onClick={()=>navigate(routes.auth().concat().school())}
+                    icon="add"
+                    title="New School"
+                />
             </PageHeader>
 
             {loading ? <Spinner show inline /> : (
@@ -96,7 +91,7 @@ export const Schools = () =>{
                         >
                             <div className="py-3">
                                 <button onClick={(e)=>navigate(routes.auth().concat().school())} className="btn btn-sm btn-outline-dark px-4 rounded-pill">
-                                    + New report
+                                    + New School
                                 </button>
                             </div>
                         </NoResultDisplay>

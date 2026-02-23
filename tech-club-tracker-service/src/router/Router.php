@@ -38,6 +38,7 @@ use src\module\user\action\SearchUsersAction;
 use src\module\user\action\SetAddressAction;
 use src\module\user\action\SetRoleAction;
 use src\module\user\service\CreateUserService;
+use Throwable;
 use tools\infrastructure\Id;
 use tools\infrastructure\Repository;
 use tools\SecurityTools;
@@ -72,6 +73,7 @@ class Router{
         $this->request->route('/setup', function ($req){
             var_dump('Creating admin account and roles...<br/>');
             $userId = (new Id())->new()->toString();
+            try{
             (new CreateUserService())->process(
                 $userId,
                 'Admin', 
@@ -87,6 +89,10 @@ class Router{
                 true, 
                 true
             );
+            }catch(Throwable $ex){
+                var_dump($ex->getMessage());
+                var_dump('<br/>');
+            }
             var_dump('Creating default groups...<br/>');
             (new SetGroupService(false))->process(
                 (new Id())->new()->toString(),

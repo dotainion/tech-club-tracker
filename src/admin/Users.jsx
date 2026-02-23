@@ -2,8 +2,7 @@ import { useNavigate } from "react-router-dom"
 import { routes } from "../routes/Routes"
 import { useEffect, useState } from "react";
 import { api } from "../request/Api";
-import { PageHeader } from "../components/PageHeader";
-import { PageHeaderButton } from "../components/PageHeaderButton";
+import { PageHeader, PageHeaderItem } from "../components/PageHeader";
 import { NoResultDisplay } from "../components/NoResultDisplay";
 import { Spinner } from "../components/Spinner";
 import { AddButton } from "../wedgits/AddButton";
@@ -26,12 +25,11 @@ export const Users = () =>{
     return(
         <Page>
             <PageHeader title="Users" subTitle="Manage and view all registered schools">
-                <PageHeaderButton onClick={(e)=>navigate(routes.admin().concat().user())}>
-                    + New User
-                </PageHeaderButton>
-                <PageHeaderButton onClick={(e)=>navigate(routes.admin().concat().admin())}>
-                    🏡 Home
-                </PageHeaderButton>
+                <PageHeaderItem
+                    onClick={()=>navigate(routes.admin().concat().user())}
+                    icon="add"
+                    title="New User"
+                />
             </PageHeader>
 
             {loading ? <Spinner show inline /> : (

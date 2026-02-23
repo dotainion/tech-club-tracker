@@ -1,8 +1,7 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { routes } from "../routes/Routes";
-import { PageHeader } from "../components/PageHeader";
-import { PageHeaderButton } from "../components/PageHeaderButton";
+import { PageHeader, PageHeaderItem } from "../components/PageHeader";
 import { api } from "../request/Api";
 import { NoResultDisplay } from "../components/NoResultDisplay";
 import { Spinner } from "../components/Spinner";
@@ -25,14 +24,12 @@ export const AdminGroups = () =>{
 
     return (
         <Page>
-            {/* Header */}
             <PageHeader title="Groups" subTitle="View groups and asign groups to schools">
-                <PageHeaderButton onClick={(e)=>navigate(routes.admin().concat().group())}>
-                    + New Group
-                </PageHeaderButton>
-                <PageHeaderButton onClick={(e)=>navigate(routes.admin().concat().admin())}>
-                    🏡 Home
-                </PageHeaderButton>
+                <PageHeaderItem
+                    onClick={()=>navigate(routes.admin().concat().group())}
+                    icon="add"
+                    title="New Group"
+                />
             </PageHeader>
 
             {loading ? <Spinner show inline/> : (

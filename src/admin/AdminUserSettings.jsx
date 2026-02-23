@@ -2,7 +2,6 @@ import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { routes } from "../routes/Routes";
 import { PageHeader } from "../components/PageHeader";
-import { PageHeaderButton } from "../components/PageHeaderButton";
 import { Switch } from "../wedgits/Switch";
 import { api } from "../request/Api";
 import { Spinner } from "../components/Spinner";
@@ -77,9 +76,6 @@ export const AdminUserSettings = () => {
                 title="User Settings"
                 subTitle="Manage user access, permissions, notifications, and school assignments."
             >
-                <PageHeaderButton onClick={() => navigate(routes.admin().concat().admin())}>
-                    🏡 Home
-                </PageHeaderButton>
             </PageHeader>
 
             {loading ? (

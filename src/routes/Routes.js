@@ -47,6 +47,7 @@ export const routes = {
         assignToSchool = (groupId=':groupId') => this.temp + 'assign/school/to/group/' + groupId;
         assignToGroup = (schoolId=':schoolId') => this.temp + 'assign/group/to/school/' + schoolId;
         passwordRecovery = (userId=':userId') => this.temp + 'password/recovery/' + userId;
+        report = (reportId=':reportId') => this.temp + 'report/' + reportId;
         concat = () =>{
             this.temp = this.default.replace('*', '');
             return this;

@@ -1,11 +1,9 @@
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import { StudentDisplay } from "../components/StudentDisplay";
 import { routes } from "../routes/Routes";
 import { api } from "../request/Api";
 import { Spinner } from "../components/Spinner";
-import { PageHeader } from "../components/PageHeader";
-import { PageHeaderButton } from "../components/PageHeaderButton";
+import { PageHeader, PageHeaderItem } from "../components/PageHeader";
 import { useRouteDetective } from "../hooks/RouteDetectiveProvider";
 import { ParseError } from "../utils/ParseError";
 import { ErrorDisplay } from "../components/ErrorDisplay";
@@ -97,43 +95,52 @@ export const AdminGroup = () => {
     }, []);
 
     return (
-        <Page className="bg-light">
+        <Page>
             <PageHeader title={creatingMode ? 'Create Group' : 'Edit Group'}>
                 {editMode || creatingMode ? (
                     <>
-                        <PageHeaderButton onClick={onSave}>
-                            Save
-                        </PageHeaderButton>
+                        <PageHeaderItem
+                            onClick={onSave}
+                            loading={saving}
+                            icon="save"
+                            title="Save Group"
+                        />
                         {!creatingMode && (
                             <>
-                                <PageHeaderButton onClick={(e)=>setEditMode(false)}>
-                                    Cancel
-                                </PageHeaderButton>
-                                <SubmitButton onClick={onDelete} loading={deleting} outline px="none" bg="danger" className="border">
-                                    Delete
-                                </SubmitButton>
+                                <PageHeaderItem
+                                    onClick={(e)=>setEditMode(false)}
+                                    icon="cancel"
+                                    title="Cancel"
+                                />
+                                <PageHeaderItem
+                                    onClick={onDelete}
+                                    loading={deleting}
+                                    icon="delete"
+                                    title="Delete Group"
+                                />
                             </>
                         )}
                     </>
                 ) : (
                     <>
-                        <PageHeaderButton onClick={(e)=>navigate(routes.admin().concat().assignToSchool(params.groupId))}>
-                            Assign School
-                        </PageHeaderButton>
-                        <PageHeaderButton onClick={(e)=>setEditMode(true)}>
-                            Edit Group
-                        </PageHeaderButton>
+                        <PageHeaderItem
+                            onClick={(e)=>navigate(routes.admin().concat().assignToSchool(params.groupId))}
+                            icon="assign"
+                            title="Assign School"
+                        />
+                        <PageHeaderItem
+                            onClick={(e)=>setEditMode(true)}
+                            icon="edit"
+                            title="Edit Group"
+                        />
                     </>
                 )}
-                <PageHeaderButton onClick={(e)=>navigate(routes.admin().concat().admin())}>
-                    🏡 Home
-                </PageHeaderButton>
             </PageHeader>
 
             {loading ? <Spinner show inline /> : (
                 <div className="row justify-content-center">
                     <div className="d-flex col-lg-8">
-                        <div className="card shadow-sm border-0 rounded-4 col-12">
+                        <div className="card border col-12">
                             <div className="card-body p-4 pt-3">
                                 <ErrorDisplay message={error}/>
                                 {!creatingMode && !editMode && (

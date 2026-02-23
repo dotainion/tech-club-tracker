@@ -1,5 +1,4 @@
 import { createContext, useContext, useEffect, useRef, useState } from "react";
-import { PageHeaderButton } from "../components/PageHeaderButton";
 import { routes } from "../routes/Routes";
 import { DatePicker } from "../wedgits/DatePicker";
 import { SubmitButton } from "../wedgits/SubmitButton";
@@ -12,6 +11,9 @@ import { Spinner } from "../components/Spinner";
 import { useRouteDetective } from "../hooks/RouteDetectiveProvider";
 import { GrGroup } from "react-icons/gr";
 import { BiCaretLeft, BiCaretRight } from "react-icons/bi";
+import { NoResultDisplay } from "./NoResultDisplay";
+import { PageHeaderItem } from "./PageHeader";
+import { dateTime } from "../utils/DateTime";
 
 const Context = createContext();
 
@@ -46,7 +48,7 @@ export const EngagementAndProgressProvider = ({children}) => {
         attributes: {
             groupId: '',
             topic: '',
-            date: new Date().toISOString().split("T")[0].substring(0, 10),
+            date: dateTime.now().format('ymd').toString(),
             lessonDetail: '',
             engagement: '',
             resources: '',
@@ -68,7 +70,7 @@ export const EngagementAndProgressProvider = ({children}) => {
             schoolId: params.schoolId,
             facilitatorId: user.id,
             term: '',
-            date: new Date().toISOString().split("T")[0].substring(0, 7),
+            date: dateTime.now().format('ym').toString(),
             sessions: 0,
             challenges: '',
             successes: '',
@@ -260,7 +262,7 @@ export const EngagementAndProgressProvider = ({children}) => {
                 draft: draftReportsCopies[0]
             }));
         }).catch((error)=>{
-            console.log(error);
+            
         }).finally(()=>setLoading(false));
     }, []);
 
@@ -316,9 +318,11 @@ export const AddNewEntry = () =>{
     const { hasDraft, handleAddNew } = useContext(Context);
     if(!hasDraft) return null;
     return (
-        <PageHeaderButton onClick={handleAddNew}>
-            + New Entry
-        </PageHeaderButton>
+        <PageHeaderItem
+            onClick={handleAddNew}
+            icon="add"
+            title="New Entry"
+        />
     )
 }
 
@@ -378,12 +382,10 @@ const EngagementAndProgressNavigatorBar = () =>{
         <>
             <div className="d-flex align-items-center justify-content-between mb-3">
                 <div className="small">Available draft reports</div>
-                <span className="position-sticky top-0 end-0 bg-light ms-auto">
-                    <button
-                        onClick={changeSchool}
-                        className="btn btn-sm btn-outline-primary"
-                    >🏫 Change School</button>
-                </span>
+                <button
+                    onClick={changeSchool}
+                    className="btn btn-sm btn-outline-primary"
+                >🏫 Change School</button>
             </div>
             <div ref={scrollRef} className="d-flex overflow-auto text-nowrap rounded-2 scrollbar-none border-bottom">
                 {isScrollable && (
@@ -423,7 +425,7 @@ const EngagementAndProgressNavigatorBar = () =>{
 }
 
 const EngagementAndProgressNoGroupFound = () =>{
-    const { draftReport } = useContext(Context);
+    const { draftReport, school } = useContext(Context);
 
     const navigate = useNavigate();
 
@@ -439,7 +441,7 @@ const EngagementAndProgressNoGroupFound = () =>{
                     The selected school is not related to a group.
                 </p>
                 <div className="d-flex justify-content-center">
-                    <button onClick={()=>navigate(routes.admin().concat().groups())} className="btn btn-sm btn-primary px-4">
+                    <button onClick={()=>navigate(routes.admin().concat().assignToGroup(school.id))} className="btn btn-sm btn-primary px-4">
                         Assign a group
                     </button>
                 </div>
@@ -572,63 +574,74 @@ const EngagementAndProgressNoDraftCard = () =>{
     if(hasDraft) return null;
     return(
         <div
-            className="card shadow-sm border-0 rounded-4 text-center p-5"
+            className="text-center p-5"
             style={{
                 opacity: isAnimatingDraft ? 0 : 1,
                 transform: isAnimatingDraft ? 'translateY(10px)' : 'translateY(0)',
                 transition: 'all 0.25s ease',
             }}
         >
-            {isAnimatingDraft ? (
-                <div className="text-center py-5">
-                    <Spinner show inline />
-                </div>
-            ):(
+            {schools.length > 0 ? (
                 <>
-                    <div className="mb-3 text-primary fs-1">
-                        <FaRegFileAlt />
-                    </div>
-                    {creatingDraft ? (
-                        <>
-                            <h5 className="fw-semibold mb-2">
-                                Select a school
-                            </h5>
-                            <p className="text-muted mb-4">
-                                Select a school in order to start a monthly report.
-                            </p>
-                            <div className="d-flex justify-content-center mb-5">
-                                <select
-                                    onChange={(e)=>navigate(routes.auth().concat().engagementAndProgress(e.target.value))}
-                                    className="form-control form-select w-auto"
-                                    value={schoolId}
-                                >
-                                    <option hidden value="">Select a school</option>
-                                    {schools.map((school)=>(
-                                        <option value={school.id} key={school.id}>{school.attributes.name}</option>
-                                    ))}
-                                </select>
-                            </div>
-                            <div className="d-flex justify-content-between">
-                                <div>
-                                    {stash.draft ? (
-                                        <button onClick={reuseStash} className="btn btn-sm btn-secondary px-4">
-                                            Cancel
-                                        </button>
-                                    ):(
-                                        <button onClick={()=>triggerAnimationDraft(()=>setCreatingDraft(false))} className="btn btn-sm btn-secondary px-4">
-                                            Cancel
-                                        </button>
-                                    )}
-                                </div>
-                                <SubmitButton onClick={handleCreateDraft} loading={loading}>
-                                    Submit
-                                </SubmitButton>
-                            </div>
-                        </>
+                    {isAnimatingDraft ? (
+                        <div className="text-center py-5">
+                            <Spinner show inline />
+                        </div>
                     ):(
-                        <EngagementAndProgressNoReportFound />
+                        <>
+                            <div className="mb-3 text-primary fs-1">
+                                <FaRegFileAlt />
+                            </div>
+                            {creatingDraft ? (
+                                <>
+                                    <h5 className="fw-semibold mb-2">
+                                        Select a school
+                                    </h5>
+                                    <p className="text-muted mb-4">
+                                        Select a school in order to start a monthly report.
+                                    </p>
+                                    <div className="d-flex justify-content-center mb-5">
+                                        <select
+                                            onChange={(e)=>navigate(routes.auth().concat().engagementAndProgress(e.target.value))}
+                                            className="form-control form-select w-auto"
+                                            value={schoolId}
+                                        >
+                                            <option hidden value="">Select a school</option>
+                                            {schools.map((school)=>(
+                                                <option value={school.id} key={school.id}>{school.attributes.name}</option>
+                                            ))}
+                                        </select>
+                                    </div>
+                                    <div className="d-flex justify-content-between">
+                                        <div>
+                                            {stash.draft ? (
+                                                <button onClick={reuseStash} className="btn btn-sm btn-secondary px-4">
+                                                    Cancel
+                                                </button>
+                                            ):(
+                                                <button onClick={()=>triggerAnimationDraft(()=>setCreatingDraft(false))} className="btn btn-sm btn-secondary px-4">
+                                                    Cancel
+                                                </button>
+                                            )}
+                                        </div>
+                                        <SubmitButton onClick={handleCreateDraft} loading={loading}>
+                                            Submit
+                                        </SubmitButton>
+                                    </div>
+                                </>
+                            ):(
+                                <EngagementAndProgressNoReportFound />
+                            )}
+                        </>
                     )}
                 </>
+            ):(
+                <NoResultDisplay
+                    mt="0"
+                    icon="school"
+                    title="No schools available"
+                    description="You might have not been assign to any school. Please contact your administration for assistance."
+                />
             )}
         </div>
     )

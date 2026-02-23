@@ -1,14 +1,8 @@
-import { useNavigate } from "react-router-dom";
 import { PageHeader } from "../components/PageHeader";
-import { PageHeaderButton } from "../components/PageHeaderButton";
-import { routes } from "../routes/Routes";
 import { useState } from "react";
 import { Page } from "../layout/Page";
 
 export const AdminSettings = () => {
-
-    const navigate = useNavigate();
-
     const [settings,setSettings] = useState({
         organizationName: "My Education Platform",
         timezone: "UTC",
@@ -40,9 +34,6 @@ export const AdminSettings = () => {
                 title="Application Settings"
                 subTitle="Configure system behavior, attendance rules, reporting logic and analytics preferences."
             >
-                <PageHeaderButton onClick={()=>navigate(routes.admin().concat().admin())}>
-                    🏡 Home
-                </PageHeaderButton>
             </PageHeader>
 
             <div className="alert alert-warning">

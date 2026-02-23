@@ -16,14 +16,15 @@ class SetSchool{
         $collector = $this->repo->listSchool([
             'name' => $school->name()
         ]);
+        $collector->remove($school);
         $collector->assertItemNotExist('School name already exist.');
-        $collector = $this->repo->listSchool([
-            'schoolId' => $school->id()
-        ]);
         if($school->hide()){
             $this->repo->deleteSchool($school);
             return;
         }
+        $collector = $this->repo->listSchool([
+            'schoolId' => $school->id()
+        ]);
         if($collector->hasItem()){
             $this->repo->edit($school);
             return;

@@ -1,6 +1,5 @@
 import { useNavigate, useParams } from "react-router-dom"
 import { PageHeader } from "../components/PageHeader"
-import { PageHeaderButton } from "../components/PageHeaderButton"
 import { useEffect, useState } from "react"
 import { routes } from "../routes/Routes"
 import { NoResultDisplay } from "../components/NoResultDisplay"
@@ -41,9 +40,7 @@ export const AttendanceGroupSelection = () =>{
     return(
         <Page>
             <PageHeader title="Attendance Group Selection" subTitle="Select a group to mark attendance">
-                <PageHeaderButton onClick={(e)=>navigate(routes.auth().concat().home())}>
-                    🏡 Home
-                </PageHeaderButton>
+                
             </PageHeader>
 
             {school && (

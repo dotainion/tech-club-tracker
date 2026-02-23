@@ -13,14 +13,14 @@ class SetSchoolLink{
     }
 
     public function set(SchoolLink $link):void{
-        $collector = $this->repo->listSchoolLink([
-            'schoolId' => $link->id(),
-            'userId' => $link->userId()
-        ]);
         if($link->hide()){
             $this->repo->deleteSchoolLink($link);
             return;
         }
+        $collector = $this->repo->listSchoolLink([
+            'schoolId' => $link->schoolId(),
+            'userId' => $link->userId()
+        ]);
         if($collector->hasItem()){
             return;
         }

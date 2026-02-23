@@ -1,12 +1,10 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { routes } from "../routes/Routes";
-import { PageHeader } from "../components/PageHeader";
-import { PageHeaderButton } from "../components/PageHeaderButton";
+import { PageHeader, PageHeaderItem } from "../components/PageHeader";
 import { api } from "../request/Api";
 import { NoResultDisplay } from "../components/NoResultDisplay";
 import { Spinner } from "../components/Spinner";
-import { FaEllipsisVertical } from "react-icons/fa6";
 import { AddButton } from "../wedgits/AddButton";
 import { Page } from "../layout/Page";
 
@@ -28,12 +26,11 @@ export const AdminSchools = () =>{
         <Page>
             {/* Header */}
             <PageHeader title="Schools" subTitle="Manage and view all registered schools">
-                <PageHeaderButton onClick={(e)=>navigate(routes.admin().concat().school())}>
-                    + New School
-                </PageHeaderButton>
-                <PageHeaderButton onClick={(e)=>navigate(routes.admin().concat().admin())}>
-                    🏡 Home
-                </PageHeaderButton>
+                <PageHeaderItem
+                    onClick={()=>navigate(routes.admin().concat().school())}
+                    icon="add"
+                    title="New School"
+                />
             </PageHeader>
 
             {loading ? <Spinner show inline /> : (
@@ -74,7 +71,7 @@ export const AdminSchools = () =>{
                         >
                             <div className="py-3">
                                 <button className="btn btn-sm btn-outline-dark px-4 rounded-pill" onClick={(e)=>navigate(routes.admin().concat().school())}>
-                                    + New report
+                                    + New School
                                 </button>
                             </div>
                         </NoResultDisplay>

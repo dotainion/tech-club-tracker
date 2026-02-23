@@ -3,7 +3,7 @@ import { api } from "../request/Api";
 import { Spinner } from "./Spinner";
 import { NoResultDisplay } from "./NoResultDisplay";
 import { AddButton } from "../wedgits/AddButton";
-import { useNavigate, useParams } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { routes } from "../routes/Routes";
 
 export const SchoolDisplayGroups = ({ school, children }) =>{
@@ -27,17 +27,19 @@ export const SchoolDisplayGroups = ({ school, children }) =>{
                 <>
                     <hr></hr>
                     <div className="row">
-                        <AddButton
-                            onClick={()=>navigate(routes.admin().concat().assignToGroup(school.id))}
-                            minHeight="77px"
-                            smVisible
-                            className="p-1"
-                            col="col-12 col-sm-4"
-                        >
-                            <small className="text-primary">add</small>
-                            <small className="text-muted">/</small>
-                            <small className="text-danger">remove</small>
-                        </AddButton>
+                        {groups.length > 0 && (
+                            <AddButton
+                                onClick={()=>navigate(routes.admin().concat().assignToGroup(school.id))}
+                                minHeight="77px"
+                                smVisible
+                                className="p-1"
+                                col="col-12 col-sm-4"
+                            >
+                                <small className="text-primary">add</small>
+                                <small className="text-muted">/</small>
+                                <small className="text-danger">remove</small>
+                            </AddButton>
+                        )}
                         {
                             groups.length ?
                             groups.map((group)=>(
@@ -61,7 +63,7 @@ export const SchoolDisplayGroups = ({ school, children }) =>{
                                 mt='0'
                                 icon="group"
                                 title="No linked group"
-                                description="adfasdf asdasgasdasdfasdf asdfasd asda sd as asdf asdf a"
+                                description="Linking a group allows you to add and maintain students while loging attendance."
                             >
                                 <div className="my-3">
                                     <button onClick={()=>navigate(routes.admin().concat().assignToGroup(school.id))} className="btn btn-sm btn-outline-dark px-4 rounded-pill">

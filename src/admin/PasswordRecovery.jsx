@@ -1,9 +1,7 @@
 import { MdPassword } from "react-icons/md"
 import { PageHeader } from "../components/PageHeader"
-import { PageHeaderButton } from "../components/PageHeaderButton"
-import { routes } from "../routes/Routes"
 import { SubmitButton } from "../wedgits/SubmitButton"
-import { useEffect, useRef, useState } from "react"
+import { useEffect, useState } from "react"
 import { useNavigate, useParams } from "react-router-dom"
 import { api } from "../request/Api"
 import { ErrorDisplay } from "../components/ErrorDisplay"
@@ -46,9 +44,7 @@ export const PasswordRecovery = () =>{
                 title="User Password Recovery"
                 subTitle="Send email with information to user on how to recover they account."
             >
-                <PageHeaderButton onClick={() => navigate(routes.admin().concat().admin())}>
-                    🏡 Home
-                </PageHeaderButton>
+                
             </PageHeader>
 
             {loading ? <Spinner show inline /> : (

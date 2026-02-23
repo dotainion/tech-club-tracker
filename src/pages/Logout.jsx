@@ -43,7 +43,7 @@ export const Logout = () =>{
 
     return(
         <Page>
-            <div className="d-flex align-items-center justify-content-center p-3">
+            <div className="d-flex align-items-center justify-content-center p-3 py-5">
                 <div className="card rounded-4">
                     <div className="card-body p-4">
                         <p className="fw-semibold">

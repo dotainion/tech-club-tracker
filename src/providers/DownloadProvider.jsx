@@ -1,4 +1,5 @@
 import React, { createContext, useContext, useEffect, useRef, useState } from "react";
+import { PageHeaderItem } from "../components/PageHeader";
 
 const Context = createContext();
 
@@ -46,7 +47,7 @@ export const DownloadProvider = ({children}) => {
         link.click();
 
         URL.revokeObjectURL(link.href);
-        setLoading(false);
+        setTimeout(() => setLoading(false), 2000);
     };
 
     const values = {
@@ -78,13 +79,15 @@ export const Downloadable = ({children}) =>{
     )
 }
 
-export const DownloadButton = ({className, outline, children}) =>{
-    const { onDownload } = useContext(Context);
-
+export const DownloadButton = () =>{
+    const { loading, onDownload } = useContext(Context);
     return(
-        <button onClick={onDownload} className={`btn btn-sm btn-${outline ? 'outline-' : ''}dark text-nowrap ${className || ''}`}>
-            {children}
-        </button>
+        <PageHeaderItem
+            onClick={onDownload}
+            loading={loading}
+            icon="download"
+            title="Download Report"
+        />
     )
 }
 
@@ -98,7 +101,7 @@ export const DownloadVisibility = ({showOnDownload, hideOnDownload, hidden, chil
     }, [showOnDownload, hideOnDownload]);
     
     if(loading && hideOnDownload) return null;
-    if(loading && showOnDownload && !hidden) return children;
+    if(loading && showOnDownload) return children;
     if(hidden) return null;
     return children;
 }

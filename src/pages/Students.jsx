@@ -3,8 +3,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import { routes } from "../routes/Routes";
 import { useAuth } from "../providers/AuthProvider";
 import { api } from "../request/Api";
-import { PageHeader } from "../components/PageHeader";
-import { PageHeaderButton } from "../components/PageHeaderButton";
+import { PageHeader, PageHeaderItem } from "../components/PageHeader";
 import { NoResultDisplay } from "../components/NoResultDisplay";
 import { Spinner } from "../components/Spinner";
 import { AddButton } from "../wedgits/AddButton";
@@ -30,14 +29,11 @@ export const Students = () => {
     return (
         <Page>
             <PageHeader title="Students">
-                {isAdmin && (
-                    <PageHeaderButton onClick={(e)=>navigate(routes.auth().concat().student(params.schoolId))}>
-                        + New Student
-                    </PageHeaderButton>
-                )}
-                <PageHeaderButton onClick={(e)=>navigate(routes.auth().concat().home())}>
-                    🏡 Home
-                </PageHeaderButton>
+                <PageHeaderItem
+                    onClick={()=>navigate(routes.auth().concat().student(params.schoolId))}
+                    icon="add"
+                    title="New Student"
+                />
             </PageHeader>
 
             {loading ? <Spinner show inline /> : (

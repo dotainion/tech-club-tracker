@@ -2,8 +2,7 @@ import { useNavigate, useParams } from "react-router-dom"
 import { routes } from "../routes/Routes"
 import { useState } from "react";
 import { useRouteDetective } from "../hooks/RouteDetectiveProvider";
-import { PageHeader } from "../components/PageHeader";
-import { PageHeaderButton } from "../components/PageHeaderButton";
+import { PageHeader, PageHeaderItem } from "../components/PageHeader";
 import { Profile, ProfileProvider, ProfileSubmit } from "../components/Profile";
 import { Page } from "../layout/Page";
 
@@ -39,7 +38,7 @@ export const User = () =>{
     });
 
     return(
-        <Page className="bg-light">
+        <Page>
             <ProfileProvider
                 userId={params.userId}
                 editMode={editMode}
@@ -63,42 +62,47 @@ export const User = () =>{
                             ? `Edit: ${user.attributes.fullName}`
                             : user.attributes.fullName
                 }
-                subTitle="Students facilitate"
+                subTitle="Students facilitator"
             >
                 {editMode || creatingMode ? (
                     <>
                     
-                        <ProfileSubmit className="border" bg="dark" px="none">
+                        <ProfileSubmit>
                             Save
                         </ProfileSubmit>
                         {!creatingMode && (
-                            <PageHeaderButton onClick={(e)=>setEditMode(false)}>
-                                Cancel
-                            </PageHeaderButton>
+                            <PageHeaderItem
+                                onClick={()=>setEditMode(false)}
+                                icon="cancel"
+                                title="Cancel"
+                            />
                         )}
                     </>
                 ) : (
                     <>
-                        <PageHeaderButton onClick={(e)=>navigate(routes.admin().concat().user())}>
-                            + New User
-                        </PageHeaderButton>
-                        <PageHeaderButton onClick={(e)=>navigate(routes.admin().concat().userSettings(params.userId))}>
-                            Settings
-                        </PageHeaderButton>
-                        <PageHeaderButton onClick={(e)=>setEditMode(true)}>
-                            Edit User
-                        </PageHeaderButton>
+                        <PageHeaderItem
+                            onClick={()=>navigate(routes.admin().concat().user())}
+                            icon="add"
+                            title="New User"
+                        />
+                        <PageHeaderItem
+                            onClick={()=>navigate(routes.admin().concat().userSettings(params.userId))}
+                            icon="setting"
+                            title="Settings"
+                        />
+                        <PageHeaderItem
+                            onClick={()=>setEditMode(true)}
+                            icon="edit"
+                            title="Edit User"
+                        />
                     </>
                 )}
-                <PageHeaderButton onClick={(e)=>navigate(routes.admin().concat().admin())}>
-                    🏡 Home
-                </PageHeaderButton>
             </PageHeader>
 
             {/* Card Form */}
                 <div className="row justify-content-center">
                     <div className="col-12 col-md-10">
-                        <div className="card shadow-sm border-0 bg-white">
+                        <div className="card border">
                             <div className="card-body p-4">
                                 {/* User Name */}
                                 <div className="row">

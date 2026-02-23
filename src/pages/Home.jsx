@@ -20,7 +20,7 @@ export const Home = () => {
                                 className={`border rounded-4 p-4 h-100 text-center ${feature?.disabled ? 'opacity-50' : 'as-btn'}`}
                             >
                                 <div className="mb-3" style={{ fontSize: "2rem" }}>{feature.icon}</div>
-                                <h6 className="fw-bold">{feature.title}</h6>
+                                <h6>{feature.title}</h6>
                                 <p className="text-muted mb-0">{feature.description}</p>
                             </div>
                         </div>

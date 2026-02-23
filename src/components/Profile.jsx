@@ -4,6 +4,7 @@ import { useRouteDetective } from "../hooks/RouteDetectiveProvider";
 import { ErrorDisplay } from "./ErrorDisplay";
 import { ParseError } from "../utils/ParseError";
 import { SubmitButton } from "../wedgits/SubmitButton";
+import { PageHeaderItem } from "./PageHeader";
 
 const Context = createContext();
 
@@ -247,11 +248,14 @@ export const Profile = () =>{
     )
 }
 
-export const ProfileSubmit = ({className, bg, px}) =>{
+export const ProfileSubmit = () =>{
     const { loading, submit } = useContext(Context);
     return(
-        <SubmitButton onClick={submit} className={className} outline loading={loading} bg={bg} px={px}>
-            Save
-        </SubmitButton>
+        <PageHeaderItem
+            onClick={submit}
+            loading={loading}
+            icon="save"
+            title="Save User"
+        />
     )
 }

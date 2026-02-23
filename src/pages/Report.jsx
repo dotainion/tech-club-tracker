@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 import { ReportOverlay } from "../components/RepartOverlay";
-import { PageHeaderButton } from "../components/PageHeaderButton";
-import { PageHeader } from "../components/PageHeader";
+import { PageHeader, PageHeaderItem } from "../components/PageHeader";
 import { api } from "../request/Api";
 import { useNavigate, useParams } from "react-router-dom";
 import { Spinner } from "../components/Spinner";
@@ -40,30 +39,26 @@ export const Report = () => {
         <Page>
             <DownloadProvider>
                 <PageHeader title="Reports" subTitle="Viewing generated report">
-                    <PageHeaderButton onClick={(e)=>setShowReportOverlay(true)}>
-                        + New report
-                    </PageHeaderButton>
+                    <PageHeaderItem
+                        onClick={()=>setShowReportOverlay(true)}
+                        icon="add"
+                        title="New Report"
+                    />
                     {report && !report.attributes.published && (
                         <>
-                            <PageHeaderButton onClick={editReport}>
-                                Edit report
-                            </PageHeaderButton>
+                            <PageHeaderItem
+                                onClick={editReport}
+                                icon="edit"
+                                title="Edit Report"
+                            />
                             <DeleteReport
-                                onSuccess={(e)=>navigate(routes.auth().concat().reports())}
                                 report={report}
+                                onSuccess={(e)=>navigate(routes.auth().concat().reports())}
                                 onSavingCallback={setSaving}
-                                className="border"
-                            >
-                                Delete report
-                            </DeleteReport>
+                            />
                         </>
                     )}
-                    <DownloadButton className="border" outline>
-                        Download
-                    </DownloadButton>
-                    <PageHeaderButton onClick={(e)=>navigate(routes.auth().concat().home())}>
-                        🏡 Home
-                    </PageHeaderButton>
+                    <DownloadButton />
                 </PageHeader>
 
                 <ReportOverlay

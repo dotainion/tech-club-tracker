@@ -105,7 +105,7 @@ export const ReportAttendance = ({ report }) => {
                             className="btn btn-sm btn-link text-decoration-none d-flex align-items-center gap-1 p-0"
                         >
                             <BiCollapse/>
-                            Show Attendance
+                            Hide Attendance
                         </button>
                     </DownloadVisibility>
                 </div>
@@ -154,10 +154,15 @@ export const ReportAttendance = ({ report }) => {
 
                             {/* Totals */}
                             <tr className="fw-bold">
-                                <td colSpan={2}>Subtotals per Group:</td>
+                                <td colSpan={2}>
+                                    Subtotals per Group: 
+                                    {Object.entries(attendanceData.groupTotals).length === 0 && (
+                                        <span className="fw-normal ms-2">None</span>
+                                    )}
+                                </td>
                             </tr>
-                            {Object.entries(attendanceData.groupTotals).map(([group, totals]) => (
-                                <tr key={group}>
+                            {Object.entries(attendanceData.groupTotals).map(([group, totals], key) => (
+                                <tr key={`attendance-group-total-${group}-${key}`}>
                                     <td colSpan={2}>
                                         {group}: Present: {totals.Present} | Absent: {totals.Absent}
                                     </td>
@@ -171,15 +176,17 @@ export const ReportAttendance = ({ report }) => {
                         </tbody>
                     </table>
                 </div>
-                <div className="d-flex justify-content-end">
-                    <button
-                        onClick={()=>setShowAttendance(false)}
-                        className="btn btn-sm btn-link text-decoration-none d-flex align-items-center gap-1 p-0"
-                    >
-                        <BiCollapse/>
-                        Show Attendance
-                    </button>
-                </div>
+                <DownloadVisibility hideOnDownload>
+                    <div className="d-flex justify-content-end">
+                        <button
+                            onClick={()=>setShowAttendance(false)}
+                            className="btn btn-sm btn-link text-decoration-none d-flex align-items-center gap-1 p-0"
+                        >
+                            <BiCollapse/>
+                            Hide Attendance
+                        </button>
+                    </div>
+                </DownloadVisibility>
             </DownloadVisibility>
             <DownloadVisibility hidden={showAttendance} hideOnDownload>
                 <button

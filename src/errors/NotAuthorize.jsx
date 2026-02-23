@@ -4,7 +4,7 @@ import { routes } from "../routes/Routes";
 export const NotAuthorize = () =>{
     const navigate = useNavigate();
     return(
-        <div className="w-100 vh-100 d-flex align-items-center justify-content-center">
+        <div className="w-100 vh-100 d-flex align-items-center justify-content-center py-5">
             <div className="text-center card border rounded-4">
                 <div className="card-body p-5">
                     <h4>You are not authorize to access this service.</h4>

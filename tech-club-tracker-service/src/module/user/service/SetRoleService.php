@@ -15,7 +15,6 @@ class SetRoleService extends Service{
     
     public function process($userId, $role, $read,  $write,  $edit,  $delete){
         Assert::validUuid($userId, 'User not found.');
-
         $service = $this->secure->setRole($userId, $role, $read, $write, $edit, $delete);
         $this->mergeOutput($service);
         return $this;

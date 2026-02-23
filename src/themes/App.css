@@ -80,7 +80,7 @@ input[type=date]::-webkit-calendar-picker-indicator, input[type=month]::-webkit-
 }
 
 .btn-group span button:hover, .btn-group span .input-group-text:hover, .btn-group span input:hover{
-    color: white;
+    color: #0d6efd;
 }
 
 .btn-group span input{
@@ -109,7 +109,17 @@ input[type=date]::-webkit-calendar-picker-indicator, input[type=month]::-webkit-
     display: none;
 }
 
+.btn-text-hover-primary:hover{
+    color: #0d6efd !important;
+}
+
 @media (max-width: 575px) {
+    .position-sm-absolute{
+        position: fixed !important;
+        top: 0;
+        left: 0;
+        z-index: 999999;
+    }
 }
 
 @media (max-width: 767px) {

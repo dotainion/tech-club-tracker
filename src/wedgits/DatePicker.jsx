@@ -1,12 +1,13 @@
-import { useEffect, useRef, useState } from "react";
+import { forwardRef, useEffect, useImperativeHandle, useRef, useState } from "react";
+import { dateTime } from "../utils/DateTime";
 
-export const DatePicker = ({ className, onChange, value, month }) => {
+export const DatePicker = forwardRef(({ className, onChange, value, month }, ref) => {
     const inputType = month ? 'month' : 'date';
 
     const [today] = useState(
         month
-            ? new Date().toISOString().split("T")[0].substring(0, 7)
-            : new Date().toISOString().split("T")[0].substring(0, 10)
+            ? dateTime.now().format('ym').toString()
+            : dateTime.now().format('ymd').toString()
     );
     const [showInput, setShowInput] = useState(false);
     const [selectedValue, setSelectedValue] = useState(today);
@@ -25,6 +26,11 @@ export const DatePicker = ({ className, onChange, value, month }) => {
         if (selectedValue !== today) return;
         setShowInput(false);
     };
+
+    useImperativeHandle(ref, ()=>({
+        value: selectedValue,
+        openPicker: ()=> setShowInput(true)
+    }), [ref, showInput, selectedValue]);
 
     useEffect(() => {
         if (!value) return;
@@ -65,4 +71,4 @@ export const DatePicker = ({ className, onChange, value, month }) => {
             )}
         </div>
     );
-};
+});

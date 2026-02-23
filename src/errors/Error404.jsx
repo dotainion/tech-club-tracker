@@ -16,7 +16,7 @@ export const Error404 = () =>{
     }
 
     return(
-        <div className="w-100 vh-100 d-flex align-items-center justify-content-center">
+        <div className="w-100 vh-100 d-flex align-items-center justify-content-center py-5">
             <div className="text-center card">
                 <div className="card-body p-5">
                     <h4>Oooops</h4>

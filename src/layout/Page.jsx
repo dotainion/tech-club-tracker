@@ -1,7 +1,7 @@
 export const Page = ({className, children}) =>{
     return(
-        <div className={`${className || ''} w-100 vh-100`}>
-            <div className="container py-5">
+        <div className={`${className || ''} pt-0 mb-5`}>
+            <div className="container">
                 {children}
             </div>
         </div>

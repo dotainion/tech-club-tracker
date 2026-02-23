@@ -1,9 +1,10 @@
 import { useEffect, useState } from "react";
-import { SubmitButton } from "../wedgits/SubmitButton"
 import { ParseError } from "../utils/ParseError";
 import { api } from "../request/Api";
+import { PageHeaderItem } from "./PageHeader";
+import { SubmitButton } from "../wedgits/SubmitButton";
 
-export const DeleteReport = ({className, report, onSavingCallback, onSuccess, children}) =>{
+export const DeleteReport = ({report, onSavingCallback, onSuccess, children}) =>{
     const [error, setError] = useState(null);
     const [loading, setLoading] = useState(false);
 
@@ -31,16 +32,25 @@ export const DeleteReport = ({className, report, onSavingCallback, onSuccess, ch
         onSavingCallback?.(loading);
     }, [loading]);
 
-    return(
+    if(children) return(
         <SubmitButton
             onClick={deleteReport}
+            className="border-0 py-0"
             loading={loading}
             outline
-            px="none"
             bg="danger"
-            className={className}
+            px="0"
         >
             {children}
         </SubmitButton>
+    )
+
+    return(
+        <PageHeaderItem
+            onClick={deleteReport}
+            loading={loading}
+            icon="delete"
+            title="Delete Report"
+        />
     )
 }

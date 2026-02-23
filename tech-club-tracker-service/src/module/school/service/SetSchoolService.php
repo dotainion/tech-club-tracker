@@ -40,13 +40,13 @@ class SetSchoolService extends Service{
         ]);
 
         $this->school->set($school);
-        $this->link->process([[
-            'schoolId' => $school->id()->toString(),
-            'userId' => $this->user()->id()->toString(),
-            'hide' => false
-        ]]);
+        $this->link->process(
+            $school->id()->toString(),
+            $this->user()->id()->toString(),
+            $hide
+        );
         
         $this->setOutput($school);
-        return $this->list->process(null, $school->id()->toString());
+        return $this->list->process(null, $school->id()->toString(), null);
     }
 }

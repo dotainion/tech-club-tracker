@@ -1,22 +1,33 @@
-import { useNavigate, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import { PageHeader } from "../components/PageHeader";
-import { PageHeaderButton } from "../components/PageHeaderButton";
-import { routes } from "../routes/Routes";
 import { AssignSchools } from "../components/AssignSchools";
 import { Page } from "../layout/Page";
+import { api } from "../request/Api";
+import { useState } from "react";
 
 export const AdminAssignToSchool = () => {
-    const navigate = useNavigate();
+    const [group, setGroup] = useState(null);
+
     const params = useParams();
+    
+    useEffect(()=>{
+        api.group.list({groupId: params.groupId}).then((response)=>{
+            setGroup(response.data.data[0]);
+        }).catch((error)=>{
+
+        });
+    }, []);
 
     return (
         <Page>
             {/* Header */}
             <PageHeader title="Assign Group to School" subTitle="Select the schools the group can be linked to.">
-                <PageHeaderButton onClick={(e)=>navigate(routes.admin().concat().admin())}>
-                    🏡 Home
-                </PageHeaderButton>
+                
             </PageHeader>
+
+            {group && (
+                <h6>{group.attributes.name}</h6>
+            )}
             
             <AssignSchools
                 apiSchoolMethod="linkGroup"

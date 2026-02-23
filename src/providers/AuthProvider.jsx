@@ -1,6 +1,7 @@
 import { createContext, useContext, useEffect, useRef, useState } from "react";
 import { api } from "../request/Api";
 import { token } from "../utils/Token";
+import { Spinner } from "../components/Spinner";
 
 const Context = createContext();
 
@@ -57,7 +58,7 @@ export const AuthProvider = ({children}) =>{
 
     return(
         <Context.Provider value={values}>
-            {loading ? null : children}
+            {loading ? <Spinner show inline /> : children}
         </Context.Provider>
     )
 }
