@@ -5,12 +5,13 @@ import { api } from "../request/Api";
 import { useNavigate, useParams } from "react-router-dom";
 import { Spinner } from "../components/Spinner";
 import { routes } from "../routes/Routes";
-import { Downloadable, DownloadButton, DownloadProvider } from "../providers/DownloadProvider";
+import { Downloadable, DownloadButton, DownloadProvider, DownloadVisibility } from "../providers/DownloadProvider";
 import { NoResultDisplay } from "../components/NoResultDisplay";
 import { DeleteReport } from "../components/DeleteReport";
 import { ReportAttendance } from "../components/ReportAttendance";
 import { ReportPublishedButton } from "../components/ReportPublishedButton";
 import { Page } from "../layout/Page";
+import { createPortal } from "react-dom";
 
 export const Report = () => {
     const [report, setReport] = useState(null);
@@ -81,10 +82,11 @@ export const Report = () => {
                     <>
                         {report ? (
                             <Downloadable>
-                                {/* Header */}
-                                <div className="d-flex justify-content-end user-select-none">
-                                    <ReportPublishedButton report={report} onSuccess={setReport} allowToggle />
-                                </div>
+                                <DownloadVisibility hideOnDownload>
+                                    <div className="d-flex align-items-center justify-content-end user-select-none h-100">
+                                        <ReportPublishedButton report={report} onSuccess={setReport} allowToggle />
+                                    </div>
+                                </DownloadVisibility>
                                 <div className="text-center mb-4">
                                     <h4 className="fw-bold mb-1">Caribbean Coding Academy</h4>
                                     <p className="mb-0">H.A. Blaize Street, St. George's</p>

@@ -1,4 +1,5 @@
 import { BiUser } from "react-icons/bi"
+import { BsClock } from "react-icons/bs"
 import { FaSchool } from "react-icons/fa"
 import { GrGroup } from "react-icons/gr"
 import { HiOutlineDocumentReport } from "react-icons/hi"
@@ -14,6 +15,7 @@ export const NoResultDisplay = ({icon, title, description, mt, children}) =>{
                     {icon === 'school' && <FaSchool className="fs-1" />}
                     {icon === 'group' && <GrGroup className="fs-1" />}
                     {icon === 'user' && <BiUser className="fs-1" />}
+                    {icon === 'log' && <BsClock className="fs-1" />}
                 </div>
                 <h5 className="mt-3">{title}</h5>
                 <p className="text-muted small">{description}</p>

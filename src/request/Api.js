@@ -8,6 +8,7 @@ import { Report } from "./Report";
 import { School } from "./School";
 import { Group } from "./Group";
 import { Settings } from "./Settings";
+import { Clock } from "./Clock";
 
 export class Api{    
     constructor(){
@@ -30,6 +31,7 @@ export class Api{
         this.school = new School(this);
         this.group = new Group(this);
         this.settings = new Settings(this);
+        this.clock = new Clock(this);
     }
 
     reInitializeAuthorizationHeader(){
@@ -42,7 +44,8 @@ export class Api{
 
     parseError(error){
         if(error.status === 401 && !window.location.href.includes(routes.signin)){
-            window.location.href = routes.error.authentication;
+            const pathname = `${location.origin}${location.pathname}`;
+            location.href = `${pathname}#${routes.error.authentication}`;
         }
         throw error;
     }

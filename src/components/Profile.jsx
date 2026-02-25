@@ -3,7 +3,7 @@ import { api } from "../request/Api";
 import { useRouteDetective } from "../hooks/RouteDetectiveProvider";
 import { ErrorDisplay } from "./ErrorDisplay";
 import { ParseError } from "../utils/ParseError";
-import { SubmitButton } from "../wedgits/SubmitButton";
+import { SubmitButton } from "../widgets/SubmitButton";
 import { PageHeaderItem } from "./PageHeader";
 
 const Context = createContext();
@@ -248,8 +248,15 @@ export const Profile = () =>{
     )
 }
 
-export const ProfileSubmit = () =>{
+export const ProfileSubmit = ({children}) =>{
     const { loading, submit } = useContext(Context);
+
+    if(children) return(
+        <SubmitButton onClick={submit} loading={loading}>
+            {children}
+        </SubmitButton>
+    )
+    
     return(
         <PageHeaderItem
             onClick={submit}

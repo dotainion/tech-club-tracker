@@ -7,7 +7,7 @@ import { api } from "../request/Api";
 import { SpinnerConditional } from "../components/SpinnerConditional";
 import { ErrorDisplay } from "../components/ErrorDisplay";
 import { SchoolDisplay } from "../components/SchoolDisplay";
-import { SubmitButton } from "../wedgits/SubmitButton";
+import { SubmitButton } from "../widgets/SubmitButton";
 import { SchoolDisplayGroups } from "../components/SchoolDisplayGroups";
 import { Page } from "../layout/Page";
 import { ParseError } from "../utils/ParseError";

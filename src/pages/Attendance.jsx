@@ -1,158 +1,63 @@
-import { useEffect, useRef, useState } from "react";
-import { PageHeader, PageHeaderItem } from "../components/PageHeader";
-import { routes } from "../routes/Routes";
-import { useNavigate, useParams } from "react-router-dom";
-import { api } from "../request/Api";
-import { useAuth } from "../providers/AuthProvider";
-import { NoResultDisplay } from "../components/NoResultDisplay";
-import { Spinner } from "../components/Spinner";
-import { useRouteDetective } from "../hooks/RouteDetectiveProvider";
-import { AttendanceButton } from "../components/AttendanceButton";
-import { Page } from "../layout/Page";
-import { DatePicker } from "../wedgits/DatePicker";
-import { dateTime } from "../utils/DateTime";
+import { PageHeader } from "../components/PageHeader"
+import { Page } from "../layout/Page"
+import { useNavigate } from "react-router-dom"
+import { routes } from "../routes/Routes"
 
-export const Attendance = () =>{
-    const today = dateTime.now().format('ym').toString();
-
-    const { user } = useAuth();
-    const { containsDefaultRouteId } = useRouteDetective();
-
-    const [dateValue, setDateValue] = useState(today);
-    const [group, setGroup] = useState(null);
-    const [school, setSchool] = useState(null);
-    const [students, setStudents] = useState([]);
-    const [loading, setLoading] = useState(true);
-
+export const Attendance = () => {
     const navigate = useNavigate();
-    const params = useParams();
 
-    const pickerRef = useRef();
+    const options = [
+        {
+            icon: "🧑‍🎓",
+            title: 'Student Attendance',
+            description: 'View or mark student attendance.',
+            route: routes.auth().concat().markAttendance()
+        },{
+            icon: "🧑‍🏫",
+            title: 'Sign-In',
+            description: 'Clock in clock out daily attendance.',
+            route: routes.auth().concat().facilitatorSignin()
+        },{
+            icon: "📝",
+            title: 'Student Logs',
+            description: 'View student attendance logs.',
+            route: routes.auth().concat().studentLogs()
+        },{
+            icon: "📋",
+            title: 'My Logs',
+            description: 'View facilitator loga.',
+            route: routes.auth().concat().facilitatorLogs()
+        }
+    ];
 
-    const toggleAttendance = (attendance) => {
-        setStudents((previousStudents)=>
-            previousStudents.map((prevStudent) =>
-                prevStudent.id === attendance.attributes.studentId 
-                    ? {
-                        ...prevStudent,
-                        attributes: {
-                            ...prevStudent.attributes,
-                            present: attendance.attributes.present
-                        }
-                    } 
-                    : prevStudent
-            )
-        );
-    };
-
-    useEffect(()=>{
-        if(!students.length) return;
-        const link = students[0].attributes.studentLinks[0];
-        api.school.list({schoolId: link.attributes.schoolId}).then((response)=>{
-            setSchool(response.data.data[0]);
-        }).catch((error)=>{
-            
-        });
-    }, [students]);
-
-    useEffect(()=>{
-        if(containsDefaultRouteId()){
-            navigate(routes.auth().concat().attendanceSchoolSelection(user.id));
-            return;  
-        }            
-        api.group.list({groupId: params.groupId, date: dateValue}).then((response)=>{
-            setGroup(response.data.data[0]);
-            setStudents(response.data.data[0].attributes.students.map((student)=>{
-                //once there is attendances in the array with the date value then its present
-                if(student.attributes.attendances.length) student.attributes['present'] = true;
-                else student.attributes['present'] = false;
-                return student;
-            }));
-        }).catch((error)=>{
-
-        }).finally(()=>setLoading(false));
-    }, [params.groupId, dateValue]);
-
-    return (
+    return(
         <Page>
-            <PageHeader title="Student Attendance" subTitle="Mark attendance for selected date">
-                <PageHeaderItem
-                    onClick={()=>navigate(routes.auth().concat().attendanceSchoolSelection(user.id))}
-                    icon="student"
-                    title="New Attendance"
-                />
-                <PageHeaderItem
-                    onClick={(e)=>pickerRef.current.openPicker()}
-                    icon="calendar"
-                    title="Date Picker"
-                />
-            </PageHeader>
+            <PageHeader
+                title="Attendance Hub"
+                subTitle="Quickly access student or facilitator attendance tools."
+            />
 
-            {loading ? <Spinner show inline /> : (
-                <>
-                    {group ? (
-                        <>
-                            {school && <h4 className="mb-0">{school.attributes.name}</h4>}
-                            <div className="d-flex justify-content-between">
-                                <span className="fw-semibold ms-2">{group.attributes.name}</span>
-                                <DatePicker
-                                    ref={pickerRef}
-                                    onChange={(e)=>setDateValue(e.target.value)}
-                                    dateValue={dateValue}
-                                    month
-                                />
-                            </div>
+            <p className="text-muted mb-4">
+                Use the options below to view student attendance or manage facilitator sign-in for today.
+            </p>
 
-                            <div className="row justify-content-center mt-3">
-                                <div className="col-12 col-lg-10">
-                                    {students.length > 0 ? (
-                                        <div className="list-group">
-                                            {students.map((student) => (
-                                                <div className="list-group-item" key={student.id}>
-                                                    <div className="d-flex align-items-center justify-content-between gap-2">
-                                                        <h6 className="fw-bold mb-0">{student.attributes.fullName}</h6>
-                                                        <AttendanceButton
-                                                            student={student}
-                                                            dateValue={dateValue}
-                                                            onUpdate={toggleAttendance}
-                                                        />
-                                                    </div>
-                                                </div>
-                                            ))}
-                                        </div>
-                                    ):(
-                                        <NoResultDisplay
-                                            icon="student"
-                                            title="No student available"
-                                            description="adfasdf asdasgasdasdfasdf asdfasd asda sd as asdf asdf a"
-                                        >
-                                            <div className="mb-3">
-                                                <button
-                                                    onClick={(e)=>navigate(routes.auth().concat().attendanceSchoolSelection(user.id))}
-                                                    className="btn btn-sm btn-outline-dark rounded-pill px-4"
-                                                >New attendance</button>
-                                            </div>
-                                        </NoResultDisplay>
-                                    )}
-                                </div>
-                            </div>
-                        </>
-                    ) : (
-                        <NoResultDisplay
-                            icon="group"
-                            title="No group available"
-                            description="adfasdf asdasgasdasdfasdf asdfasd asda sd as asdf asdf a"
+            <div className="row">
+                {options.map((option) => (
+                    <div className="col-12 col-sm-6 col-md-4 col-lg-3 mb-4" key={option.title}>
+                        <div
+                            onClick={() => navigate(option.route)}
+                            className="border rounded-4 p-4 h-100 text-center as-btn"
+                            style={{ cursor: "pointer" }}
                         >
-                            <div className="mb-3">
-                                <button
-                                    onClick={(e)=>navigate(routes.auth().concat().attendanceSchoolSelection(user.id))}
-                                    className="btn btn-sm btn-outline-dark rounded-pill px-4"
-                                >Choose a different school</button>
+                            <div className="mb-3" style={{ fontSize: '2.5rem' }}>
+                                {option.icon}
                             </div>
-                        </NoResultDisplay>
-                    )}
-                </>
-            )}
+                            <h6 className="fw-bold">{option.title}</h6>
+                            <p className="text-muted mb-0">{option.description}</p>
+                        </div>
+                    </div>
+                ))}
+            </div>
         </Page>
-    );
+    )
 }

@@ -9,7 +9,11 @@ export const Home = () => {
 
     return (
         <Page className="d-flex flex-column">
-            <PageHeader title="Applications" subTitle="Choose a section below to manage system features"/>
+            <PageHeader
+                title="Applications"
+                subTitle="Choose a section below to manage system features"
+                noMenu
+            />
             <hr></hr>
             <div className="user-select-none h-100">
                 <div className="row g-4">
@@ -17,11 +21,11 @@ export const Home = () => {
                         <div className="col-12 col-sm-6 col-md-4 col-lg-3" key={i}>
                             <div
                                 onClick={()=>navigate(feature.route)}
-                                className={`border rounded-4 p-4 h-100 text-center ${feature?.disabled ? 'opacity-50' : 'as-btn'}`}
+                                className={`border rounded-4 p-4 h-100 text-dark text-center ${feature?.disabled ? 'opacity-50' : 'as-btn'}`}
                             >
                                 <div className="mb-3" style={{ fontSize: "2rem" }}>{feature.icon}</div>
                                 <h6>{feature.title}</h6>
-                                <p className="text-muted mb-0">{feature.description}</p>
+                                <p className="mb-0">{feature.description}</p>
                             </div>
                         </div>
                     ))}

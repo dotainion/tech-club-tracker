@@ -1,7 +1,7 @@
 import { createContext, useContext, useEffect, useRef, useState } from "react";
 import { routes } from "../routes/Routes";
-import { DatePicker } from "../wedgits/DatePicker";
-import { SubmitButton } from "../wedgits/SubmitButton";
+import { DatePicker } from "../widgets/DatePicker";
+import { SubmitButton } from "../widgets/SubmitButton";
 import { useNavigate, useParams } from "react-router-dom";
 import { FaRegFileAlt, FaPlusCircle } from "react-icons/fa";
 import { api } from "../request/Api";
@@ -273,14 +273,14 @@ export const EngagementAndProgressProvider = ({children}) => {
             {children}
             <EngagementAndProgressToast />
             <EngagementAndProgressSchoolDisplay />
-            <EngagementAndProgressNavigatorBar />
 
             <div className="row justify-content-center mt-4">
                 <div className="col-lg-8">
+                    <EngagementAndProgressNavigatorBar />
                     <EngagementAndProgressNoDraftCard />
                     <EngagementAndProgressNoEntryCard />
 
-                    {school && school.attributes.groups.length ? (
+                    {school && school.attributes.groups.length > 0 ? (
                         <EngagementandProgressEntryExistCard />
                     ):(
                         <EngagementAndProgressNoGroupFound />
@@ -384,7 +384,7 @@ const EngagementAndProgressNavigatorBar = () =>{
                 <div className="small">Available draft reports</div>
                 <button
                     onClick={changeSchool}
-                    className="btn btn-sm btn-outline-primary"
+                    className="btn btn-sm btn-outline-dark"
                 >🏫 Change School</button>
             </div>
             <div ref={scrollRef} className="d-flex overflow-auto text-nowrap rounded-2 scrollbar-none border-bottom">
@@ -398,7 +398,7 @@ const EngagementAndProgressNavigatorBar = () =>{
                 {draftReports.map((report)=>(
                     <button
                         onClick={()=>triggerAnimation(()=>setDraftReport(report))}
-                        className={`btn btn-sm rounded-bottom-0 rounded-top-3 ${draftReport.id === report.id ? 'bg-primary text-white border-0' : 'btn-outline-dark border'} position-relative`}
+                        className={`btn btn-sm rounded-bottom-0 rounded-top-3 ${draftReport.id === report.id ? 'bg-dark text-white border-0' : 'btn-outline-dark border'} position-relative`}
                         disabled={draftReport.id === report.id}
                         title={report.attributes.date.split(' ')[0]}
                         key={report.id}
@@ -415,7 +415,7 @@ const EngagementAndProgressNavigatorBar = () =>{
                 )}
             </div>
             <div className="d-flex align-items-center justify-content-center">
-                <a onClick={()=>navigate(routes.auth().concat().report(draftReport.id))} className="small text-decoration-none pointer">
+                <a onClick={()=>navigate(routes.auth().concat().report(draftReport.id))} className="small text-decoration-none link-dark pointer">
                     View {getMonth(draftReport)} Report
                 </a>
             </div>
@@ -441,7 +441,7 @@ const EngagementAndProgressNoGroupFound = () =>{
                     The selected school is not related to a group.
                 </p>
                 <div className="d-flex justify-content-center">
-                    <button onClick={()=>navigate(routes.admin().concat().assignToGroup(school.id))} className="btn btn-sm btn-primary px-4">
+                    <button onClick={()=>navigate(routes.admin().concat().assignToGroup(school.id))} className="btn btn-sm btn-dark px-4">
                         Assign a group
                     </button>
                 </div>
@@ -461,7 +461,7 @@ const EngagementAndProgressNoReportFound = () =>{
                 You must create a draft report before adding engagement entries.
             </p>
             <div className="d-flex justify-content-center">
-                <button onClick={()=>triggerAnimationDraft(()=>setCreatingDraft(true))} className="btn btn-sm btn-primary px-4">
+                <button onClick={()=>triggerAnimationDraft(()=>setCreatingDraft(true))} className="btn btn-sm btn-dark px-4">
                     Create Draft Report
                 </button>
             </div>
@@ -536,7 +536,7 @@ const EngagementAndProgressEntry = () =>{
                         />
                     </div>
                     <div className="text-center">
-                        <SubmitButton onClick={handleSave} loading={loading}>
+                        <SubmitButton onClick={handleSave} loading={loading} bg="dark">
                             {currentFocus.isSaved ? 'Saved ✓' : 'Save Entry'}
                         </SubmitButton>
                     </div>
@@ -624,7 +624,7 @@ const EngagementAndProgressNoDraftCard = () =>{
                                                 </button>
                                             )}
                                         </div>
-                                        <SubmitButton onClick={handleCreateDraft} loading={loading}>
+                                        <SubmitButton onClick={handleCreateDraft} loading={loading} bg="dark">
                                             Submit
                                         </SubmitButton>
                                     </div>
@@ -663,7 +663,7 @@ const EngagementAndProgressNoEntryCard = () =>{
                     Start by adding your first daily engagement entry.
                 </p>
                 <div className="d-flex justify-content-center">
-                    <button onClick={handleAddNew} className="btn btn-sm btn-primary px-4">
+                    <button onClick={handleAddNew} className="btn btn-sm btn-dark px-4">
                         + Add First Entry
                     </button>
                 </div>
@@ -680,17 +680,17 @@ const EngagementandProgressEntryExistCard = () =>{
         <>
             <div className="d-flex justify-content-between align-items-center mb-3">
                 <div className="d-flex gap-2">
-                    <button onClick={goPrevious} className="btn btn-outline-secondary" disabled={currentIndex === 0 || isAnimating}>
+                    <button onClick={goPrevious} className="btn btn-outline-dark" disabled={currentIndex === 0 || isAnimating}>
                         ←
                     </button>
-                    <button onClick={goNext} className="btn btn-outline-secondary" disabled={currentIndex === focusAreas.length - 1 || isAnimating}>
+                    <button onClick={goNext} className="btn btn-outline-dark" disabled={currentIndex === focusAreas.length - 1 || isAnimating}>
                         →
                     </button>
                 </div>
-                <span className="badge bg-primary rounded-pill px-3 py-2">
+                <span className="badge bg-dark rounded-pill user-select-none px-3 py-2">
                     {currentIndex + 1} / {focusAreas.length}
                 </span>
-                <button onClick={handleAddNew} className="btn btn-sm btn-outline-primary" disabled={isAnimating}>
+                <button onClick={handleAddNew} className="btn btn-sm btn-outline-dark" disabled={isAnimating}>
                     + New Entry
                 </button>
             </div>

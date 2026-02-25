@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { routes } from "../routes/Routes";
 import { api } from "../request/Api";
 import { ParseError } from "../utils/ParseError";
-import { SubmitButton } from "../wedgits/SubmitButton";
+import { SubmitButton } from "../widgets/SubmitButton";
 import { ErrorDisplay } from "../components/ErrorDisplay";
 
 export const Recovery = () =>{

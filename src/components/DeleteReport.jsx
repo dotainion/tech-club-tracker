@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { ParseError } from "../utils/ParseError";
 import { api } from "../request/Api";
 import { PageHeaderItem } from "./PageHeader";
-import { SubmitButton } from "../wedgits/SubmitButton";
+import { SubmitButton } from "../widgets/SubmitButton";
 
 export const DeleteReport = ({report, onSavingCallback, onSuccess, children}) =>{
     const [error, setError] = useState(null);
@@ -51,6 +51,7 @@ export const DeleteReport = ({report, onSavingCallback, onSuccess, children}) =>
             loading={loading}
             icon="delete"
             title="Delete Report"
+            requireConfirmation
         />
     )
 }

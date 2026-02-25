@@ -12,7 +12,8 @@ export const routes = {
     auth: () =>new (class{
         temp = '';
         default = '/tracker/*';
-        attendance = (groupId=':groupId') => this.temp + 'attendance/' + groupId;
+        attendance = () => this.temp + 'attendance';
+        markAttendance = (groupId=':groupId') => this.temp + 'mark/attendance/' + groupId;
         attendanceSchoolSelection = (userId=':userId') => this.temp + 'attendance/shool/selection/' + userId;
         attendanceGroupSelection = (schoolId=':schoolId') => this.temp + 'attendance/group/selection/' + schoolId;
         home = () => this.temp + 'home';
@@ -22,7 +23,10 @@ export const routes = {
         school = (schoolId=':schoolId') => this.temp + 'school/' + schoolId;
         students = (schoolId=':schoolId') => this.temp + 'students/' + schoolId;
         student = (schoolId=':schoolId', studentId=':studentId') => this.temp + 'student/' + studentId + '/' + schoolId;
-        engagementAndProgress = (schoolId=':schoolId') => this.temp + 'engagement/&/progress/' + schoolId
+        engagementAndProgress = (schoolId=':schoolId') => this.temp + 'engagement/&/progress/' + schoolId;
+        facilitatorSignin = () => this.temp + 'facilitator/signin';
+        facilitatorLogs = () => this.temp + 'facilitator/logs';
+        studentLogs = () => this.temp + 'student/logs';
         concat = () =>{
             this.temp = this.default.replace('*', '');
             return this;

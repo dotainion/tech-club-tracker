@@ -10,6 +10,8 @@ use src\module\attendance\action\ListAttendanceAction;
 use src\module\attendance\action\ListStudentAction;
 use src\module\attendance\action\SetAttendanceAction;
 use src\module\attendance\action\SetStudentAction;
+use src\module\clock\action\ListClockAction;
+use src\module\clock\action\SetClockAction;
 use tools\infrastructure\Https;
 use src\module\login\action\FetchSessionAction;
 use src\module\login\action\LoginAction;
@@ -74,47 +76,64 @@ class Router{
             var_dump('Creating admin account and roles...<br/>');
             $userId = (new Id())->new()->toString();
             try{
-            (new CreateUserService())->process(
-                $userId,
-                'Admin', 
-                'Administrator', 
-                'example@example.com', 
-                null, 
-                'Male', 
-                'User1234#', 
-                'User1234#',
-                RoleAttributes::ADMIN, 
-                true, 
-                true, 
-                true, 
-                true
-            );
+                (new CreateUserService())->process(
+                    $userId,
+                    'Admin', 
+                    'Administrator', 
+                    'example@example.com', 
+                    null, 
+                    'Male', 
+                    'User1234#', 
+                    'User1234#',
+                    RoleAttributes::ADMIN, 
+                    true, 
+                    true, 
+                    true, 
+                    true
+                );
             }catch(Throwable $ex){
                 var_dump($ex->getMessage());
                 var_dump('<br/>');
             }
             var_dump('Creating default groups...<br/>');
-            (new SetGroupService(false))->process(
-                (new Id())->new()->toString(),
-                'Beginner',
-                'For students who are just starting out. Learn the fundamentals, explore basic concepts, and get hands-on experience with simple projects.',
-                false,
-                false
-            );
-            (new SetGroupService(false))->process(
-                (new Id())->new()->toString(),
-                'Intermediate',
-                'For students with some experience. Build on your skills, work on larger projects, and start solving real-world problems with guidance.',
-                false,
-                false
-            );
-            (new SetGroupService(false))->process(
-                (new Id())->new()->toString(),
-                'Advanced',
-                'For experienced students. Tackle complex projects, explore advanced topics, and develop skills to create professional-level solutions.',
-                false,
-                false
-            );
+            try{
+                (new SetGroupService(false))->process(
+                    (new Id())->new()->toString(),
+                    'Beginner',
+                    'For students who are just starting out. Learn the fundamentals, explore basic concepts, and get hands-on experience with simple projects.',
+                    false,
+                    false
+                );
+            }catch(Throwable $ex){
+                var_dump($ex->getMessage());
+                var_dump('<br/>');
+            }
+            var_dump('Creating default groups...<br/>');
+            try{
+                (new SetGroupService(false))->process(
+                    (new Id())->new()->toString(),
+                    'Intermediate',
+                    'For students with some experience. Build on your skills, work on larger projects, and start solving real-world problems with guidance.',
+                    false,
+                    false
+                );
+            }catch(Throwable $ex){
+                var_dump($ex->getMessage());
+                var_dump('<br/>');
+            }
+            var_dump('Creating default groups...<br/>');
+            try{
+                (new SetGroupService(false))->process(
+                    (new Id())->new()->toString(),
+                    'Advanced',
+                    'For experienced students. Tackle complex projects, explore advanced topics, and develop skills to create professional-level solutions.',
+                    false,
+                    false
+                );
+            }catch(Throwable $ex){
+                var_dump($ex->getMessage());
+                var_dump('<br/>');
+            }
             var_dump('Task completed!');
         });
 
@@ -232,6 +251,14 @@ class Router{
 
         $this->request->route('/set/settings', function ($req){
             return new SetSettingsAction();
+        });
+
+        $this->request->route('/list/log', function ($req){
+            return new ListClockAction();
+        });
+
+        $this->request->route('/set/log', function ($req){
+            return new SetClockAction();
         });
     }
 

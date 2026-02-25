@@ -7,7 +7,7 @@ import { PageHeader, PageHeaderItem } from "../components/PageHeader";
 import { NoResultDisplay } from "../components/NoResultDisplay";
 import { Spinner } from "../components/Spinner";
 import { FaEllipsisVertical } from "react-icons/fa6";
-import { AddButton } from "../wedgits/AddButton";
+import { AddButton } from "../widgets/AddButton";
 import { Page } from "../layout/Page";
 
 export const Schools = () =>{

@@ -1,18 +1,24 @@
 import { MdMenu } from "react-icons/md"
-import { createContext, useContext, useState } from "react"
+import { createContext, useContext, useEffect, useRef, useState } from "react"
 import { useNavigate } from "react-router-dom";
 import { routes } from "../routes/Routes";
 import { features } from "../contents/Features";
 import { Notification } from "../components/Notification";
+import { GiDonkey } from "react-icons/gi";
 
 const Context = createContext();
 
+export const useMenu = () => useContext(Context);
+
 export const MenuProvider = ({children}) =>{
-    const [showMenu, setShowMenu] = useState();
+    const [showMenu, setShowMenu] = useState(false);
+    const [menuPortal, setMenuPortal] = useState(null);
 
     const values = {
         showMenu,
-        setShowMenu
+        setShowMenu,
+        menuPortal,
+        setMenuPortal,
     }
     return(
         <Context.Provider value={values}>
@@ -46,8 +52,12 @@ const Menu = () =>{
 
     if(!showMenu) return null;
     return(
-        <div className="expandable-x position-fixed vh-100 top-0 start-0" style={{zIndex: 1060}}>
-            <div className="list-group position-relative bg-white h-100 overflow-auto" style={{maxWidth: '250px', paddingTop: '60px', zIndex: '2'}}>
+        <div className="expandable-x position-fixed vh-100 top-0 start-0 user-select-none" style={{zIndex: 1060}}>
+            <div className="list-group position-relative bg-white h-100 overflow-auto pt-2" style={{maxWidth: '250px', zIndex: '2'}}>
+                <span className="d-flex align-items-center gap-3 text-start border-0 mb-3">
+                    <MenuButton className="ms-4" />
+                    <strong className="text-truncate">TECH CLUB</strong>
+                </span>
                 {menu.map((mu, key)=>(
                     <button
                         onClick={()=>{
@@ -70,13 +80,31 @@ const Menu = () =>{
 }
 
 export const MenuHeader = () =>{
+    const { setMenuPortal } = useContext(Context);
+
+    const portalRef = useRef();
+
+    useEffect(()=>{
+        setMenuPortal(portalRef.current);
+    }, []);
+
     return(
-        <div className="position-sticky top-0 start-0 bg-transparent px-3 py-2 user-select-none" style={{zIndex: 1050}}>
-            <div className="d-none bg-white opacity-75 w-100 h-100 position-absolute top-0 start-0"></div>
-            <div className="d-flex gap-3">
-                <MenuButton className="d-sm-none d-block" />
-                <div className="ms-auto">
-                    <Notification />
+        <div className="position-sticky top-0 start-0" style={{zIndex: 1050, marginBottom: '40px'}}>
+            <div className="position-relative bg-transparent px-3 py-2 user-select-none">
+                <div className="bg-white opacity-75 w-100 h-100 position-absolute top-0 start-0"></div>
+                <div className="container position-relative d-flex gap-3" style={{zIndex: 1}}>
+                    <MenuButton className="d-sm-none d-block" />
+                    <GiDonkey className="fs-3" />
+                    <div className="ms-auto">
+                        <Notification />
+                    </div>
+                </div>
+            </div>
+            <div className="container">
+                <div className="position-relative">
+                    <div className="position-absolute end-0">
+                        <div ref={portalRef}></div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -89,7 +117,7 @@ export const MenuButton = ({className}) =>{
         <button
             onClick={()=>setShowMenu(!showMenu)}
             className={`${className || ''} position-relative btn border-0 p-0`}
-            style={{zIndex: 1061}}
+            style={{zIndex: 1071}}
         >
             <MdMenu className="fs-3"/>
         </button>
@@ -101,7 +129,7 @@ const Backdrop = ({show, onClick}) =>{
     return(
         <div
             onClick={onClick}
-            className="position-fixed border border-danger top-0 start-0 bg-dark bg-opacity-10 opacity-50 vw-100 vh-100"
+            className="position-fixed border top-0 start-0 bg-dark bg-opacity-10 opacity-50 vw-100 vh-100"
             style={{zIndex: '1'}}
         ></div>
 

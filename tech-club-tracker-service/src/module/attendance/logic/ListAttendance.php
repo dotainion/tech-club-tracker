@@ -49,4 +49,16 @@ class ListAttendance{
             'date' => $this->request->get('date')
         ]);
     }
+
+    public function list(?Id $attendanceId, ?Id $studentId, ?Id $groupId, ?Id $date):Collector{
+        if(!$attendanceId && !$studentId && !$groupId && !$date){
+            return new Collector();
+        }
+        return $this->repo->listAttendance([
+            'attendanceId' => $attendanceId,
+            'studentId' => $studentId,
+            'groupId' => $groupId,
+            'date' => $date
+        ]);
+    }
 }

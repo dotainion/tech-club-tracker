@@ -1,6 +1,5 @@
 import { HashRouter, Navigate, Route, Routes } from 'react-router-dom'
 import { Student } from './pages/Sudent'
-import { Attendance } from './pages/Attendance'
 import { Schools } from './pages/Schools'
 import { School } from './pages/School'
 import { Home } from './pages/Home'
@@ -28,6 +27,7 @@ import { Error404 } from './errors/Error404'
 import { Logout } from './pages/Logout'
 import { AdminUserSettings } from './admin/AdminUserSettings'
 import { AdminAssignSchools } from './admin/AdminAsignSchools'
+import { MarkAttendance } from './pages/MarkAttendance'
 import { AttendanceSchoolSelection } from './pages/AttendanceSchoolSelection'
 import { AttendanceGroupSelection } from './pages/AttendanceGroupSelection'
 import { AdminGroups } from './admin/AdminGroups'
@@ -37,6 +37,10 @@ import { EngagementAndProgress } from './pages/EngagementAndProgress'
 import { AdminAssignToGroup } from './admin/AdminAssignToGroup'
 import { PasswordRecovery } from './admin/PasswordRecovery'
 import { UpdateByToken } from './account/UpdateByToken'
+import { Attendance } from './pages/Attendance'
+import { FacilitatorSignin } from './pages/FacilitatorSignin'
+import { FacilitatorLogs } from './pages/FacilitatorLogs'
+import { StudentLogs } from './pages/StudentLogs'
 
 export const App = () =>{
     return (
@@ -45,6 +49,7 @@ export const App = () =>{
                 <Routes>
                     <Route path={routes.auth().default} element={<AuthAccessPoint/>}>
                         <Route path={routes.auth().attendance()} element={<Attendance/>}/>
+                        <Route path={routes.auth().markAttendance()} element={<MarkAttendance/>}/>
                         <Route path={routes.auth().attendanceSchoolSelection()} element={<AttendanceSchoolSelection/>}/>
                         <Route path={routes.auth().attendanceGroupSelection()} element={<AttendanceGroupSelection/>}/>
                         <Route path={routes.auth().home()} element={<Home/>}/>
@@ -55,6 +60,9 @@ export const App = () =>{
                         <Route path={routes.auth().students()} element={<Students/>}/>
                         <Route path={routes.auth().student()} element={<Student/>}/>
                         <Route path={routes.auth().engagementAndProgress()} element={<EngagementAndProgress/>}/>
+                        <Route path={routes.auth().facilitatorSignin()} element={<FacilitatorSignin/>}/>
+                        <Route path={routes.auth().facilitatorLogs()} element={<FacilitatorLogs/>}/>
+                        <Route path={routes.auth().studentLogs()} element={<StudentLogs/>}/>
                         <Route path="*" element={<Error404/>}/>
                     </Route>
                     <Route path={routes.admin().default} element={<AdminAccessPoint/>}>

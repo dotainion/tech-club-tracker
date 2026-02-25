@@ -1,5 +1,7 @@
 import { useNavigate } from "react-router-dom";
 import { routes } from "../routes/Routes";
+import { Page } from "../layout/Page";
+import { PageHeader } from "../components/PageHeader";
 
 export const Admin = () => {
     const navigate = useNavigate();
@@ -34,18 +36,24 @@ export const Admin = () => {
     ];
 
     return (
-        <div className="container py-5">
-            <div className="mb-5 rounded-3 bg-light p-4">
-                <h5 className="fw-bold mb-3">Welcome to the Administrative Portal</h5>
-                <p className="text-muted small mb-0">
-                    This dashboard provides quick access to all key sections of the system.
-                </p>
-                <p className="text-muted small mb-0">
-                    Navigate through staff management, school profiles, reports, and settings efficiently.
-                </p>
-            </div>
+        <Page>
+            <PageHeader
+                title="Welcome to the Administrative Portal"
+                subTitle={
+                    <>
+                        <span className="text-muted small mb-0">
+                            This dashboard provides quick access to all key sections of the system.
+                        </span>
+                        <br></br>
+                        <span className="text-muted small mb-0">
+                            Navigate through staff management, school profiles, reports, and settings efficiently.
+                        </span>
+                    </>
+                }
+                noMenu
+            />
 
-            <div className="row g-4">
+            <div className="row g-4 mt-4">
                 {options.map((opt) => (
                     <div className="col-6 col-md-4 col-lg-3" key={opt.title}>
                         <div onClick={()=>navigate(opt.route)} className="card as-btn border rounded-4 h-100 text-center">
@@ -58,6 +66,6 @@ export const Admin = () => {
                     </div>
                 ))}
             </div>
-        </div>
+        </Page>
     );
 };

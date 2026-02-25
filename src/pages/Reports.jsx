@@ -10,8 +10,8 @@ import { useAuth } from "../providers/AuthProvider";
 import reportImg from "../images/report.png";
 import { DeleteReport } from "../components/DeleteReport";
 import { CgClose } from "react-icons/cg";
-import { AddButton } from "../wedgits/AddButton";
-import { StackFilter } from "../wedgits/StackFilter";
+import { AddButton } from "../widgets/AddButton";
+import { StackFilter } from "../widgets/StackFilter";
 import { Page } from "../layout/Page";
 import { dateTime } from "../utils/DateTime";
 

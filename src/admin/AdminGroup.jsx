@@ -7,7 +7,7 @@ import { PageHeader, PageHeaderItem } from "../components/PageHeader";
 import { useRouteDetective } from "../hooks/RouteDetectiveProvider";
 import { ParseError } from "../utils/ParseError";
 import { ErrorDisplay } from "../components/ErrorDisplay";
-import { SubmitButton } from "../wedgits/SubmitButton";
+import { SubmitButton } from "../widgets/SubmitButton";
 import { Page } from "../layout/Page";
 
 export const AdminGroup = () => {
@@ -87,7 +87,6 @@ export const AdminGroup = () => {
             return;
         }
         api.group.list({groupId: params.groupId}).then((response)=>{
-            console.log(response.data.data[0]);
             setGroup(response.data.data[0]);
         }).catch((error)=>{
             
@@ -117,6 +116,7 @@ export const AdminGroup = () => {
                                     loading={deleting}
                                     icon="delete"
                                     title="Delete Group"
+                                    requireConfirmation
                                 />
                             </>
                         )}

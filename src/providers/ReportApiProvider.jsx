@@ -1,6 +1,6 @@
 import { createContext, useContext, useState } from "react";
 import { api } from "../request/Api";
-import { SubmitButton } from "../wedgits/SubmitButton"
+import { SubmitButton } from "../widgets/SubmitButton"
 
 const Context = createContext();
 

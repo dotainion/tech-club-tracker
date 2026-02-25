@@ -6,7 +6,7 @@ import { api } from "../request/Api";
 import { useAuth } from "../providers/AuthProvider";
 import { PageHeader, PageHeaderItem } from "../components/PageHeader";
 import { useRouteDetective } from "../hooks/RouteDetectiveProvider";
-import { SubmitButton } from "../wedgits/SubmitButton";
+import { SubmitButton } from "../widgets/SubmitButton";
 import { Page } from "../layout/Page";
 
 export const AdminStudent = () => {
@@ -105,6 +105,7 @@ export const AdminStudent = () => {
                             loading={deleting}
                             icon="delete"
                             title="Delete Student"
+                            requireConfirmation
                         />
                     </>
                 ) : (

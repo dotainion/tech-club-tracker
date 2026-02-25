@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { routes } from "../routes/Routes";
 import { PageHeader } from "../components/PageHeader";
-import { Switch } from "../wedgits/Switch";
+import { Switch } from "../widgets/Switch";
 import { api } from "../request/Api";
 import { Spinner } from "../components/Spinner";
 import { Page } from "../layout/Page";

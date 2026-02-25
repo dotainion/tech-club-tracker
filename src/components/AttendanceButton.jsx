@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { api } from "../request/Api";
-import { SubmitButton } from "../wedgits/SubmitButton";
+import { SubmitButton } from "../widgets/SubmitButton";
 import { useParams } from "react-router-dom";
 import { BiQuestionMark } from "react-icons/bi";
 import { createPortal } from "react-dom";

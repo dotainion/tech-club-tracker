@@ -1,9 +1,9 @@
 import { useEffect, useState } from "react";
-import { DatePicker } from "../wedgits/DatePicker";
+import { DatePicker } from "../widgets/DatePicker";
 import { api } from "../request/Api";
 import { Modal, ModalBody } from "./Modal";
 import { Spinner } from "./Spinner";
-import { SubmitButton } from "../wedgits/SubmitButton";
+import { SubmitButton } from "../widgets/SubmitButton";
 import { useAuth } from "../providers/AuthProvider";
 import { useLocation, useParams } from "react-router-dom";
 import { DelayUi } from "./DelayUi";

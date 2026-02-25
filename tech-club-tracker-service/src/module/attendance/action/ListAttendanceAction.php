@@ -17,8 +17,8 @@ class ListAttendanceAction extends Request implements IAction{
         return $this->service->process(
             $this->get('attendanceId'),
             $this->get('studentId'),
-            $this->get('roomId'),
-            $this->get('all')
+            $this->get('groupId'),
+            $this->get('date')
         );
     }
 }

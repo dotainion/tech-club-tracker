@@ -55,7 +55,7 @@ export const AttendanceGroupSelection = () =>{
                         groups.length ?
                         groups.map((group) => (
                             <div className="col-12 col-sm-6 col-md-4 col-lg-3" key={group.id}>
-                                <div onClick={()=>navigate(routes.auth().concat().attendance(group.id))} className="card as-btn border p-4 h-100 text-center">
+                                <div onClick={()=>navigate(routes.auth().concat().markAttendance(group.id))} className="card as-btn border p-4 h-100 text-center">
                                     <h6 className="fw-bold">{group.attributes.name}</h6>
                                     <div className="small text-muted mb-2">{group.attributes.description}</div>
                                     <div className="d-flex flex-wrap justify-content-center gap-2 text-muted small">

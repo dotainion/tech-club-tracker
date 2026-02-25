@@ -2,7 +2,7 @@ import { useEffect, useState } from "react"
 import { api } from "../request/Api";
 import { Spinner } from "./Spinner";
 import { NoResultDisplay } from "./NoResultDisplay";
-import { AddButton } from "../wedgits/AddButton";
+import { AddButton } from "../widgets/AddButton";
 import { useNavigate } from "react-router-dom";
 import { routes } from "../routes/Routes";
 

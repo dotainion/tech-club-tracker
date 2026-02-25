@@ -106,6 +106,15 @@ class Schema extends ToolsSchema{
         return $this->sql->execute();
     }
 
+    public function clock(){
+        $this->sql->create('clock')
+            ->column('clockId')->bindary()
+            ->column('userId')->bindary()
+            ->column('in')->timestamp()
+            ->column('out')->nullableTimestamp();
+        return $this->sql->execute();
+    }
+
     public function report(){
         $this->sql->create('report')
             ->column('reportId')->bindary()

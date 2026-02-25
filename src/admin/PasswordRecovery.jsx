@@ -1,6 +1,6 @@
 import { MdPassword } from "react-icons/md"
 import { PageHeader } from "../components/PageHeader"
-import { SubmitButton } from "../wedgits/SubmitButton"
+import { SubmitButton } from "../widgets/SubmitButton"
 import { useEffect, useState } from "react"
 import { useNavigate, useParams } from "react-router-dom"
 import { api } from "../request/Api"

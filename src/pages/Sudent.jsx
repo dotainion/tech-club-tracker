@@ -8,7 +8,7 @@ import { PageHeader, PageHeaderItem } from "../components/PageHeader";
 import { useRouteDetective } from "../hooks/RouteDetectiveProvider";
 import { ParseError } from "../utils/ParseError";
 import { ErrorDisplay } from "../components/ErrorDisplay";
-import { SubmitButton } from "../wedgits/SubmitButton";
+import { SubmitButton } from "../widgets/SubmitButton";
 import { Page } from "../layout/Page";
 
 export const Student = () => {
@@ -112,13 +112,14 @@ export const Student = () => {
                                 loading={deleting}
                                 icon="delete"
                                 title="Delete Student"
+                                requireConfirmation
                             />
                         )}
                     </>
                 ) : (
                     <>
                         <PageHeaderItem
-                            onClick={()=>navigate(routes.auth().concat().attendance())}
+                            onClick={()=>navigate(routes.auth().concat().markAttendance())}
                             icon="view"
                             title="View Attendance"
                         />

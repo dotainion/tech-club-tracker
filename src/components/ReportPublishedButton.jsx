@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from "react";
-import { Switch } from "../wedgits/Switch"
+import { Switch } from "../widgets/Switch"
 import { ParseError } from "../utils/ParseError";
 import { api } from "../request/Api";
 import { Spinner } from "./Spinner";

@@ -28,7 +28,7 @@ export const MenuLayout = ({children}) =>{
     return(
         <MenuProvider>
             <div className="d-flex position-relative vh-100 w-100">
-                <div className="d-flex flex-column overflow-auto h-100 py-2">
+                <div className="d-flex flex-column overflow-auto h-100 user-select-none py-2">
                     <MenuButton className="d-none d-sm-block mb-4" />
                     {menu.map((mu, key)=>(
                         <button

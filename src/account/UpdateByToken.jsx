@@ -4,7 +4,7 @@ import { useAuth } from "../providers/AuthProvider";
 import { useNavigate, useParams } from "react-router-dom";
 import { routes } from "../routes/Routes";
 import { DelayUi } from "../components/DelayUi";
-import { SubmitButton } from "../wedgits/SubmitButton";
+import { SubmitButton } from "../widgets/SubmitButton";
 import { ErrorDisplay } from "../components/ErrorDisplay";
 import { ParseError } from "../utils/ParseError";
 import { api } from "../request/Api";

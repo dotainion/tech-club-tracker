@@ -1,11 +1,11 @@
 import { useNavigate } from "react-router-dom";
-import { DatePicker } from "../wedgits/DatePicker";
+import { DatePicker } from "../widgets/DatePicker";
 import { PageHeader } from "../components/PageHeader";
 import { useEffect, useRef, useState } from "react";
 import { api } from "../request/Api";
 import { Spinner } from "../components/Spinner";
 import { NoResultDisplay } from "../components/NoResultDisplay";
-import { StackFilter } from "../wedgits/StackFilter";
+import { StackFilter } from "../widgets/StackFilter";
 import { Page } from "../layout/Page";
 import { routes } from "../routes/Routes";
 import { HiOutlineDocumentReport } from "react-icons/hi";

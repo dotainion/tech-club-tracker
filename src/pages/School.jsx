@@ -6,7 +6,7 @@ import { PageHeader, PageHeaderItem } from "../components/PageHeader";
 import { api } from "../request/Api";
 import { SpinnerConditional } from "../components/SpinnerConditional";
 import { ParseError } from "../utils/ParseError";
-import { SubmitButton } from "../wedgits/SubmitButton";
+import { SubmitButton } from "../widgets/SubmitButton";
 import { ErrorDisplay } from "../components/ErrorDisplay";
 import { SchoolDisplay } from "../components/SchoolDisplay";
 import { SchoolDisplayGroups } from "../components/SchoolDisplayGroups";

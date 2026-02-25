@@ -5,7 +5,7 @@ import { PageHeader, PageHeaderItem } from "../components/PageHeader";
 import { api } from "../request/Api";
 import { NoResultDisplay } from "../components/NoResultDisplay";
 import { Spinner } from "../components/Spinner";
-import { AddButton } from "../wedgits/AddButton";
+import { AddButton } from "../widgets/AddButton";
 import { Page } from "../layout/Page";
 
 export const AdminSchools = () =>{
