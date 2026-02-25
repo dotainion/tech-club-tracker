@@ -67,7 +67,7 @@ export const AdminSchools = () =>{
                         <NoResultDisplay
                             icon="school"
                             title="No school available"
-                            description="adfasdf asdasgasdasdfasdf asdfasd asda sd as asdf asdf a"
+                            description="Add your first school to get started."
                         >
                             <div className="py-3">
                                 <button className="btn btn-sm btn-outline-dark px-4 rounded-pill" onClick={(e)=>navigate(routes.admin().concat().school())}>

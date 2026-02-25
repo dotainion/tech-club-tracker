@@ -67,7 +67,7 @@ export const Users = () =>{
                         <NoResultDisplay
                             icon="user"
                             title="No user available"
-                            description="adfasdf asdasgasdasdfasdf asdfasd asda sd as asdf asdf a"
+                            description="No users have been added yet. Once users are created, they will appear here."
                         />
                     )}
                 </div>

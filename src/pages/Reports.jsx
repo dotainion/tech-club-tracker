@@ -107,7 +107,7 @@ export const Reports = () => {
                         <NoResultDisplay
                             icon="report"
                             title="No report available"
-                            description="adfasdf asdasgasdasdfasdf asdfasd asda sd as asdf asdf a"
+                            description="No reports have been created yet. You can create a new report to get started."
                         >
                             <div className="py-3">
                                 <button className="btn btn-sm btn-outline-dark px-4 rounded-pill" onClick={(e)=>setShowReportOverlay(true)}>

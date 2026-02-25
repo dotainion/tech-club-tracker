@@ -75,7 +75,7 @@ export const StudentLogs = () => {
                         <NoResultDisplay
                             icon="log"
                             title="No student log"
-                            description="adfasdf asdasgasdasdfasdf asdfasd asda sd as asdf asdf a"
+                            description="No student logs have been recorded yet. Once logs are added, they will appear here."
                         />
                     )}
                 </>

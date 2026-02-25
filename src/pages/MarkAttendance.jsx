@@ -122,7 +122,7 @@ export const MarkAttendance = () =>{
                                     <NoResultDisplay
                                         icon="student"
                                         title="No student available"
-                                        description="adfasdf asdasgasdasdfasdf asdfasd asda sd as asdf asdf a"
+                                        description="No students have been added yet. Once students are registered, you can start recording attendance."
                                     >
                                         <div className="mb-3">
                                             <button
@@ -138,7 +138,7 @@ export const MarkAttendance = () =>{
                         <NoResultDisplay
                             icon="group"
                             title="No group available"
-                            description="adfasdf asdasgasdasdfasdf asdfasd asda sd as asdf asdf a"
+                            description="No groups are available for this school. You can choose a different school to view its groups."
                         >
                             <div className="mb-3">
                                 <button

@@ -68,7 +68,7 @@ export const AdminStudents = () => {
                         <NoResultDisplay
                             icon="student"
                             title="No student available"
-                            description="adfasdf asdasgasdasdfasdf asdfasd asda sd as asdf asdf a"
+                            description="Add your first student to get started."
                         >
                             <div className="my-3">
                                 <button

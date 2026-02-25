@@ -87,7 +87,7 @@ export const FacilitatorLogs = () => {
                         <NoResultDisplay
                             icon="log"
                             title="No facilitator log"
-                            description="adfasdf asdasgasdasdfasdf asdfasd asda sd as asdf asdf a"
+                            description="No facilitator logs have been recorded yet. Once logs are added, they will appear here."
                         />
                     )}
                 </>

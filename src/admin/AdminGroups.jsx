@@ -62,7 +62,7 @@ export const AdminGroups = () =>{
                         <NoResultDisplay
                             icon="group"
                             title="No group available"
-                            description="adfasdf asdasgasdasdfasdf asdfasd asda sd as asdf asdf a"
+                            description="Create your first group to get started."
                         >
                             <div className="my-3">
                                 <button

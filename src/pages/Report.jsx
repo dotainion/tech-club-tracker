@@ -197,7 +197,7 @@ export const Report = () => {
                             <NoResultDisplay
                                 icon="report"
                                 title="Report not found"
-                                description="adfasdf asdasgasdasdfasdf asdfasd asda sd as asdf asdf a"
+                                description="No reports have been generated yet. Once reports are available, they will appear here."
                             />
                         )}
                     </>

@@ -58,7 +58,7 @@ export const AttendanceSchoolSelection = () =>{
                         <NoResultDisplay
                             icon="school"
                             title="No school available"
-                            description="adfasdf asdasgasdasdfasdf asdfasd asda sd as asdf asdf a"
+                            description="No schools have been added yet."
                         >
                             {isAdmin ? (
                                 <button

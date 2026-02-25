@@ -87,7 +87,7 @@ export const Schools = () =>{
                         <NoResultDisplay
                             icon="school"
                             title="No school available"
-                            description="adfasdf asdasgasdasdfasdf asdfasd asda sd as asdf asdf a"
+                            description="No schools have been added yet. You can add a new school to get started."
                         >
                             <div className="py-3">
                                 <button onClick={(e)=>navigate(routes.auth().concat().school())} className="btn btn-sm btn-outline-dark px-4 rounded-pill">

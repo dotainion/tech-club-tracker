@@ -71,7 +71,7 @@ export const AttendanceGroupSelection = () =>{
                         <NoResultDisplay
                             icon="group"
                             title="No group available"
-                            description="adfasdf asdasgasdasdfasdf asdfasd asda sd as asdf asdf a"
+                            description="No groups have been created yet. Once a group is added, it will appear here."
                         />
                     }
                 </div>
