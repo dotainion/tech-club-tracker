@@ -6,7 +6,7 @@ import { useNavigate } from "react-router-dom";
 export const EngagementAndProgress = () => {
     const navigate = useNavigate();
     return (
-        <Page className="position-relative">
+        <Page>
             <EngagementAndProgressProvider>
                 <PageHeader
                     title="Track Daily Engagement & Progress"

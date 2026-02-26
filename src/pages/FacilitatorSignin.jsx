@@ -9,6 +9,7 @@ import { dateTime } from "../utils/DateTime"
 import { Spinner } from "../components/Spinner"
 import { SubmitButton } from "../widgets/SubmitButton"
 import { ParseError } from "../utils/ParseError"
+import { GrClose } from "react-icons/gr"
 
 export const FacilitatorSignin = () => {
     const { user } = useAuth();
@@ -159,14 +160,25 @@ export const FacilitatorSignin = () => {
                                         value={manualTime}
                                     />
                                 )}
-                                <button
-                                    onClick={()=>setEditTimeMode(!editTimeMode)}
-                                    className="btn btn-outline-secondary btn-sm"
-                                    title="Edit Time"
-                                    type="button"
-                                >
-                                    ✏️
-                                </button>
+                                {editTimeMode ? (
+                                    <button
+                                        onClick={()=>setEditTimeMode(false)}
+                                        className="btn btn-outline-dark btn-sm"
+                                        title="Edit Time"
+                                        type="button"
+                                    >
+                                        <GrClose />
+                                    </button>
+                                ):(
+                                    <button
+                                        onClick={()=>setEditTimeMode(true)}
+                                        className="btn btn-outline-dark btn-sm"
+                                        title="Edit Time"
+                                        type="button"
+                                    >
+                                        ✏️
+                                    </button>
+                                )}
                             </div>
                         </div>
                     </div>

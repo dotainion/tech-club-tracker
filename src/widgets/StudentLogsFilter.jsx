@@ -18,14 +18,6 @@ export const StudentLogsFilter = ({ onChange }) => {
     const [availableGroups, setAvailableGroups] = useState([]);
     const [availableStudents, setAvailableStudents] = useState([]);
 
-    // Fetch data internally
-    useEffect(() => {
-        api.school.list()
-            .then((response) => setSchools(response.data.data))
-            .catch((err) => console.error(err))
-            .finally(() => setLoading(false))
-    }, [])
-
     // Update groups when school changes
     useEffect(() => {
         const school = schools.find(s => s.id === selectedSchoolId)
@@ -37,7 +29,7 @@ export const StudentLogsFilter = ({ onChange }) => {
         }
         setAvailableStudents([])
         setSelectedStudentId("")
-    }, [selectedSchoolId, schools])
+    }, [selectedSchoolId, schools]);
 
     // Update students when group changes
     useEffect(() => {
@@ -48,7 +40,7 @@ export const StudentLogsFilter = ({ onChange }) => {
             setAvailableStudents([])
             setSelectedStudentId('')
         }
-    }, [selectedGroupId, availableGroups])
+    }, [selectedGroupId, availableGroups]);
 
     // Notify parent of filter change
     useEffect(() => {
@@ -60,7 +52,16 @@ export const StudentLogsFilter = ({ onChange }) => {
                 month: selectedMonthId
             })
         }
-    }, [selectedSchoolId, selectedGroupId, selectedStudentId, selectedMonthId, loading, onChange])
+    }, [selectedSchoolId, selectedGroupId, selectedStudentId, selectedMonthId, loading, onChange]);
+
+    // Fetch data internally
+    useEffect(() => {
+        api.school.list().then((response) => {
+            setSchools(response.data.data);
+        }).catch((err) => {
+            
+        }).finally(() => setLoading(false));
+    }, []);
 
     if (loading) return <Spinner show inline />
 

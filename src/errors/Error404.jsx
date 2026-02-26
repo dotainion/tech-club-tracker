@@ -17,13 +17,11 @@ export const Error404 = () =>{
 
     return(
         <div className="w-100 vh-100 d-flex align-items-center justify-content-center py-5">
-            <div className="text-center card">
-                <div className="card-body p-5">
+            <div className="card border-0">
+                <div className="card-body text-center p-5">
                     <h4>Oooops</h4>
-                    <h5 className="text-muted">
-                        Your page not found
-                        <button onClick={to} className="btn btn-sm btn-outline-primary rounded-pill px-4 ms-2">Go home</button>
-                    </h5>
+                    <p className="text-muted">Your page not found</p>
+                    <button onClick={to} className="btn btn-sm btn-outline-primary rounded-pill px-4">Go home</button>
                 </div>
             </div>
         </div>

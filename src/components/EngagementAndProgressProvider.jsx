@@ -266,8 +266,6 @@ export const EngagementAndProgressProvider = ({children}) => {
         }).finally(()=>setLoading(false));
     }, []);
 
-    if(loading) return <Spinner show inline />;
-
     return (
         <Context.Provider value={values}>
             {children}
@@ -287,6 +285,7 @@ export const EngagementAndProgressProvider = ({children}) => {
                     )}
                 </div>
             </div>
+            <Spinner show={loading} />
         </Context.Provider>
     );
 };
@@ -557,7 +556,8 @@ const EngagementAndProgressNoDraftCard = () =>{
         handleCreateDraft,
         loading,
         triggerAnimationDraft,
-        reuseStash
+        reuseStash,
+        draftReports
     } = useContext(Context);
     const { containsDefaultRouteId } = useRouteDetective();
 
@@ -612,7 +612,7 @@ const EngagementAndProgressNoDraftCard = () =>{
                                             ))}
                                         </select>
                                     </div>
-                                    <div className="d-flex justify-content-between">
+                                    <div className="d-flex justify-content-center gap-4">
                                         <div>
                                             {stash.draft ? (
                                                 <button onClick={reuseStash} className="btn btn-sm btn-secondary px-4">

@@ -7,6 +7,7 @@ import { NoResultDisplay } from "../components/NoResultDisplay";
 import { api } from "../request/Api";
 import { routes } from "../routes/Routes";
 import { useNavigate } from "react-router-dom";
+import { Downloadable, DownloadableFileOption, DownloadButton, DownloadProvider } from "../providers/DownloadProvider";
 
 export const StudentLogs = () => {
     const [logs, setLogs] = useState([]);
@@ -30,56 +31,63 @@ export const StudentLogs = () => {
 
     return (
         <Page>
-            <PageHeader
-                title="Student Logs"
-                subTitle="View student attendance by school, group, student, and month."
-            >
-                <PageHeaderItem
-                    onClick={()=>navigate(routes.auth().concat().attendance())}
-                    icon="back"
-                    title="Go Back"
-                />
-            </PageHeader>
+            <DownloadProvider>
+                <PageHeader
+                    title="Student Logs"
+                    subTitle="View student attendance by school, group, student, and month."
+                >
+                    <PageHeaderItem
+                        onClick={()=>navigate(routes.auth().concat().attendance())}
+                        icon="back"
+                        title="Go Back"
+                    />
+                    {logs.length > 0 && <DownloadButton />}
+                </PageHeader>
 
-            {/* Month filter */}
-            <div className="d-flex justify-content-center mb-3 mt-4">
-                <StudentLogsFilter onChange={setFilter} />
-            </div>
+                {/* Month filter */}
+                <div className="d-flex justify-content-center mb-3 mt-4">
+                    <StudentLogsFilter onChange={setFilter} />
+                </div>
 
-            {loading ? <Spinner show inline /> : (
-                <>
-                    {logs.length > 0 ? (
-                        <div className="table-responsive">
-                            <table className="table table-striped table-bordered">
-                                <thead className="table-light">
-                                    <tr>
-                                        <th>Name</th>
-                                        <th>Date</th>
-                                        <th>Clock In</th>
-                                        <th>Clock Out</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    {logs.map((log) => (
-                                        <tr key={log.id}>
-                                            <td>{log.name}</td>
-                                            <td>{log.date}</td>
-                                            <td>{log.clockIn}</td>
-                                            <td>{log.clockOut}</td>
-                                        </tr>
-                                    ))}
-                                </tbody>
-                            </table>
-                        </div>
-                    ):(
-                        <NoResultDisplay
-                            icon="log"
-                            title="No student log"
-                            description="No student logs have been recorded yet. Once logs are added, they will appear here."
-                        />
-                    )}
-                </>
-            )}
+                <DownloadableFileOption name="student-logs" />
+
+                {loading ? <Spinner show inline /> : (
+                    <>
+                        {logs.length > 0 ? (
+                            <Downloadable>
+                                <div className="table-responsive">
+                                    <table className="table table-striped table-bordered">
+                                        <thead className="table-light">
+                                            <tr>
+                                                <th>Name</th>
+                                                <th>Date</th>
+                                                <th>Clock In</th>
+                                                <th>Clock Out</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            {logs.map((log) => (
+                                                <tr key={log.id}>
+                                                    <td>{log.name}</td>
+                                                    <td>{log.date}</td>
+                                                    <td>{log.clockIn}</td>
+                                                    <td>{log.clockOut}</td>
+                                                </tr>
+                                            ))}
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </Downloadable>
+                        ):(
+                            <NoResultDisplay
+                                icon="log"
+                                title="No student log"
+                                description="No student logs have been recorded yet. Once logs are added, they will appear here."
+                            />
+                        )}
+                    </>
+                )}    
+            </DownloadProvider>
         </Page>
     )
 }
