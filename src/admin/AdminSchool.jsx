@@ -10,7 +10,6 @@ import { SchoolDisplay } from "../components/SchoolDisplay";
 import { SubmitButton } from "../widgets/SubmitButton";
 import { SchoolDisplayGroups } from "../components/SchoolDisplayGroups";
 import { Page } from "../layout/Page";
-import { ParseError } from "../utils/ParseError";
 
 const defaultSchool = () =>({
     id: null,
@@ -51,7 +50,7 @@ export const AdminSchool = () =>{
             setSchool(resSchool);
             setEditMode(false);
         }).catch((error)=>{
-            setError(new ParseError().message(error));
+            setError(error.message());
         }).finally(()=>setSaving(false));
     };
 

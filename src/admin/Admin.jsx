@@ -55,7 +55,7 @@ export const Admin = () => {
 
             <div className="row g-4 mt-4">
                 {options.map((opt) => (
-                    <div className="col-6 col-md-4 col-lg-3" key={opt.title}>
+                    <div className="col-12 col-sm-6 col-md-4 col-lg-3" key={opt.title}>
                         <div onClick={()=>navigate(opt.route)} className="card as-btn border rounded-4 h-100 text-center">
                             <div className="card-body">
                                 <span className="fs-3">{opt.icon}</span>

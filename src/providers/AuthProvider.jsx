@@ -30,8 +30,8 @@ export const AuthProvider = ({children}) =>{
         });
     }
 
-    const signOut = () =>{
-        api.auth.logout().then((response)=>{
+    const signOut = async() =>{
+        return api.auth.logout().then((response)=>{
             token.unset();
             api.unsetAuthorizationHeader();
             authenticationHandler(null);
@@ -40,12 +40,19 @@ export const AuthProvider = ({children}) =>{
         });
     }
 
+    const clearCredentials = () =>{
+        token.unset();
+        authenticationHandler(null);
+    }
+
     const values = {
         user,
         authenticated,
         isAdmin,
+        loading,
         signIn,
         signOut,
+        clearCredentials
     }
 
     useEffect(()=>{
@@ -58,7 +65,7 @@ export const AuthProvider = ({children}) =>{
 
     return(
         <Context.Provider value={values}>
-            {loading ? <Spinner show inline /> : children}
+            {children}
         </Context.Provider>
     )
 }

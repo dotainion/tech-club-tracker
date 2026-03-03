@@ -7,7 +7,6 @@ import { SubmitButton } from "../widgets/SubmitButton";
 import { useAuth } from "../providers/AuthProvider";
 import { useLocation, useParams } from "react-router-dom";
 import { DelayUi } from "./DelayUi";
-import { ParseError } from "../utils/ParseError";
 import { CgClose } from "react-icons/cg";
 import { dateTime } from "../utils/DateTime";
 
@@ -194,7 +193,7 @@ export const ReportOverlay = ({ show, report: reportForEditing, editMode, onClos
             onSuccess?.(response.data.data[0]);
             close?.();
         }).catch((error)=>{
-            setError(new ParseError().message(error));
+            setError(error.message());
         }).finally(()=>setSaving(false));
     };
 

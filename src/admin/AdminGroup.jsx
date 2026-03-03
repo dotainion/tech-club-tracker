@@ -5,7 +5,6 @@ import { api } from "../request/Api";
 import { Spinner } from "../components/Spinner";
 import { PageHeader, PageHeaderItem } from "../components/PageHeader";
 import { useRouteDetective } from "../hooks/RouteDetectiveProvider";
-import { ParseError } from "../utils/ParseError";
 import { ErrorDisplay } from "../components/ErrorDisplay";
 import { SubmitButton } from "../widgets/SubmitButton";
 import { Page } from "../layout/Page";
@@ -43,7 +42,7 @@ export const AdminGroup = () => {
         api.group.set(data).then((response)=>{
             navigate(routes.admin().concat().group(response.data.data[0].id));
         }).catch((error)=>{
-            setError(new ParseError().message(error));
+            setError(error.message());
         }).finally(()=>setSaving(false));
     };
 
@@ -58,7 +57,7 @@ export const AdminGroup = () => {
         api.group.set(data).then((response)=>{
             navigate(routes.admin().concat().groups());
         }).catch((error)=>{
-            setError(new ParseError().message(error));
+            setError(error.message());
         }).finally(()=>setDeleting(false));;
     }
 

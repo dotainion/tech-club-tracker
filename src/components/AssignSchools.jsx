@@ -1,6 +1,5 @@
 import { createContext, useContext, useEffect, useState } from "react";
 import { api } from "../request/Api";
-import { ParseError } from "../utils/ParseError";
 import { Spinner } from "./Spinner";
 
 const Context = createContext();
@@ -75,7 +74,7 @@ const AssignSchoolRow = ({school}) =>{
                 assigned: !link.attributes.hide
             });
         }).catch((error)=>{
-            setError(new ParseError().message(error));
+            setError(error.message());
         }).finally(()=>setLoading(false));
     };
 

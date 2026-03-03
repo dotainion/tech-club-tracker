@@ -1,25 +1,27 @@
 import { useEffect, useRef, useState } from "react";
 import { api } from "../request/Api";
 import { Spinner } from "./Spinner";
-import { useParams } from "react-router-dom";
+import { useLocation, useParams } from "react-router-dom";
+
+const defaultStudent = () =>({
+    id: null,
+    attributes: {
+        firstName: '',
+        lastName: '',
+        dob: '',
+        grade: '',
+        email: '',
+        contact: '',
+        group: '',
+        status: 'Active',
+        gender: '',
+        studentLinks: []
+    }
+});
 
 export const StudentDisplay = ({student: currentStudent, onSubmit, onSubmitRef, creatingMode, editMode, children}) =>{
     const [groups, setGroups] = useState([]);
-    const [student, setStudent] = useState({
-        id: null,
-        attributes: {
-            firstName: '',
-            lastName: '',
-            dob: '',
-            grade: '',
-            email: '',
-            contact: '',
-            group: '',
-            status: 'Active',
-            gender: '',
-            studentLinks: []
-        }
-    });
+    const [student, setStudent] = useState(defaultStudent());
     const [loading, setLoading] = useState(true);
 
     const params = useParams();
@@ -33,7 +35,7 @@ export const StudentDisplay = ({student: currentStudent, onSubmit, onSubmitRef, 
                 return didUpdateRef.current.updated = true;
             }
             didUpdateRef.current.count ++;
-        }
+        },
     });
 
     const handleChange = (e) => {

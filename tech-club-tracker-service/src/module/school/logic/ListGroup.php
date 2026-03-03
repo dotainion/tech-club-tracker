@@ -28,6 +28,14 @@ class ListGroup extends BindStudentDependencies{
         return $this->bindDependencies($collector);
     }
 
+    public function bySchoolIdAndGroupId(Id $schoolId, Id $groupId):Collector{
+        $collector = $this->repo->listGroup([
+            'schoolId' => $schoolId,
+            'groupId' => $groupId
+        ]);
+        return $this->bindDependencies($collector);
+    }
+
     public function byGroupIdArray(array $groupIdArray):Collector{
         if(empty($groupIdArray)){
             return new Collector();

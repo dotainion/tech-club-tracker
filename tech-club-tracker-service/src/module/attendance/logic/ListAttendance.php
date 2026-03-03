@@ -50,7 +50,7 @@ class ListAttendance{
         ]);
     }
 
-    public function list(?Id $attendanceId, ?Id $studentId, ?Id $groupId, ?Id $date):Collector{
+    public function list(?Id $attendanceId, ?Id $studentId, ?Id $groupId, ?string $date):Collector{
         if(!$attendanceId && !$studentId && !$groupId && !$date){
             return new Collector();
         }

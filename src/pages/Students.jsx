@@ -1,7 +1,6 @@
 import { useState, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { routes } from "../routes/Routes";
-import { useAuth } from "../providers/AuthProvider";
 import { api } from "../request/Api";
 import { PageHeader, PageHeaderItem } from "../components/PageHeader";
 import { NoResultDisplay } from "../components/NoResultDisplay";
@@ -10,8 +9,6 @@ import { AddButton } from "../widgets/AddButton";
 import { Page } from "../layout/Page";
 
 export const Students = () => {
-    const { isAdmin } = useAuth();
-    
     const [students, setStudents] = useState([]);
     const [loading, setLoading] = useState(true);
 

@@ -22,7 +22,7 @@ class StudentLink implements IObjects{
     }
 
     public function id():IId{
-        return $this->groupId();
+        return (new Id())->new();
     }
 
     public function groupId():IId{

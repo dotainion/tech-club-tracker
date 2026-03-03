@@ -23,10 +23,8 @@ class ListGroupService extends Service{
         $schoolId && Assert::validUuid($schoolId, 'School not found.');
 
         if($groupId && $schoolId){
-            throw new InvalidArgumentException('Dev Error: cant use both groupId and schoolId. Use one or the other.');
-        }
-
-        if($groupId){
+            $collector = $this->group->bySchoolIdAndGroupId(new Id($schoolId), new Id($groupId));
+        }else if($groupId){
             $collector = $this->group->byGroupId(new Id($groupId));
         }else if($schoolId){
             $collector = $this->group->bySchoolId(new Id($schoolId));

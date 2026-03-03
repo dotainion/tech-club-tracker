@@ -3,7 +3,7 @@ import { PageHeader } from "../components/PageHeader";
 import { AssignSchools } from "../components/AssignSchools";
 import { Page } from "../layout/Page";
 import { api } from "../request/Api";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 export const AdminAssignToSchool = () => {
     const [group, setGroup] = useState(null);

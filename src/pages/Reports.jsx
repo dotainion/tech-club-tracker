@@ -1,4 +1,4 @@
-import { useLocation, useNavigate, useParams } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { routes } from "../routes/Routes";
 import { ReportOverlay } from "../components/RepartOverlay";
 import { useEffect, useRef, useState } from "react";
@@ -11,7 +11,7 @@ import reportImg from "../images/report.png";
 import { DeleteReport } from "../components/DeleteReport";
 import { CgClose } from "react-icons/cg";
 import { AddButton } from "../widgets/AddButton";
-import { StackFilter } from "../widgets/StackFilter";
+import { ReportApiFilter } from "../components/ReportApiFilter";
 import { Page } from "../layout/Page";
 import { dateTime } from "../utils/DateTime";
 
@@ -22,7 +22,6 @@ export const Reports = () => {
     const [showReportOverlay, setShowReportOverlay] = useState(false);
     const [loading, setLoading] = useState(true);
     const [filter, setFilter] = useState({
-        limit: 100,
         date: dateTime.now().format('ym').toString(),
         published: null
     });
@@ -62,7 +61,7 @@ export const Reports = () => {
             </PageHeader>
 
             <div className="d-flex justify-content-center mb-4">
-                <StackFilter
+                <ReportApiFilter
                     defaultValues={filter}
                     onChange={setFilter}
                 />

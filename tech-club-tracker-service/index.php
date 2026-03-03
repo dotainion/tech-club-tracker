@@ -3,18 +3,38 @@
 require_once(__DIR__.'/vendor/autoload.php');
 
 use tools\infrastructure\Env;
-use tools\infrastructure\StatusCode;
 use src\router\Router;
-//use Throwable;
+use tools\infrastructure\exeptions\ExceptionMessanger;
 
-try{
-    Env::loadEnv();
-    $status = new StatusCode();
-    $status->handleExeption(function(){
-        $router = new Router(basename(__DIR__));
-        $router->load();
-        $router->execute();
-    });
-}catch(Throwable $ex){
-    echo $ex->getMessage() . PHP_EOL . $ex->getTraceAsString();
+class Index extends ExceptionMessanger{
+    protected bool $hasFallback = false;
+
+    public function __construct(){
+        Env::loadEnv();
+        $this->startSession();
+        $this->allowCorsOriginAccess();
+    }
+
+    public function run():self{
+        return $this->loadFallbackException(function(){
+            $this->handleExeption(function(){
+                $router = new Router(basename(__DIR__));
+                $router->load();
+                $router->execute();
+            });
+        });
+    }
+
+    private function loadFallbackException(callable $callback):self{
+        try{
+            $callback();
+        }catch(Throwable $ex){
+            $this->setExceptionRequirements($ex, $this->INTERNAL_SERVER_ERROR);
+            $this->sendResponse();
+        }
+        return $this;
+    }
 }
+
+$index = new Index();
+$index->run();

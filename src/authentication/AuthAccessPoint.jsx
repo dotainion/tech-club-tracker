@@ -1,11 +1,13 @@
 import { AuthLayout } from "../layout/AuthLayout"
+import { AuthLoading } from "./AuthLoading.jsx"
 import { AuthSecurity } from "./AuthSecurity"
 
 export const AuthAccessPoint = () =>{
     return(
-        <AuthSecurity>
-            <AuthLayout/>
-        </AuthSecurity>
-        
+        <AuthLoading>
+            <AuthSecurity>
+                <AuthLayout/>
+            </AuthSecurity>
+        </AuthLoading>
     )
 }

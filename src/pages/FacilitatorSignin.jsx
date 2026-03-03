@@ -8,7 +8,6 @@ import { api } from "../request/Api"
 import { dateTime } from "../utils/DateTime"
 import { Spinner } from "../components/Spinner"
 import { SubmitButton } from "../widgets/SubmitButton"
-import { ParseError } from "../utils/ParseError"
 import { GrClose } from "react-icons/gr"
 
 export const FacilitatorSignin = () => {
@@ -44,7 +43,7 @@ export const FacilitatorSignin = () => {
             setIsClockedIn(true);
             setEditTimeMode(false);
         }).catch((error)=>{
-            setError(new ParseError().message(error));
+            setError(error.message());
         }).finally(()=>setSaving(false));
     }
 
@@ -62,7 +61,7 @@ export const FacilitatorSignin = () => {
             setIsClockedIn(false);
             setEditTimeMode(false);
         }).catch((error)=>{
-            setError(new ParseError().message(error));
+            setError(error.message());
         }).finally(()=>setSaving(false));
     }
 

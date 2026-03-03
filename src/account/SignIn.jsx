@@ -6,7 +6,6 @@ import { routes } from "../routes/Routes";
 import { DelayUi } from "../components/DelayUi";
 import { SubmitButton } from "../widgets/SubmitButton";
 import { ErrorDisplay } from "../components/ErrorDisplay";
-import { ParseError } from "../utils/ParseError";
 
 export const SignIn = () =>{
     const { user, signIn, signOut, authenticated } = useAuth();
@@ -26,7 +25,7 @@ export const SignIn = () =>{
         signIn(emailRef.current.value, passwordRef.current.value).then(()=>{
             navigate(routes.auth().concat().home());
         }).catch((error)=>{
-            setError(new ParseError().message(error));
+            setError(error.message());
         }).finally(()=>setLoading(false));
     }
 

@@ -27,4 +27,8 @@ export class Auth{
     async updateByRefereshToken(data){
         return await this.api.get('/update/credential/with/refersh/token', data)
     }
+
+    async verifyRefreshToken(data){
+        return await this.api.get('/verify/credential/token', data);
+    }
 }

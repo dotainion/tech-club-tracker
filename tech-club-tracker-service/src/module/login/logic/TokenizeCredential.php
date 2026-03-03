@@ -1,12 +1,12 @@
 <?php
 namespace src\module\login\logic;
 
-use src\module\login\repository\CredentialRepository;
 use tools\infrastructure\DateHelper;
 use tools\infrastructure\ICredential;
 use tools\infrastructure\Id;
 use tools\infrastructure\Token;
 use tools\module\login\factory\CredentialFactory;
+use tools\module\login\repository\CredentialRepository;
 
 class TokenizeCredential{
     protected CredentialRepository $repo;
@@ -18,7 +18,7 @@ class TokenizeCredential{
     }
     
     public function byUserId(Id $userId):ICredential{
-        $collector = $this->repo->listCredentials([
+        $collector = $this->repo->listHasCredential([
             'id' => $userId
         ]);
         $collector->assertHasItem('User not found.');
@@ -32,7 +32,7 @@ class TokenizeCredential{
             'expire' => (new DateHelper())->new()->addDays(3)->toString(),
         ]);
 
-        $this->repo->edit($credential);
+        $this->repo->updateRefereshToken($credential);
         return $credential;
     }
 }

@@ -5,7 +5,7 @@ import { useEffect, useRef, useState } from "react";
 import { api } from "../request/Api";
 import { Spinner } from "../components/Spinner";
 import { NoResultDisplay } from "../components/NoResultDisplay";
-import { StackFilter } from "../widgets/StackFilter";
+import { ReportApiFilter } from "../components/ReportApiFilter";
 import { Page } from "../layout/Page";
 import { routes } from "../routes/Routes";
 import { HiOutlineDocumentReport } from "react-icons/hi";
@@ -19,7 +19,6 @@ export const Analytics = () => {
     const [overallStats, setOverallStats] = useState(null);
     const [dateValue, setDateValue] = useState(today);
     const [published, setPublished] = useState(true);
-    const [limit, setLimit] = useState(100);
     const [loading, setLoading] = useState(true);
 
     const navigate = useNavigate();
@@ -31,13 +30,13 @@ export const Analytics = () => {
         setLoading(true);
         clearTimeout(timeoutRef.current);
         timeoutRef.current = setTimeout(() => {
-            api.report.list({date: dateValue, published, limit}).then((response)=>{
+            api.report.list({date: dateValue, published}).then((response)=>{
                 setReports(response.data.data);
             }).catch(()=>{
                 setReports([]);
             }).finally(()=>setLoading(false));
         }, 500);
-    }, [dateValue, published, limit]);
+    }, [dateValue, published]);
 
 
     // PROCESS ANALYTICS
@@ -152,7 +151,7 @@ export const Analytics = () => {
         });
 
         overall.attendanceRate = (overall.totalPresent + overall.totalAbsent) > 0
-            ? ((overall.totalPresent/(overall.totalPresent+overall.totalAbsent))*100).toFixed(2)
+            ? ((overall.totalPresent/(overall.totalPresent+overall.totalAbsent)) * 100).toFixed(2)
             : 0;
 
         setProcessedReports(newReports);
@@ -167,14 +166,12 @@ export const Analytics = () => {
             </PageHeader>
 
             <div className="d-flex justify-content-center mb-3">
-                <StackFilter
+                <ReportApiFilter
                     defaultValues={{
-                        limit,
                         date: dateValue,
                         published
                     }}
                     onChange={(filter)=>{
-                        setLimit(filter.limit);
                         setDateValue(filter.date);
                         setPublished(filter.published);
                     }}

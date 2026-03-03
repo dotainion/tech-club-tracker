@@ -1,7 +1,6 @@
 <?php
 namespace src\module\attendance\repository;
 
-use tools\infrastructure\Id;
 use src\infrastructure\Repository;
 use src\module\attendance\factory\StudentLinkFactory;
 use src\module\attendance\objects\StudentLink;

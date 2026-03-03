@@ -6,7 +6,6 @@ import { useNavigate, useParams } from "react-router-dom";
 import { FaRegFileAlt, FaPlusCircle } from "react-icons/fa";
 import { api } from "../request/Api";
 import { useAuth } from "../providers/AuthProvider";
-import { ParseError } from "../utils/ParseError";
 import { Spinner } from "../components/Spinner";
 import { useRouteDetective } from "../hooks/RouteDetectiveProvider";
 import { GrGroup } from "react-icons/gr";
@@ -87,7 +86,7 @@ export const EngagementAndProgressProvider = ({children}) => {
         api.report.set(data).then((response)=>{
             setDraftReport(fromReportsMarkFocusAreaAsSaved(response.data.data)[0]);
         }).catch((error)=>{
-            setToast(new ParseError().message(error));
+            setToast(error.message());
         }).finally(()=>setLoading(false));
     };
 
@@ -181,7 +180,7 @@ export const EngagementAndProgressProvider = ({children}) => {
                 return prevDraft.id === draft.id ? draft : prevDraft
             }));
         }).catch((error)=>{
-            setToast(new ParseError().message(error));
+            setToast(error.message());
         }).finally(()=>setLoading(false));
     };
 

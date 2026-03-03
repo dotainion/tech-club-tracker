@@ -11,7 +11,6 @@ import { DeleteReport } from "../components/DeleteReport";
 import { ReportAttendance } from "../components/ReportAttendance";
 import { ReportPublishedButton } from "../components/ReportPublishedButton";
 import { Page } from "../layout/Page";
-import { createPortal } from "react-dom";
 
 export const Report = () => {
     const [report, setReport] = useState(null);

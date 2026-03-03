@@ -13,7 +13,7 @@ export const routes = {
         temp = '';
         default = '/tracker/*';
         attendance = () => this.temp + 'attendance';
-        markAttendance = (groupId=':groupId') => this.temp + 'mark/attendance/' + groupId;
+        markAttendance = (schoolId=':schoolId', groupId=':groupId') => this.temp + 'mark/attendance/' + schoolId + '/' + groupId;
         attendanceSchoolSelection = (userId=':userId') => this.temp + 'attendance/shool/selection/' + userId;
         attendanceGroupSelection = (schoolId=':schoolId') => this.temp + 'attendance/group/selection/' + schoolId;
         home = () => this.temp + 'home';
@@ -60,4 +60,8 @@ export const routes = {
     type: () =>new (class{
         isAdmin = () => window.location.href.includes(routes.admin().concat().temp);
     }),
+    autoHome: ()=>{
+        if(routes.type().isAdmin()) return routes.admin().concat().admin();
+        return routes.auth().concat().home();
+    }
 }

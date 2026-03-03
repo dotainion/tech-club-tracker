@@ -12,13 +12,13 @@ export const features = [
         icon: "📚",
         route: routes.auth().concat().engagementAndProgress()
     },{
-        title: "Reports",
+        title: "My Reports",
         description: "View attendance reports and analytics",
         icon: "📊",
         route: routes.auth().concat().reports()
     },{
-        title: "Schools",
-        description: "Manage schools, groups, and students",   
+        title: "My Schools",
+        description: "Manage schools, groups and students you are assign to",   
         icon: "🏫",
         route: routes.auth().concat().schools()
     },{

@@ -9,8 +9,7 @@ export const Error404 = () =>{
 
     const to = () =>{
         if(authenticated){
-            if(routes.type().isAdmin()) return navigate(routes.admin().concat().admin());
-            return navigate(routes.auth().concat().home());
+            return navigate(routes.autoHome());
         }
         navigate(routes.signin);
     }

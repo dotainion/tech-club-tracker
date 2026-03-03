@@ -3,7 +3,6 @@ import { BiUser } from "react-icons/bi";
 import { useNavigate } from "react-router-dom";
 import { routes } from "../routes/Routes";
 import { api } from "../request/Api";
-import { ParseError } from "../utils/ParseError";
 import { SubmitButton } from "../widgets/SubmitButton";
 import { ErrorDisplay } from "../components/ErrorDisplay";
 
@@ -23,7 +22,7 @@ export const Recovery = () =>{
         api.auth.recover(emailRef.current.value).then((response)=>{
             setSent(true);
         }).catch((error)=>{
-            setError(new ParseError().message(error));
+            setError(error.message());
         }).finally(()=>setLoading(false));
     }
 

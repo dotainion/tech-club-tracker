@@ -14,7 +14,7 @@ export const Notification =  () =>{
             <button className="btn btn-sm border-0" data-bs-toggle="dropdown">
                 <IoNotificationsSharp className={`text-${notifications.length > 0 ? 'danger' : 'secondary'}`} />
             </button>
-            <div className="dropdown-menu overflow-auto" style={{maxHeight: '85vh'}}>
+            <div className="dropdown-menu overflow-auto shadow" style={{maxHeight: '85vh'}}>
                 {
                     notifications.length?
                     notifications.map((_, key)=>(

@@ -19,6 +19,7 @@ use src\module\login\action\LogoutAction;
 use src\module\login\action\SendRecoveryEmailAction;
 use src\module\login\action\UpdateCredentialAction;
 use src\module\login\action\UpdateCredentialByTokenAction;
+use src\module\login\action\VerifyCredentialTokenAction;
 use src\module\report\action\ListReportAction;
 use src\module\report\action\SetReportAction;
 use src\module\school\action\LinkSchoolToGroupAction;
@@ -259,6 +260,10 @@ class Router{
 
         $this->request->route('/set/log', function ($req){
             return new SetClockAction();
+        });
+
+        $this->request->route('/verify/credential/token', function ($req){
+            return new VerifyCredentialTokenAction();
         });
     }
 

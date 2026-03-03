@@ -6,7 +6,6 @@ import { api } from "../request/Api";
 import { Spinner } from "../components/Spinner";
 import { PageHeader, PageHeaderItem } from "../components/PageHeader";
 import { useRouteDetective } from "../hooks/RouteDetectiveProvider";
-import { ParseError } from "../utils/ParseError";
 import { ErrorDisplay } from "../components/ErrorDisplay";
 import { SubmitButton } from "../widgets/SubmitButton";
 import { Page } from "../layout/Page";
@@ -30,7 +29,7 @@ export const Student = () => {
     const save = async(record) =>{
         const data = {
             ...record,
-            groupId: params.groupId,
+            groupId: params.groupId,//todo: dont think group id should be here it should be a array of gorups ids.. double check where its coming from
             schoolId: params.schoolId
         }
         return await api.attendance.setStudent(data)
@@ -42,7 +41,7 @@ export const Student = () => {
         save(record).then((response)=>{
             navigate(routes.auth().concat().student(params.schoolId, response.data.data[0].id));
         }).catch((error)=>{
-            setError(new ParseError().message(error));
+            setError(error.message());
         }).finally(()=>setSaving(false));
     };
 
@@ -60,8 +59,18 @@ export const Student = () => {
         }).then((response)=>{
             navigate(routes.auth().concat().students(params.schoolId));
         }).catch((error)=>{
-            setError(new ParseError().message(error));
+            setError(error.message());
         }).finally(()=>setDeleting(false));;
+    }
+
+    const reset = () =>{
+        setStudent(null);
+        setTimeout(()=>setLoading(false), 0);
+    }
+
+    const cancel = () =>{
+        setEditMode(false);
+        navigate(-1);
     }
 
     routeDetectiveOnCreate(() =>{
@@ -75,16 +84,16 @@ export const Student = () => {
     });
     
     useEffect(()=>{
+        setLoading(true);
         if(containsDefaultRouteId()){
-            setLoading(false);
-            return;
+            return reset();
         }
         api.attendance.students({studentId: params.studentId}).then((response)=>{
             setStudent(response.data.data[0]);
         }).catch((error)=>{
 
         }).finally(()=>setLoading(false));
-    }, []);
+    }, [params.studentId]);
 
     if(loading) return(
         <Spinner show />
@@ -102,7 +111,7 @@ export const Student = () => {
                         />
                         {creatingMode ? (
                             <PageHeaderItem
-                                onClick={()=>setEditMode(false)}
+                                onClick={cancel}
                                 icon="cancel"
                                 title="Cancel"
                             />
@@ -119,7 +128,17 @@ export const Student = () => {
                 ) : (
                     <>
                         <PageHeaderItem
-                            onClick={()=>navigate(routes.auth().concat().markAttendance())}
+                            onClick={()=>navigate(routes.auth().concat().student(params.schoolId))}
+                            icon="add"
+                            title="New Student"
+                        />
+                        <PageHeaderItem
+                            onClick={()=>navigate(routes.auth().concat().students(params.schoolId))}
+                            icon="student"
+                            title="Students"
+                        />
+                        <PageHeaderItem
+                            onClick={()=>navigate(routes.auth().concat().markAttendance(params.schoolId))}
                             icon="view"
                             title="View Attendance"
                         />
@@ -132,10 +151,10 @@ export const Student = () => {
                 )}
             </PageHeader>
 
-            <div className="row justify-content-center">
+            <div className="row justify-content-center mt-5">
                 <div className="col-12 col-lg-8">
                     <div className="card border">
-                        <div className="card-body px-4 py-5">
+                        <div className="card-body px-4 py-md-5" style={{minHeight: '300px'}}>
                             <ErrorDisplay message={error}/>
                             <StudentDisplay
                                 onSubmitRef={onSubmitRef}

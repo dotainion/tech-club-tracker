@@ -2,8 +2,11 @@ import { PageHeader } from "../components/PageHeader"
 import { Page } from "../layout/Page"
 import { useNavigate } from "react-router-dom"
 import { routes } from "../routes/Routes"
+import { useAuth } from "../providers/AuthProvider"
 
 export const Attendance = () => {
+    const { user } = useAuth();
+    
     const navigate = useNavigate();
 
     const options = [
@@ -11,7 +14,7 @@ export const Attendance = () => {
             icon: "🧑‍🎓",
             title: 'Student Attendance',
             description: 'View or mark student attendance.',
-            route: routes.auth().concat().markAttendance()
+            route: routes.auth().concat().attendanceSchoolSelection(user.id)
         },{
             icon: "🧑‍🏫",
             title: 'Sign-In',

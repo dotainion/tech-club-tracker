@@ -50,7 +50,13 @@ export const MarkAttendance = () =>{
             return;  
         }
         setLoading(true);
-        api.group.list({groupId: params.groupId, date: dateValue}).then((response)=>{
+        const data = {
+            groupId: params.groupId,
+            schoolId: params.schoolId,
+            date: dateValue
+        }
+        api.group.list(data).then((response)=>{
+            console.log(response.data.data[0].attributes.students);
             setGroup(response.data.data[0]);
             setStudents(response.data.data[0].attributes.students.map((student)=>{
                 //once there is attendances in the array with the date value then its present

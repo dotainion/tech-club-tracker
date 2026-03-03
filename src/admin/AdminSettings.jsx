@@ -41,98 +41,40 @@ export const AdminSettings = () => {
             </div>
 
             <div className="row g-4">
-                {/* ORGANIZATION SETTINGS */}
-                <SettingsCard title="🏫 Organization Settings" color="#0d6efd">
-                    <div className="mb-3">
-                        <label className="form-label fw-semibold">Wysywig editor</label>
-                        <textarea className="form-control rounded-3" />
-                    </div>
-
-                    <Input label="Organization Name"
-                        name="organizationName"
-                        value={settings.organizationName}
-                        onChange={handleChange}
-                    />
-
-                    <Input label="Contact"
-                        name="timezone"
-                        value={settings.timezone}
-                        onChange={handleChange}
-                    />
-                </SettingsCard>
-
-                {/* REPORT SETTINGS */}
-                <SettingsCard title="📝 Report Settings" color="#6f42c1">
-
-                    <Checkbox
-                        label="Auto Publish Reports"
-                        name="autoPublishReports"
-                        checked={settings.autoPublishReports}
-                        onChange={handleChange}
-                    />
-
-                    <div className="text-muted small">
-                        Automatically publish reports when generated.
-                    </div>
-
-                </SettingsCard>
-
-                {/* USER & PERMISSION SETTINGS */}
                 <SettingsCard title="👥 User & Role Permissions" color="#dc3545">
-
                     <div className="mb-2 fw-semibold">Role Access Matrix</div>
-
                     <div className="form-check">
                         <input className="form-check-input" type="checkbox" defaultChecked />
                         <label className="form-check-label">
                             Facilitators can edit attendance
                         </label>
                     </div>
-
                     <div className="form-check">
                         <input className="form-check-input" type="checkbox" defaultChecked />
                         <label className="form-check-label">
                             Admins can publish reports
                         </label>
                     </div>
-
                     <div className="form-check">
                         <input className="form-check-input" type="checkbox" />
                         <label className="form-check-label">
                             Viewers can access analytics
                         </label>
                     </div>
-
                 </SettingsCard>
 
                 {/* NOTIFICATION SETTINGS */}
                 <SettingsCard title="🔔 Notification Settings" color="#20c997">
-
                     <Checkbox
                         label="Enable Email Notifications"
                         name="emailNotifications"
                         checked={settings.emailNotifications}
                         onChange={handleChange}
                     />
-
                     <div className="text-muted small">
                         Send alerts for low attendance and report publishing.
                     </div>
-
                 </SettingsCard>
-
-                {/* APPEARANCE SETTINGS */}
-                <SettingsCard title="🎨 Appearance Settings" color="#343a40">
-
-                    <Checkbox
-                        label="Enable Dark Mode"
-                        name="darkMode"
-                        checked={settings.darkMode}
-                        onChange={handleChange}
-                    />
-
-                </SettingsCard>
-
             </div>
 
             {/* SAVE BUTTON */}

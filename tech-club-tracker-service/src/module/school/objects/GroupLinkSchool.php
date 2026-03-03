@@ -17,7 +17,7 @@ class GroupLinkSchool implements IObjects{
     }
 
     public function id():IId{
-        return $this->groupId();
+        return (new Id())->new();
     }
 
     public function schoolId():IId{

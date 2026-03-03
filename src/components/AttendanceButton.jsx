@@ -4,7 +4,6 @@ import { SubmitButton } from "../widgets/SubmitButton";
 import { useParams } from "react-router-dom";
 import { BiQuestionMark } from "react-icons/bi";
 import { createPortal } from "react-dom";
-import { ParseError } from "../utils/ParseError";
 
 export const AttendanceButton = ({student, dateValue, className, onUpdate}) =>{
     const [show, setShow] = useState(false);
@@ -34,7 +33,7 @@ export const AttendanceButton = ({student, dateValue, className, onUpdate}) =>{
             });
             setShow(false);
         }).catch((error)=>{
-            setHasError(new ParseError().message(error));
+            setHasError(error.message());
         }).finally(()=>setLoading(false));
     };
 

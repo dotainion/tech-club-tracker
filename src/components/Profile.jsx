@@ -2,7 +2,6 @@ import { createContext, useContext, useEffect, useState } from "react";
 import { api } from "../request/Api";
 import { useRouteDetective } from "../hooks/RouteDetectiveProvider";
 import { ErrorDisplay } from "./ErrorDisplay";
-import { ParseError } from "../utils/ParseError";
 import { SubmitButton } from "../widgets/SubmitButton";
 import { PageHeaderItem } from "./PageHeader";
 
@@ -96,7 +95,7 @@ export const ProfileProvider = ({userId, onChange, onSuccess, onLoad, onLoading,
             setUser(copy);
             onSuccess?.(copy);
         }).catch((error)=>{
-            setError(new ParseError().message(error));
+            setError(error.message());
         }).finally(()=>setLoading(false));
     }
     

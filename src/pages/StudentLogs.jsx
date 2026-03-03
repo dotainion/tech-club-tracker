@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react"
 import { PageHeader, PageHeaderItem } from "../components/PageHeader"
 import { Page } from "../layout/Page"
-import { StudentLogsFilter } from "../widgets/StudentLogsFilter";
+import { StudentLogsFilter } from "../components/StudentLogsFilter";
 import { Spinner } from "../components/Spinner";
 import { NoResultDisplay } from "../components/NoResultDisplay";
 import { api } from "../request/Api";

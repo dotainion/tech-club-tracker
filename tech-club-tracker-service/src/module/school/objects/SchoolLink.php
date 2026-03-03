@@ -17,7 +17,7 @@ class SchoolLink implements IObjects{
     }
 
     public function id():IId{
-        return $this->userId();
+        return (new Id())->new();
     }
 
     public function schoolId():IId{

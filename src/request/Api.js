@@ -9,10 +9,11 @@ import { School } from "./School";
 import { Group } from "./Group";
 import { Settings } from "./Settings";
 import { Clock } from "./Clock";
+import { ParseError } from "../utils/ParseError";
 
-export class Api{    
+export class Api{
     constructor(){
-        this.baseURL = window.location.hostname === 'localhost'
+        this.baseURL = this.isDevelopment()
             ? 'http://localhost'
             : 'https://www.caribbeancodingacademygrenada.com';
         this.axios = axios.create({
@@ -21,7 +22,7 @@ export class Api{
                 Authorization: token.get(),
                 Accept: 'application/json',
                 AccessPath: window.location.pathname,
-                Timzone: Intl.DateTimeFormat().resolvedOptions().timeZone
+                Timzone: Intl.DateTimeFormat().resolvedOptions().timeZone,
             }
         });
         this.user = new User(this);
@@ -34,6 +35,10 @@ export class Api{
         this.clock = new Clock(this);
     }
 
+    isDevelopment(){
+        return window.location.hostname === 'localhost';
+    }
+
     reInitializeAuthorizationHeader(){
         this.axios.defaults.headers.Authorization = token.get();
     }
@@ -43,11 +48,15 @@ export class Api{
     }
 
     parseError(error){
+        const parseError = new ParseError(error);
         if(error.status === 401 && !window.location.href.includes(routes.signin)){
             const pathname = `${location.origin}${location.pathname}`;
             location.href = `${pathname}#${routes.error.authentication}`;
         }
-        throw error;
+        if(this.isDevelopment() && parseError.hasErrorTrace()){
+            parseError.printErrorTrace();
+        }
+        throw parseError;
     }
 
     async post(route, data){

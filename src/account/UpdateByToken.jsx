@@ -1,20 +1,22 @@
-import { useRef, useState } from "react"
-import { BiUser } from "react-icons/bi";
+import { useEffect, useRef, useState } from "react"
 import { useAuth } from "../providers/AuthProvider";
 import { useNavigate, useParams } from "react-router-dom";
 import { routes } from "../routes/Routes";
 import { DelayUi } from "../components/DelayUi";
 import { SubmitButton } from "../widgets/SubmitButton";
 import { ErrorDisplay } from "../components/ErrorDisplay";
-import { ParseError } from "../utils/ParseError";
 import { api } from "../request/Api";
 import { MdPassword } from "react-icons/md";
+import { GrAlert } from "react-icons/gr";
+import { Spinner } from "../components/Spinner";
 
 export const UpdateByToken = () =>{
-    const { user, signIn, signOut, authenticated } = useAuth();
+    const { user, signOut, authenticated } = useAuth();
 
+    const [invalidToken, setInvalidToken] = useState(false);
     const [error, setError] = useState(null);
-    const [loading, setLoading] = useState(false);
+    const [saving, setSaving] = useState(false);
+    const [loading, setLoading] = useState(true);
 
     const navigate = useNavigate();
     const params = useParams();
@@ -27,7 +29,7 @@ export const UpdateByToken = () =>{
         if(passwordRef.current.value !== conformPasswordRef.current.value){
             return setError('Passwdord mismatch.');
         }
-        setLoading(true);
+        setSaving(true);
         setError(null);
         const data = {
             id: params.userId,
@@ -37,47 +39,73 @@ export const UpdateByToken = () =>{
         api.auth.updateByRefereshToken(data).then(()=>{
             navigate(routes.auth().concat().home());
         }).catch((error)=>{
-            setError(new ParseError().message(error));
-        }).finally(()=>setLoading(false));
+            setError(error.message());
+        }).finally(()=>setSaving(false));
     }
+
+    useEffect(()=>{
+        api.auth.verifyRefreshToken().then((response)=>{
+            setInvalidToken(false);
+        }).catch((error)=>{
+            setInvalidToken(true);
+        }).finally(()=>setLoading(false));
+    }, []);
 
     return(
         <div className="container py-5">
             <div className="row align-items-center justify-content-center">
                 <div className="col-12 col-md-8 col-lg-5">
-                    <div className="card shadow-sm border rounded-4">
-                        <form onSubmit={submit} className="card-body p-4">
-                            <div className="col-12 mb-3 text-center">
-                                <MdPassword className="fs-1" />
-                            </div>
-                            <div className="col-12 mb-3">
-                                <h3 className="text-center">Change Password</h3>
-                            </div>
-                            <ErrorDisplay message={error} />
-                            <div className="col-12 mb-3">
-                                <label className="form-label fw-semibold">New Password</label>
-                                <input
-                                    ref={passwordRef}
-                                    type="password"
-                                    name="confirmPassword"
-                                    className="form-control"
-                                    placeholder="********"
-                                    required
-                                />
-                            </div>
-                            <div className="col-12 mb-3">
-                                <label className="form-label fw-semibold">Confirm Password</label>
-                                <input
-                                    ref={conformPasswordRef}
-                                    type="password"
-                                    name="password"
-                                    className="form-control"
-                                    required
-                                />
-                            </div>
-                            <div className="d-flex justify-content-end mt-4">
-                                <SubmitButton loading={loading}>Change</SubmitButton>
-                            </div>
+                    <div className="card overflow-hidden shadow-sm border rounded-4">
+                        <form onSubmit={submit} className="card-body position-relative p-4">
+                            {invalidToken ? (
+                                <>
+                                    <div className="col-12 mb-3 text-center">
+                                        <GrAlert className="text-warning fs-1" />
+                                    </div>
+                                    <div className="col-12 mb-3">
+                                        <h3 className="text-center">Invalid Token</h3>
+                                    </div>
+                                    <p className="text-danger text-center mb-0">This authentication token is either invalid or expirted.</p>
+                                    <p className="text-muted text-center small">If you find this information is wrong then contact your administrator for asistance.</p>
+                                </>
+                            ):(
+                                <>
+                                    <div className="col-12 mb-3 text-center">
+                                        <MdPassword className="fs-1" />
+                                    </div>
+                                    <div className="col-12 mb-3">
+                                        <h3 className="text-center">Change Password</h3>
+                                    </div>
+                                    <ErrorDisplay message={error} />
+                                    <div className="col-12 mb-3">
+                                        <label className="form-label fw-semibold">New Password</label>
+                                        <input
+                                            ref={passwordRef}
+                                            type="password"
+                                            name="confirmPassword"
+                                            className="form-control"
+                                            placeholder="********"
+                                            required
+                                        />
+                                    </div>
+                                    <div className="col-12 mb-3">
+                                        <label className="form-label fw-semibold">Confirm Password</label>
+                                        <input
+                                            ref={conformPasswordRef}
+                                            type="password"
+                                            name="password"
+                                            className="form-control"
+                                            required
+                                        />
+                                    </div>
+                                    <div className="d-flex justify-content-end mt-4">
+                                        <SubmitButton loading={saving}>Submit</SubmitButton>
+                                    </div>
+                                </>
+                            )}
+                            <Spinner className="bg-white" show={loading} inline>
+                                <div>Verifying identity token</div>
+                            </Spinner>
                         </form>
                     </div>
                 </div>

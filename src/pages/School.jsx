@@ -5,7 +5,6 @@ import { useRouteDetective } from "../hooks/RouteDetectiveProvider";
 import { PageHeader, PageHeaderItem } from "../components/PageHeader";
 import { api } from "../request/Api";
 import { SpinnerConditional } from "../components/SpinnerConditional";
-import { ParseError } from "../utils/ParseError";
 import { SubmitButton } from "../widgets/SubmitButton";
 import { ErrorDisplay } from "../components/ErrorDisplay";
 import { SchoolDisplay } from "../components/SchoolDisplay";
@@ -51,7 +50,7 @@ export const School = () =>{
             setSchool(resSchool);
             setEditMode(false);
         }).catch((error)=>{
-            setError(new ParseError().message(error));
+            setError(error.message());
         }).finally(()=>setSaving(false));
     };
 

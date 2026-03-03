@@ -5,7 +5,6 @@ import { useEffect, useState } from "react"
 import { useNavigate, useParams } from "react-router-dom"
 import { api } from "../request/Api"
 import { ErrorDisplay } from "../components/ErrorDisplay"
-import { ParseError } from "../utils/ParseError"
 import { Spinner } from "../components/Spinner"
 import { Page } from "../layout/Page"
 
@@ -26,7 +25,7 @@ export const PasswordRecovery = () =>{
         api.auth.recover(user.attributes.email).then((response)=>{
             setSent(true);
         }).catch((error)=>{
-            setError(new ParseError().message(error));
+            setError(error.message());
         }).finally(()=>setSending(false));
     }
 

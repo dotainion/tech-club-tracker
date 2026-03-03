@@ -1,7 +1,7 @@
 import { forwardRef, useEffect, useImperativeHandle, useRef, useState } from "react";
 import { dateTime } from "../utils/DateTime";
 
-export const DatePicker = forwardRef(({ className, onChange, value, month }, ref) => {
+export const DatePicker = forwardRef(({ className, onChange, value, month, rounded }, ref) => {
     const inputType = month ? 'month' : 'date';
 
     const [today] = useState(
@@ -51,17 +51,17 @@ export const DatePicker = forwardRef(({ className, onChange, value, month }, ref
     return (
         <div className="d-inline-block text-nowrap">
             {!showInput && selectedValue === today ? (
-                <button onClick={()=>setShowInput(true)} className={`${className || ''} btn btn-sm btn-outline-dark border rounded-pill px-3`}>
+                <button onClick={()=>setShowInput(true)} className={`${className || ''} btn btn-sm btn-outline-dark border rounded-${rounded ? rounded : 'pill'} px-3`}>
                     📅 {month ? 'This Month' : 'Today'}
                 </button>
             ) : (
-                <div className={`${className || ''} btn btn-sm btn-outline-dark rounded-pill border-0 p-0`}>
-                    <div className="input-group input-group-sm user-select-none rounded-pill bg-transparent">
-                        <span className="input-group-text rounded-start-pill border bg-transparent text-inherit">📅</span>
+                <div className={`${className || ''} btn btn-sm btn-outline-dark rounded-${rounded ? rounded : 'pill'} border-0 p-0`}>
+                    <div className={`input-group input-group-sm user-select-none rounded-${rounded ? rounded : 'pill'} bg-transparent`}>
+                        <span className={`input-group-text rounded-start-${rounded ? rounded : 'pill'} border bg-transparent text-inherit`}>📅</span>
                         <input
                             ref={inputRef}
                             type={inputType}
-                            className="form-control rounded-end-pill shadow-none border bg-transparent text-inherit"
+                            className={`form-control rounded-end-${rounded ? rounded : 'pill'} shadow-none border bg-transparent text-inherit`}
                             value={selectedValue}
                             onChange={handleChange}
                             onBlur={handleFinishChange}

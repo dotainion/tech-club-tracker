@@ -8,17 +8,19 @@ import { PageHeader, PageHeaderItem } from "../components/PageHeader";
 import { useRouteDetective } from "../hooks/RouteDetectiveProvider";
 import { SubmitButton } from "../widgets/SubmitButton";
 import { Page } from "../layout/Page";
+import { Spinner } from "../components/Spinner";
+import { ErrorDisplay } from "../components/ErrorDisplay";
 
 export const AdminStudent = () => {
-    const { user } = useAuth();
     const { routeDetectiveOnCreate, routeDetectiveOnExist, containsDefaultRouteId } = useRouteDetective();
 
     const [student, setStudent] = useState(null);
-    const [schools, setSchools] = useState([]);
     const [editMode, setEditMode] = useState(false);
     const [creatingMode, setCreatingMode] = useState(false);
     const [saving, setSaving] = useState(false);
     const [deleting, setDeleting] = useState(false);
+    const [error, setError] = useState(null);
+    const [loading, setLoading] = useState(true);
 
     const navigate = useNavigate();
     const params = useParams();
@@ -30,7 +32,7 @@ export const AdminStudent = () => {
         api.attendance.setStudent(data).then((response)=>{
             navigate(routes.admin().concat().student(params.schoolId, response.data.data[0].id));
         }).catch((error)=>{
-
+            setError(error.message());
         }).finally(()=>setSaving(false));
     };
     
@@ -48,8 +50,18 @@ export const AdminStudent = () => {
         }).then((response)=>{
             navigate(routes.admin().concat().students(params.schoolId));
         }).catch((error)=>{
-            setError(new ParseError().message(error));
+            setError(error.message());
         }).finally(()=>setDeleting(false));;
+    }
+
+    const reset = () =>{
+        setStudent(null);
+        setTimeout(()=>setLoading(false), 0);
+    }
+
+    const cancel = () =>{
+        setEditMode(false);
+        navigate(-1);
     }
 
     routeDetectiveOnCreate(() =>{
@@ -63,25 +75,16 @@ export const AdminStudent = () => {
     });
 
     useEffect(()=>{
+        setLoading(true);
         if(containsDefaultRouteId()){
-            setLoading(false);
-            return;
+            return reset();
         }
-        Promise.all([
-            api.attendance.students({studentId: params.studentId}).then((response)=>{
+        api.attendance.students({studentId: params.studentId}).then((response)=>{
                 setStudent(response.data.data[0]);
-            }).catch((error)=>{
+        }).catch((error)=>{
 
-            }),
-            api.school.list({userId: user.id}).then((response)=>{
-                setSchools(response.data.data);
-            }).catch((error)=>{
-
-            })
-        ]).finally(()=>{
-            
-        });
-    }, []);
+        }).finally(()=>setLoading(false));
+    }, [params.studentId]);
 
     return (
         <Page>
@@ -95,7 +98,7 @@ export const AdminStudent = () => {
                         />
                         {!creatingMode && (
                             <PageHeaderItem
-                                onClick={()=>setEditMode(false)}
+                                onClick={cancel}
                                 icon="cancel"
                                 title="Cancel"
                             />
@@ -111,6 +114,11 @@ export const AdminStudent = () => {
                 ) : (
                     <>
                         <PageHeaderItem
+                            onClick={()=>navigate(routes.auth().concat().student(params.schoolId))}
+                            icon="add"
+                            title="New Student"
+                        />
+                        <PageHeaderItem
                             onClick={(e)=>navigate(routes.admin().concat().students(params.schoolId))}
                             icon="student"
                             title="Students"
@@ -124,15 +132,15 @@ export const AdminStudent = () => {
                 )}
             </PageHeader>
 
-            <div className="row justify-content-center">
+            <div className="row justify-content-center mt-5">
                 <div className="col-12 col-lg-8">
                     <div className="card border">
-                        <div className="card-body p-4">
-                            <div className="row g-3">
+                        <div className="card-body px-4 py-md-5" style={{minHeight: '300px'}}>
+                            <ErrorDisplay message={error}/>
+                            {loading ? <Spinner show inline /> : (
                                 <StudentDisplay
                                     onSubmitRef={onSubmitRef}
                                     student={student}
-                                    schools={schools}
                                     onSubmit={handleSave}
                                     creatingMode={creatingMode}
                                     editMode={editMode}
@@ -147,8 +155,8 @@ export const AdminStudent = () => {
                                             Save
                                         </SubmitButton>
                                     </div>
-                                </StudentDisplay>                                
-                            </div>
+                                </StudentDisplay>
+                            )}
                         </div>
                     </div>
                 </div>

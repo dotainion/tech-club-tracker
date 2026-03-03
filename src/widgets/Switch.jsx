@@ -1,7 +1,6 @@
 import { forwardRef } from "react"
 
 export const Switch = forwardRef(({checked, onChange, className, bg, children}, ref) =>{
-    
     return(
         <div className={className}>
             <div className="form-check form-switch">

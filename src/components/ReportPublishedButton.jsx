@@ -1,6 +1,5 @@
 import { useEffect, useRef, useState } from "react";
 import { Switch } from "../widgets/Switch"
-import { ParseError } from "../utils/ParseError";
 import { api } from "../request/Api";
 import { Spinner } from "./Spinner";
 import { ErrorDisplay } from "./ErrorDisplay";
@@ -27,7 +26,7 @@ export const ReportPublishedButton = ({report, onSuccess, allowToggle}) =>{
             setIsSuccess(true);
             onSuccess?.(response.data.data[0]);
         }).catch((error)=>{
-            setError(new ParseError().message(error));
+            setError(error.message());
         }).finally(()=>setLoading(false));
     }
 

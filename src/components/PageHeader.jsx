@@ -24,13 +24,6 @@ export const PageHeader = ({title, subTitle, onSearch, noMenu, children}) =>{
 
     const navigate = useNavigate();
 
-    const toHome = () =>{
-        if(routes.type().isAdmin()){
-            return navigate(routes.admin().concat().admin());
-        }
-        navigate(routes.auth().concat().home());
-    }
-
     const values = {
         btnSize
     }
@@ -74,7 +67,7 @@ export const PageHeader = ({title, subTitle, onSearch, noMenu, children}) =>{
                         <div onClick={()=>setSmShow(false)} className={`btn-group btn-group-${values.btnSize}`}>
                             {children}
                             <PageHeaderItem
-                                onClick={toHome}
+                                onClick={()=>navigate(routes.autoHome())}
                                 icon="home"
                                 title="Home"
                             />
