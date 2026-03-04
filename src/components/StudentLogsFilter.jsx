@@ -13,9 +13,9 @@ export const StudentLogsFilter = ({ onChange }) => {
     const [schools, setSchools] = useState([]);
     const [loading, setLoading] = useState(true);
 
-    const [selectedSchoolId, setSelectedSchoolId] = useState('');
-    const [selectedGroupId, setSelectedGroupId] = useState('');
-    const [selectedStudentId, setSelectedStudentId] = useState('');
+    const [selectedSchoolId, setSelectedSchoolId] = useState(null);
+    const [selectedGroupId, setSelectedGroupId] = useState(null);
+    const [selectedStudentId, setSelectedStudentId] = useState(null);
     const [selectedMonth, setSelectedMonth] = useState(today);
 
     const [availableGroups, setAvailableGroups] = useState([]);
@@ -76,10 +76,17 @@ export const StudentLogsFilter = ({ onChange }) => {
                 {
                     icon: FaSchool,
                     position: 'LEFT',
-                    items: schools.map((school)=>({
-                        title: school.attributes.name,
-                        onClick: ()=>setSelectedSchoolId(school.id)
-                    })),
+                    items: [
+                            ...schools.map((school)=>({
+                            title: school.attributes.name,
+                            active: selectedSchoolId === school.id,
+                            onClick: ()=>setSelectedSchoolId(school.id)
+                        })), {
+                            title: 'All Schools',
+                            active: selectedSchoolId === null,
+                            onClick: ()=>setSelectedSchoolId(null)
+                        }
+                    ],
                     noItem: {
                         title: 'No schools available'
                     }
@@ -88,6 +95,7 @@ export const StudentLogsFilter = ({ onChange }) => {
                     position: 'RIGHT',
                     items: availableGroups.map((group)=>({
                         title: group.attributes.name,
+                        active: selectedGroupId === group.id,
                         onClick: ()=>setSelectedGroupId(group.id)
                     })),
                     noItem: {
@@ -98,6 +106,7 @@ export const StudentLogsFilter = ({ onChange }) => {
                     position: 'RIGHT',
                     items: availableStudents.map((student)=>({
                         title: student.attributes.fullName,
+                        active: selectedStudentId === student.id,
                         onClick: ()=>setSelectedStudentId(student.id)
                     })),
                     noItem: {

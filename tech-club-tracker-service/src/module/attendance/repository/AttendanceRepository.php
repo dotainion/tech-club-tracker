@@ -47,8 +47,9 @@ class AttendanceRepository extends Repository{
     }
 
     public function listAttendance(array $where = []):Collector{
-        $this->select('attendance');
+        $this->select('attendance')->alias()->column('date')->as('attendanceDate');
         $this->join()->inner('group', 'groupId', 'attendance', 'groupId');
+        $this->join()->inner('student', 'studentId', 'attendance', 'studentId');
 
         if(isset($where['attendanceId'])){
             $this->where()->eq('attendanceId', $this->uuid($where['attendanceId']));

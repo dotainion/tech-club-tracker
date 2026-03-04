@@ -13,7 +13,6 @@ class BindSchoolDependencies{
     }
 
     public function bindDependencies(Collector &$users):Collector{
-        $users->assertHasItem('No school.');
         $schools = $this->schools->byUserIdArray($users->idArray());
         foreach($users->list() as $user){
             foreach($schools->list() as $school){

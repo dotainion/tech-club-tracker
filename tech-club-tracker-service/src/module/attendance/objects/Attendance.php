@@ -14,14 +14,24 @@ class Attendance implements IObjects{
     protected DateHelper $date;
     protected bool $hide = false;
     protected ?Group $group = null;
+    protected Student $student;
 
-    public function __construct(string $attendanceId, string $studentId, string $groupId, string $date, bool $hide, ?Group $group=null){
+    public function __construct(
+        string $attendanceId,
+        string $studentId,
+        string $groupId,
+        string $date,
+        bool $hide,
+        Student $student,
+        ?Group $group=null
+    ){
         $this->id = new Id($attendanceId);
         $this->studentId = new Id($studentId);
         $this->groupId = new Id($groupId);
         $this->date = new DateHelper($date);
         $this->hide = $hide;
         $this->group = $group;
+        $this->student = $student;
     }
 
     public function id():IId{
@@ -41,6 +51,10 @@ class Attendance implements IObjects{
     }
     public function hide():bool{
         return $this->hide;
+    }
+
+    public function student():Student{
+        return $this->student;
     }
 
     public function group():?Group{

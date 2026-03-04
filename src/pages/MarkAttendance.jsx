@@ -56,7 +56,6 @@ export const MarkAttendance = () =>{
             date: dateValue
         }
         api.group.list(data).then((response)=>{
-            console.log(response.data.data[0].attributes.students);
             setGroup(response.data.data[0]);
             setStudents(response.data.data[0].attributes.students.map((student)=>{
                 //once there is attendances in the array with the date value then its present
@@ -72,6 +71,11 @@ export const MarkAttendance = () =>{
     return (
         <Page>
             <PageHeader title="Student Attendance" subTitle="Mark attendance for selected date">
+                <PageHeaderItem
+                    onClick={()=>navigate(routes.auth().concat().student(params.schoolId), {state: {groupId: params.groupId}})}
+                    icon="add"
+                    title="New Student"
+                />
                 <PageHeaderItem
                     onClick={()=>navigate(routes.auth().concat().attendanceSchoolSelection(user.id))}
                     icon="student"

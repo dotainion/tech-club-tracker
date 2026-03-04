@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from "react";
 import { api } from "../request/Api";
 import { Spinner } from "./Spinner";
 import { useLocation, useParams } from "react-router-dom";
+import { dateTime } from "../utils/DateTime";
 
 const defaultStudent = () =>({
     id: null,
@@ -25,6 +26,7 @@ export const StudentDisplay = ({student: currentStudent, onSubmit, onSubmitRef, 
     const [loading, setLoading] = useState(true);
 
     const params = useParams();
+    const location = useLocation();
 
     const formRef = useRef();
     const didUpdateRef = useRef({
@@ -79,6 +81,21 @@ export const StudentDisplay = ({student: currentStudent, onSubmit, onSubmitRef, 
         }));
     }
 
+    const dob = {
+        for: {
+            input: ()=>{
+                if(!student.attributes.dob) return '';
+                const date = new Date(student.attributes.dob.replace(' ', 'T'));
+                return dateTime.set(date).format('ymd').toString();
+            },
+            display: () =>{
+                if(!student.attributes.dob) return '';
+                const date = new Date(student.attributes.dob.replace(' ', 'T'));
+                return date.toDateString();
+            }
+        }
+    }
+
     useEffect(() => {
         if(!onSubmitRef) return;
         onSubmitRef.current = ()=>{
@@ -99,7 +116,9 @@ export const StudentDisplay = ({student: currentStudent, onSubmit, onSubmitRef, 
             attributes: {
                 ...prevs.attributes,
                 studentLinks: groups.map((group)=>{
-                    const link = student.attributes.studentLinks.find((link)=>link.attributes.groupId === group.id);
+                    let link = student.attributes.studentLinks.find((link)=>link.attributes.groupId === group.id);
+                    //find if there is a groupId in location state if so find the associated link and use
+                    if(!link && location.state?.groupId === group.id) link = {attributes: {hide: false}};
                     return {
                         attributes: {
                             groupId: group.id,
@@ -169,11 +188,11 @@ export const StudentDisplay = ({student: currentStudent, onSubmit, onSubmitRef, 
                                 type="date"
                                 name="dob"
                                 className="form-control"
-                                value={student.attributes.dob}
+                                value={dob.for.input()}
                                 onChange={handleChange}
                             />
                         ):(
-                            <p className="fw-semibold">{student.attributes.dob}</p>
+                            <p className="fw-semibold">{dob.for.display()}</p>
                         )}
                     </div>
 

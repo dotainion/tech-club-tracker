@@ -21,6 +21,14 @@
     animation: expandWidth 0.5s ease forwards;
 }
 
+.link-dark{
+    text-decoration: none;
+}
+
+.link-dark:hover{
+    text-decoration: underline;
+}
+
 @keyframes expandWidth {
     from {
         width: 0;

@@ -13,6 +13,7 @@ import { BiCaretLeft, BiCaretRight } from "react-icons/bi";
 import { NoResultDisplay } from "./NoResultDisplay";
 import { PageHeaderItem } from "./PageHeader";
 import { dateTime } from "../utils/DateTime";
+import $ from "jquery";
 
 const Context = createContext();
 
@@ -363,9 +364,18 @@ const EngagementAndProgressNavigatorBar = () =>{
     }
 
     const getMonth = (report) =>{
-        const dataString = report.attributes.date.split(' ')[0];
-        const date = new Date(dataString);
+        const date = new Date(report.attributes.date.replace(' ', 'T'));
         return months[date.getMonth()];
+    }
+
+    const reSizeEqualButtonWidth = () =>{
+        setTimeout(() => {
+            let buttonWidth = 0;
+            $(scrollRef.current).find('button[title]').each((i, button)=>{
+                if($(button).outerWidth() > buttonWidth) buttonWidth = $(button).outerWidth();
+            }).promise().then((buttons)=>buttons.css({width: buttonWidth}));
+        }, 0);
+        return null;
     }
 
     useEffect(()=>{
@@ -379,13 +389,19 @@ const EngagementAndProgressNavigatorBar = () =>{
     return(
         <>
             <div className="d-flex align-items-center justify-content-between mb-3">
-                <div className="small">Available draft reports</div>
-                <button
-                    onClick={changeSchool}
-                    className="btn btn-sm btn-outline-dark"
-                >🏫 Change School</button>
+                <h6 className="mb-0">Available draft reports</h6>
+                <div className="d-flex gap-3">
+                    <button
+                        onClick={()=>navigate(routes.auth().concat().report(draftReport.id))}
+                        className="link-dark bg-transparent border-0 p-0"
+                    >View {getMonth(draftReport)} Report</button>
+                    <button
+                        onClick={changeSchool}
+                        className="link-dark bg-transparent border-0 p-0"
+                    >Change School 🏫</button>
+                </div>
             </div>
-            <div ref={scrollRef} className="d-flex overflow-auto text-nowrap rounded-2 scrollbar-none border-bottom">
+            <div ref={scrollRef} className="d-flex overflow-auto text-nowrap rounded-2 scrollbar-none border-bottom mb-4">
                 {isScrollable && (
                     <span className="bg-white position-sticky top-0 start-0 me-1" style={{zIndex: 1000}}>
                         <button onClick={left} className="btn btn-sm btn-outline-dark border rounded-circle d-flex align-items-center justify-content-center h-100">
@@ -402,6 +418,7 @@ const EngagementAndProgressNavigatorBar = () =>{
                         key={report.id}
                     >
                         {getMonth(report)}
+                        {reSizeEqualButtonWidth()}
                     </button>
                 ))}
                 {isScrollable && (
@@ -412,12 +429,6 @@ const EngagementAndProgressNavigatorBar = () =>{
                     </span>
                 )}
             </div>
-            <div className="d-flex align-items-center justify-content-center">
-                <a onClick={()=>navigate(routes.auth().concat().report(draftReport.id))} className="small text-decoration-none link-dark pointer">
-                    View {getMonth(draftReport)} Report
-                </a>
-            </div>
-            <hr className="border"></hr>
         </>
     )
 }
@@ -501,11 +512,6 @@ const EngagementAndProgressEntry = () =>{
                             )}
                         </div>
                     </div>
-                </div>
-            </div>
-                    
-            <div className="card border mb-3">
-                <div className="card-body p-sm-4">
                     <div className="mb-3">
                         <label className="form-label fw-medium">Lesson Detail</label>
                         <textarea
@@ -679,10 +685,10 @@ const EngagementandProgressEntryExistCard = () =>{
         <>
             <div className="d-flex justify-content-between align-items-center mb-3">
                 <div className="d-flex gap-2">
-                    <button onClick={goPrevious} className="btn btn-outline-dark" disabled={currentIndex === 0 || isAnimating}>
+                    <button onClick={goPrevious} className="btn btn-sm btn-outline-dark" disabled={currentIndex === 0 || isAnimating}>
                         ←
                     </button>
-                    <button onClick={goNext} className="btn btn-outline-dark" disabled={currentIndex === focusAreas.length - 1 || isAnimating}>
+                    <button onClick={goNext} className="btn btn-sm btn-outline-dark" disabled={currentIndex === focusAreas.length - 1 || isAnimating}>
                         →
                     </button>
                 </div>
@@ -699,7 +705,8 @@ const EngagementandProgressEntryExistCard = () =>{
                 <EngagementAndProgressEntry />
             </EngagementAndProgressAnimation>
         </>
-    )
+    );
+    return null;
 }
 
 const EngagementAndProgressAnimation = ({children}) =>{

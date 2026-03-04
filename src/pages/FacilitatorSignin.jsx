@@ -73,8 +73,8 @@ export const FacilitatorSignin = () => {
 
     useEffect(() => {
         const timer = setInterval(() => {
-            setCurrentTime(new Date())
-            if (!editTimeMode) setManualTime(new Date().toISOString().substring(0, 16))
+            setCurrentTime(new Date());
+            if (!editTimeMode) setManualTime(dateTime.now().format('ymdTh:m:s').toString());
         }, 1000)
         return () => clearInterval(timer)
     }, [editTimeMode]);

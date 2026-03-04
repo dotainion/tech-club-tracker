@@ -22,10 +22,17 @@ export const StudentLogs = () => {
     const navigate = useNavigate();
 
     useEffect(() => {
+        setLoading(true);
         api.attendance.list({...filter, date: filter.month}).then((response)=>{
-            setLogs(response.data.data);
+            setLogs(response.data.data.map((log)=>({
+                id: log.id,
+                attributes: {
+                    ...log.attributes,
+                    dateString: new Date(log.attributes.date.replace(' ', 'T')).toDateString(),
+                }
+            })));
         }).catch((error)=>{
-
+            setLogs([]);
         }).finally(()=>setLoading(false));
     }, [filter]);
 
@@ -60,18 +67,16 @@ export const StudentLogs = () => {
                                         <thead className="table-light">
                                             <tr>
                                                 <th>Name</th>
+                                                <th>Group</th>
                                                 <th>Date</th>
-                                                <th>Clock In</th>
-                                                <th>Clock Out</th>
                                             </tr>
                                         </thead>
                                         <tbody>
                                             {logs.map((log) => (
                                                 <tr key={log.id}>
-                                                    <td>{log.name}</td>
-                                                    <td>{log.date}</td>
-                                                    <td>{log.clockIn}</td>
-                                                    <td>{log.clockOut}</td>
+                                                    <td>{log.attributes.student.attributes.fullName}</td>
+                                                    <td>{log.attributes.group.attributes.name}</td>
+                                                    <td>{log.attributes.dateString}</td>
                                                 </tr>
                                             ))}
                                         </tbody>

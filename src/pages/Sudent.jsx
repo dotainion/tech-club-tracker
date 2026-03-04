@@ -68,11 +68,6 @@ export const Student = () => {
         setTimeout(()=>setLoading(false), 0);
     }
 
-    const cancel = () =>{
-        setEditMode(false);
-        navigate(-1);
-    }
-
     routeDetectiveOnCreate(() =>{
         setCreatingMode(true);
         setEditMode(true);
@@ -109,21 +104,20 @@ export const Student = () => {
                             icon="save"
                             title="Save Student"
                         />
-                        {creatingMode ? (
+                        {!creatingMode && (
                             <PageHeaderItem
-                                onClick={cancel}
+                                onClick={()=>setEditMode(false)}
                                 icon="cancel"
                                 title="Cancel"
                             />
-                        ):(
-                            <PageHeaderItem
-                                onClick={handleDelete}
-                                loading={deleting}
-                                icon="delete"
-                                title="Delete Student"
-                                requireConfirmation
-                            />
                         )}
+                        <PageHeaderItem
+                            onClick={handleDelete}
+                            loading={deleting}
+                            icon="delete"
+                            title="Delete Student"
+                            requireConfirmation
+                        />
                     </>
                 ) : (
                     <>

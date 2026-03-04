@@ -10,7 +10,7 @@ export const ErrorDisplay = ({message}) =>{
         if(message){
             timeoutRef.current = setTimeout(() => {
                 setOverflow(true);
-            }, 500);
+            }, 300);
             return;
         }
         setOverflow(false)

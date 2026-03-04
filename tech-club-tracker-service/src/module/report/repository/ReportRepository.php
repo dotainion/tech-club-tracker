@@ -50,7 +50,7 @@ class ReportRepository extends Repository{
     }
 
     public function listReports(array $where = []):Collector{
-        $this->select('report')->alias()->column('date', 'reportDate');
+        $this->select('report')->alias()->column('date')->as('reportDate');
         $this->join()->inner('summary', 'reportId', 'report', 'reportId');
         $this->join()->inner('school', 'schoolId', 'report', 'schoolId');
         $this->join()->inner('user', 'id', 'report', 'facilitatorId');

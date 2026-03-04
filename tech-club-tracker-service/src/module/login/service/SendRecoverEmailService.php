@@ -18,7 +18,7 @@ class SendRecoverEmailService extends Service{
     
     public function process($email){
         $collector = $this->user->userByEmail(new Email($email));
-        $collector->assertHasItem('User not found.');
+        $collector->assertHasItem('The email provided is not associated with an account.');
         
         $service = $this->secure->sendEmailRecovery($email, $collector->first()->id()->toString());
         

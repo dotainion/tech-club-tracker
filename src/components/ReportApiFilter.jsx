@@ -28,17 +28,23 @@ export const ReportApiFilter = ({defaultValues, onChange}) =>{
     return(
         <DynamicFilter
             dateValue={dateValue}
-            onDateChange={(e)=>setDateValue(e.target.value)}
+            onDateChange={(e)=>change('date', e.target.value)}
             items={[
                 {
                     icon: LuSettings2,
                     position: 'RIGHT',
                     items: [
                         {
-                            title: published ? 'Draft' : 'Publish',
-                            onClick: ()=>change('published', !published)
+                            title: 'Publish',
+                            active: published === true,
+                            onClick: ()=>change('published', true)
+                        },{
+                            title: 'Draft',
+                            active: published === false,
+                            onClick: ()=>change('published', false)
                         },{
                             title: 'All',
+                            active: published === null,
                             onClick: ()=>change('published', null)
                         },
                     ]
